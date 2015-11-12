@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.1)
 
+include(${CMAKE_CURRENT_SOURCE_DIR}/../../jcuda-common/JCudaCommon_CMake_flags.txt)
+
 project(JCudnn)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/../../jcuda-common/JCudaCommon_CMake.txt)
@@ -22,6 +24,8 @@ include_directories (
 cuda_add_library(${PROJECT_NAME}
     src/JCudnn.cpp
 )
+
+set(CUDA_cuDNN_INCLUDE "NOT-DEFINED" CACHE PATH "cuDNN include directory")
 
 include_directories (${CUDA_cuDNN_INCLUDE} REQUIRED)
 find_library(CUDA_cuDNN_LIBRARY NAMES libcudnn.so cudnn.lib
