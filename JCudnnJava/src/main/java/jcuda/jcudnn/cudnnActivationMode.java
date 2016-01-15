@@ -35,7 +35,8 @@ public class cudnnActivationMode
     public static final int CUDNN_ACTIVATION_SIGMOID = 0;
     public static final int CUDNN_ACTIVATION_RELU = 1;
     public static final int CUDNN_ACTIVATION_TANH = 2;
-
+    public static final int CUDNN_ACTIVATION_CLIPPED_RELU = 3;
+    
     /**
      * Private constructor to prevent instantiation
      */
@@ -53,6 +54,7 @@ public class cudnnActivationMode
             case CUDNN_ACTIVATION_SIGMOID: return "CUDNN_ACTIVATION_SIGMOID";
             case CUDNN_ACTIVATION_RELU: return "CUDNN_ACTIVATION_RELU";
             case CUDNN_ACTIVATION_TANH: return "CUDNN_ACTIVATION_TANH";
+            case CUDNN_ACTIVATION_CLIPPED_RELU: return "CUDNN_ACTIVATION_CLIPPED_RELU";
         }
         return "INVALID cudnnActivationMode: "+n;
     }

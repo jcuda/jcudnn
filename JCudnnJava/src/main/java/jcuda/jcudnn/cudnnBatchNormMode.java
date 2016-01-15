@@ -27,20 +27,24 @@
  */
 package jcuda.jcudnn;
 
-public class cudnnConvolutionBwdDataAlgo
+public class cudnnBatchNormMode
 {
-    /**
-     * non-deterministic
+    /** 
+     * bnScale, bnBias tensor dims are 1xCxHxWx.. (one value per CHW...-slice, 
+     * normalized over N slice)
      */
-    public static final int CUDNN_CONVOLUTION_BWD_DATA_ALGO_0 = 0;
-    public static final int CUDNN_CONVOLUTION_BWD_DATA_ALGO_1 = 1;
-    public static final int CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT = 2;
-    public static final int CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT_TILING = 3;
+    public static final int CUDNN_BATCHNORM_PER_ACTIVATION = 0;
     
+    /**
+     * bnScale, bnBias tensor dims are 1xCx1x1 (one value per C-dim normalized 
+     * over Nx1xHxW subtensors)
+     */
+    public static final int CUDNN_BATCHNORM_SPATIAL = 1;
+
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnConvolutionBwdDataAlgo(){}
+    private cudnnBatchNormMode(){}
 
     /**
      * Returns a string representation of the given constant
@@ -51,12 +55,10 @@ public class cudnnConvolutionBwdDataAlgo
     {
         switch (n)
         {
-            case CUDNN_CONVOLUTION_BWD_DATA_ALGO_0: return "CUDNN_CONVOLUTION_BWD_DATA_ALGO_0";
-            case CUDNN_CONVOLUTION_BWD_DATA_ALGO_1: return "CUDNN_CONVOLUTION_BWD_DATA_ALGO_1";
-            case CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT: return "CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT";
-            case CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT_TILING: return "CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT_TILING";
+            case CUDNN_BATCHNORM_PER_ACTIVATION: return "CUDNN_BATCHNORM_PER_ACTIVATION";
+            case CUDNN_BATCHNORM_SPATIAL: return "CUDNN_BATCHNORM_SPATIAL";
         }
-        return "INVALID cudnnConvolutionBwdDataAlgo: "+n;
+        return "INVALID cudnnBatchNormMode: "+n;
     }
 }
 

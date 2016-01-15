@@ -34,6 +34,7 @@ public class cudnnConvolutionFwdAlgo
     public static final int CUDNN_CONVOLUTION_FWD_ALGO_GEMM = 2;
     public static final int CUDNN_CONVOLUTION_FWD_ALGO_DIRECT = 3;
     public static final int CUDNN_CONVOLUTION_FWD_ALGO_FFT = 4;
+    public static final int CUDNN_CONVOLUTION_FWD_ALGO_FFT_TILING = 5;
 
     /**
      * Private constructor to prevent instantiation
@@ -54,6 +55,7 @@ public class cudnnConvolutionFwdAlgo
             case CUDNN_CONVOLUTION_FWD_ALGO_GEMM: return "CUDNN_CONVOLUTION_FWD_ALGO_GEMM";
             case CUDNN_CONVOLUTION_FWD_ALGO_DIRECT: return "CUDNN_CONVOLUTION_FWD_ALGO_DIRECT";
             case CUDNN_CONVOLUTION_FWD_ALGO_FFT: return "CUDNN_CONVOLUTION_FWD_ALGO_FFT";
+            case CUDNN_CONVOLUTION_FWD_ALGO_FFT_TILING: return "CUDNN_CONVOLUTION_FWD_ALGO_FFT_TILING";
         }
         return "INVALID cudnnConvolutionFwdAlgo: "+n;
     }

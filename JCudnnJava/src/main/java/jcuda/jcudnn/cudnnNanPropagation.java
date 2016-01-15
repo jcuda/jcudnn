@@ -27,20 +27,19 @@
  */
 package jcuda.jcudnn;
 
-public class cudnnConvolutionBwdDataAlgo
+/**
+ * CUDNN propagate Nan
+ */
+public class cudnnNanPropagation
 {
-    /**
-     * non-deterministic
-     */
-    public static final int CUDNN_CONVOLUTION_BWD_DATA_ALGO_0 = 0;
-    public static final int CUDNN_CONVOLUTION_BWD_DATA_ALGO_1 = 1;
-    public static final int CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT = 2;
-    public static final int CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT_TILING = 3;
+    public static final int CUDNN_NOT_PROPAGATE_NAN = 0;
     
+    public static final int CUDNN_PROPAGATE_NAN = 1;
+
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnConvolutionBwdDataAlgo(){}
+    private cudnnNanPropagation(){}
 
     /**
      * Returns a string representation of the given constant
@@ -51,12 +50,10 @@ public class cudnnConvolutionBwdDataAlgo
     {
         switch (n)
         {
-            case CUDNN_CONVOLUTION_BWD_DATA_ALGO_0: return "CUDNN_CONVOLUTION_BWD_DATA_ALGO_0";
-            case CUDNN_CONVOLUTION_BWD_DATA_ALGO_1: return "CUDNN_CONVOLUTION_BWD_DATA_ALGO_1";
-            case CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT: return "CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT";
-            case CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT_TILING: return "CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT_TILING";
+            case CUDNN_NOT_PROPAGATE_NAN: return "CUDNN_NOT_PROPAGATE_NAN";
+            case CUDNN_PROPAGATE_NAN: return "CUDNN_PROPAGATE_NAN";
         }
-        return "INVALID cudnnConvolutionBwdDataAlgo: "+n;
+        return "INVALID cudnnNanPropagation: "+n;
     }
 }
 

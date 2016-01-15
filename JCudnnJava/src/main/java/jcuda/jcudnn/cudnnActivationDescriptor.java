@@ -27,36 +27,31 @@
  */
 package jcuda.jcudnn;
 
-public class cudnnConvolutionBwdDataAlgo
+import jcuda.NativePointerObject;
+
+/**
+ * Java port of a cudnnActivationDescriptor
+ */
+public class cudnnActivationDescriptor extends NativePointerObject
 {
     /**
-     * non-deterministic
+     * Creates a new, uninitialized cudnnActivationDescriptor
      */
-    public static final int CUDNN_CONVOLUTION_BWD_DATA_ALGO_0 = 0;
-    public static final int CUDNN_CONVOLUTION_BWD_DATA_ALGO_1 = 1;
-    public static final int CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT = 2;
-    public static final int CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT_TILING = 3;
-    
-    /**
-     * Private constructor to prevent instantiation
-     */
-    private cudnnConvolutionBwdDataAlgo(){}
-
-    /**
-     * Returns a string representation of the given constant
-     *
-     * @return A string representation of the given constant
-     */
-    public static String stringFor(int n)
+    public cudnnActivationDescriptor()
     {
-        switch (n)
-        {
-            case CUDNN_CONVOLUTION_BWD_DATA_ALGO_0: return "CUDNN_CONVOLUTION_BWD_DATA_ALGO_0";
-            case CUDNN_CONVOLUTION_BWD_DATA_ALGO_1: return "CUDNN_CONVOLUTION_BWD_DATA_ALGO_1";
-            case CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT: return "CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT";
-            case CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT_TILING: return "CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT_TILING";
-        }
-        return "INVALID cudnnConvolutionBwdDataAlgo: "+n;
+    }
+
+     /**
+     * Returns a String representation of this object.
+     *
+     * @return A String representation of this object.
+     */
+    @Override
+    public String toString()
+    {
+        return "cudnnActivationDescriptor["+
+            "nativePointer=0x"+Long.toHexString(getNativePointer())+"]";
     }
 }
+
 
