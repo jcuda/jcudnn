@@ -1,1 +1,6 @@
-JCudnnJava/target/
+/JCudnnJava/target/
+/JCudnnJava/.settings
+/JCudnnJava/.classpath
+/JCudnnJava/.project
+/target
+/nativeLibraries

@@ -31,6 +31,7 @@ import jcuda.CudaException;
 import jcuda.LibUtils;
 import jcuda.LogLevel;
 import jcuda.Pointer;
+import jcuda.runtime.JCuda;
 import jcuda.runtime.cudaStream_t;
 
 /**
@@ -89,7 +90,10 @@ public class JCudnn
     {
         if (!initialized)
         {
-            LibUtils.loadLibrary("JCudnn");
+            String libraryBaseName = "JCudnn-" + JCuda.getJCudaVersion();
+            String libraryName = 
+                LibUtils.createPlatformLibraryName(libraryBaseName);
+            LibUtils.loadLibrary(libraryName);
             initialized = true;
         }
     }
