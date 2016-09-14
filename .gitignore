@@ -4,3 +4,5 @@
 /JCudnnJava/.project
 /target
 /nativeLibraries
+/.settings
+/.project

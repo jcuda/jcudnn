@@ -2,7 +2,7 @@
  * JCudnn - Java bindings for cuDNN, the NVIDIA CUDA
  * Deep Neural Network library, to be used with JCuda
  *
- * Copyright (c) 2015-2015 Marco Hutter - http://www.jcuda.org
+ * Copyright (c) 2015-2016 Marco Hutter - http://www.jcuda.org
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -36,13 +36,13 @@
 extern "C" {
 #endif
 #undef jcuda_jcudnn_JCudnn_CUDNN_MAJOR
-#define jcuda_jcudnn_JCudnn_CUDNN_MAJOR 4L
+#define jcuda_jcudnn_JCudnn_CUDNN_MAJOR 5L
 #undef jcuda_jcudnn_JCudnn_CUDNN_MINOR
-#define jcuda_jcudnn_JCudnn_CUDNN_MINOR 0L
+#define jcuda_jcudnn_JCudnn_CUDNN_MINOR 1L
 #undef jcuda_jcudnn_JCudnn_CUDNN_PATCHLEVEL
-#define jcuda_jcudnn_JCudnn_CUDNN_PATCHLEVEL 4L
+#define jcuda_jcudnn_JCudnn_CUDNN_PATCHLEVEL 5L
 #undef jcuda_jcudnn_JCudnn_CUDNN_VERSION
-#define jcuda_jcudnn_JCudnn_CUDNN_VERSION 4004L
+#define jcuda_jcudnn_JCudnn_CUDNN_VERSION 5105L
 #undef jcuda_jcudnn_JCudnn_CUDNN_DIM_MAX
 #define jcuda_jcudnn_JCudnn_CUDNN_DIM_MAX 8L
 #undef jcuda_jcudnn_JCudnn_CUDNN_BN_MIN_EPSILON
@@ -130,10 +130,10 @@ extern "C" {
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnGetTensor4dDescriptorNative
-    * Signature: (Ljcuda/jcudnn/cudnnTensorDescriptor;[ILjcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;)I
+    * Signature: (Ljcuda/jcudnn/cudnnTensorDescriptor;[I[I[I[I[I[I[I[I[I)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetTensor4dDescriptorNative
-        (JNIEnv *, jclass, jobject, jintArray, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject);
+        (JNIEnv *, jclass, jobject, jintArray, jintArray, jintArray, jintArray, jintArray, jintArray, jintArray, jintArray, jintArray);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
@@ -177,11 +177,43 @@ extern "C" {
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
-    * Method:    cudnnAddTensor_v3Native
-    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;)I
+    * Method:    cudnnCreateOpTensorDescriptorNative
+    * Signature: (Ljcuda/jcudnn/cudnnOpTensorDescriptor;)I
     */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnAddTensor_1v3Native
-        (JNIEnv *, jclass, jobject, jobject, jobject, jobject, jobject, jobject, jobject);
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnCreateOpTensorDescriptorNative
+        (JNIEnv *, jclass, jobject);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnSetOpTensorDescriptorNative
+    * Signature: (Ljcuda/jcudnn/cudnnOpTensorDescriptor;III)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetOpTensorDescriptorNative
+        (JNIEnv *, jclass, jobject, jint, jint, jint);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnGetOpTensorDescriptorNative
+    * Signature: (Ljcuda/jcudnn/cudnnOpTensorDescriptor;[I[I[I)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetOpTensorDescriptorNative
+        (JNIEnv *, jclass, jobject, jintArray, jintArray, jintArray);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnDestroyOpTensorDescriptorNative
+    * Signature: (Ljcuda/jcudnn/cudnnOpTensorDescriptor;)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroyOpTensorDescriptorNative
+        (JNIEnv *, jclass, jobject);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnOpTensorNative
+    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnOpTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnOpTensorNative
+        (JNIEnv *, jclass, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
@@ -210,66 +242,34 @@ extern "C" {
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnSetFilter4dDescriptorNative
-    * Signature: (Ljcuda/jcudnn/cudnnFilterDescriptor;IIIII)I
-    */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetFilter4dDescriptorNative
-        (JNIEnv *, jclass, jobject, jint, jint, jint, jint, jint);
-
-    /*
-    * Class:     jcuda_jcudnn_JCudnn
-    * Method:    cudnnSetFilter4dDescriptor_v4Native
     * Signature: (Ljcuda/jcudnn/cudnnFilterDescriptor;IIIIII)I
     */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetFilter4dDescriptor_1v4Native
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetFilter4dDescriptorNative
         (JNIEnv *, jclass, jobject, jint, jint, jint, jint, jint, jint);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnGetFilter4dDescriptorNative
-    * Signature: (Ljcuda/jcudnn/cudnnFilterDescriptor;[ILjcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;)I
+    * Signature: (Ljcuda/jcudnn/cudnnFilterDescriptor;[I[I[I[I[I[I)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetFilter4dDescriptorNative
-        (JNIEnv *, jclass, jobject, jintArray, jobject, jobject, jobject, jobject);
-
-    /*
-    * Class:     jcuda_jcudnn_JCudnn
-    * Method:    cudnnGetFilter4dDescriptor_v4Native
-    * Signature: (Ljcuda/jcudnn/cudnnFilterDescriptor;[I[ILjcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;)I
-    */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetFilter4dDescriptor_1v4Native
-        (JNIEnv *, jclass, jobject, jintArray, jintArray, jobject, jobject, jobject, jobject);
+        (JNIEnv *, jclass, jobject, jintArray, jintArray, jintArray, jintArray, jintArray, jintArray);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnSetFilterNdDescriptorNative
-    * Signature: (Ljcuda/jcudnn/cudnnFilterDescriptor;II[I)I
-    */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetFilterNdDescriptorNative
-        (JNIEnv *, jclass, jobject, jint, jint, jintArray);
-
-    /*
-    * Class:     jcuda_jcudnn_JCudnn
-    * Method:    cudnnSetFilterNdDescriptor_v4Native
     * Signature: (Ljcuda/jcudnn/cudnnFilterDescriptor;III[I)I
     */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetFilterNdDescriptor_1v4Native
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetFilterNdDescriptorNative
         (JNIEnv *, jclass, jobject, jint, jint, jint, jintArray);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnGetFilterNdDescriptorNative
-    * Signature: (Ljcuda/jcudnn/cudnnFilterDescriptor;I[ILjcuda/Pointer;[I)I
+    * Signature: (Ljcuda/jcudnn/cudnnFilterDescriptor;I[I[I[I[I)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetFilterNdDescriptorNative
-        (JNIEnv *, jclass, jobject, jint, jintArray, jobject, jintArray);
-
-    /*
-    * Class:     jcuda_jcudnn_JCudnn
-    * Method:    cudnnGetFilterNdDescriptor_v4Native
-    * Signature: (Ljcuda/jcudnn/cudnnFilterDescriptor;I[I[ILjcuda/Pointer;[I)I
-    */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetFilterNdDescriptor_1v4Native
-        (JNIEnv *, jclass, jobject, jint, jintArray, jintArray, jobject, jintArray);
+        (JNIEnv *, jclass, jobject, jint, jintArray, jintArray, jintArray, jintArray);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
@@ -297,19 +297,35 @@ extern "C" {
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnSetConvolution2dDescriptor_v5Native
+    * Signature: (Ljcuda/jcudnn/cudnnConvolutionDescriptor;IIIIIIII)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetConvolution2dDescriptor_1v5Native
+        (JNIEnv *, jclass, jobject, jint, jint, jint, jint, jint, jint, jint, jint);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnGetConvolution2dDescriptorNative
-    * Signature: (Ljcuda/jcudnn/cudnnConvolutionDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;[I)I
+    * Signature: (Ljcuda/jcudnn/cudnnConvolutionDescriptor;[I[I[I[I[I[I[I)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolution2dDescriptorNative
-        (JNIEnv *, jclass, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jintArray);
+        (JNIEnv *, jclass, jobject, jintArray, jintArray, jintArray, jintArray, jintArray, jintArray, jintArray);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnGetConvolution2dDescriptor_v5Native
+    * Signature: (Ljcuda/jcudnn/cudnnConvolutionDescriptor;[I[I[I[I[I[I[I[I)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolution2dDescriptor_1v5Native
+        (JNIEnv *, jclass, jobject, jintArray, jintArray, jintArray, jintArray, jintArray, jintArray, jintArray, jintArray);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnGetConvolution2dForwardOutputDimNative
-    * Signature: (Ljcuda/jcudnn/cudnnConvolutionDescriptor;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/jcudnn/cudnnFilterDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;)I
+    * Signature: (Ljcuda/jcudnn/cudnnConvolutionDescriptor;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/jcudnn/cudnnFilterDescriptor;[I[I[I[I)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolution2dForwardOutputDimNative
-        (JNIEnv *, jclass, jobject, jobject, jobject, jobject, jobject, jobject, jobject);
+        (JNIEnv *, jclass, jobject, jobject, jobject, jintArray, jintArray, jintArray, jintArray);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
@@ -325,22 +341,6 @@ extern "C" {
     * Signature: (Ljcuda/jcudnn/cudnnConvolutionDescriptor;I[I[I[I[I[I[I)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolutionNdDescriptorNative
-        (JNIEnv *, jclass, jobject, jint, jintArray, jintArray, jintArray, jintArray, jintArray, jintArray);
-
-    /*
-    * Class:     jcuda_jcudnn_JCudnn
-    * Method:    cudnnSetConvolutionNdDescriptor_v3Native
-    * Signature: (Ljcuda/jcudnn/cudnnConvolutionDescriptor;I[I[I[III)I
-    */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetConvolutionNdDescriptor_1v3Native
-        (JNIEnv *, jclass, jobject, jint, jintArray, jintArray, jintArray, jint, jint);
-
-    /*
-    * Class:     jcuda_jcudnn_JCudnn
-    * Method:    cudnnGetConvolutionNdDescriptor_v3Native
-    * Signature: (Ljcuda/jcudnn/cudnnConvolutionDescriptor;I[I[I[I[I[I[I)I
-    */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolutionNdDescriptor_1v3Native
         (JNIEnv *, jclass, jobject, jint, jintArray, jintArray, jintArray, jintArray, jintArray, jintArray);
 
     /*
@@ -366,6 +366,14 @@ extern "C" {
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnFindConvolutionForwardAlgorithmNative
         (JNIEnv *, jclass, jobject, jobject, jobject, jobject, jobject, jint, jintArray, jobjectArray);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnFindConvolutionForwardAlgorithmExNative
+    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnFilterDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnConvolutionDescriptor;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;I[I[Ljcuda/jcudnn/cudnnConvolutionFwdAlgoPerf;Ljcuda/Pointer;J)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnFindConvolutionForwardAlgorithmExNative
+        (JNIEnv *, jclass, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jint, jintArray, jobjectArray, jobject, jlong);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
@@ -409,6 +417,14 @@ extern "C" {
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnFindConvolutionBackwardFilterAlgorithmExNative
+    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnConvolutionDescriptor;Ljcuda/jcudnn/cudnnFilterDescriptor;Ljcuda/Pointer;I[I[Ljcuda/jcudnn/cudnnConvolutionBwdFilterAlgoPerf;Ljcuda/Pointer;J)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnFindConvolutionBackwardFilterAlgorithmExNative
+        (JNIEnv *, jclass, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jint, jintArray, jobjectArray, jobject, jlong);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnGetConvolutionBackwardFilterAlgorithmNative
     * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/jcudnn/cudnnConvolutionDescriptor;Ljcuda/jcudnn/cudnnFilterDescriptor;IJ[I)I
     */
@@ -433,19 +449,19 @@ extern "C" {
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
-    * Method:    cudnnConvolutionBackwardFilter_v3Native
-    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnConvolutionDescriptor;ILjcuda/Pointer;JLjcuda/Pointer;Ljcuda/jcudnn/cudnnFilterDescriptor;Ljcuda/Pointer;)I
-    */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnConvolutionBackwardFilter_1v3Native
-        (JNIEnv *, jclass, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jint, jobject, jlong, jobject, jobject, jobject);
-
-    /*
-    * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnFindConvolutionBackwardDataAlgorithmNative
     * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnFilterDescriptor;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/jcudnn/cudnnConvolutionDescriptor;Ljcuda/jcudnn/cudnnTensorDescriptor;I[I[Ljcuda/jcudnn/cudnnConvolutionBwdDataAlgoPerf;)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnFindConvolutionBackwardDataAlgorithmNative
         (JNIEnv *, jclass, jobject, jobject, jobject, jobject, jobject, jint, jintArray, jobjectArray);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnFindConvolutionBackwardDataAlgorithmExNative
+    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnFilterDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnConvolutionDescriptor;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;I[I[Ljcuda/jcudnn/cudnnConvolutionBwdDataAlgoPerf;Ljcuda/Pointer;J)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnFindConvolutionBackwardDataAlgorithmExNative
+        (JNIEnv *, jclass, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jint, jintArray, jobjectArray, jobject, jlong);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
@@ -469,14 +485,6 @@ extern "C" {
     * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnFilterDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnConvolutionDescriptor;ILjcuda/Pointer;JLjcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnConvolutionBackwardDataNative
-        (JNIEnv *, jclass, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jint, jobject, jlong, jobject, jobject, jobject);
-
-    /*
-    * Class:     jcuda_jcudnn_JCudnn
-    * Method:    cudnnConvolutionBackwardData_v3Native
-    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnFilterDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnConvolutionDescriptor;ILjcuda/Pointer;JLjcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;)I
-    */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnConvolutionBackwardData_1v3Native
         (JNIEnv *, jclass, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jint, jobject, jlong, jobject, jobject, jobject);
 
     /*
@@ -514,66 +522,34 @@ extern "C" {
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnSetPooling2dDescriptorNative
-    * Signature: (Ljcuda/jcudnn/cudnnPoolingDescriptor;IIIIIII)I
-    */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetPooling2dDescriptorNative
-        (JNIEnv *, jclass, jobject, jint, jint, jint, jint, jint, jint, jint);
-
-    /*
-    * Class:     jcuda_jcudnn_JCudnn
-    * Method:    cudnnSetPooling2dDescriptor_v4Native
     * Signature: (Ljcuda/jcudnn/cudnnPoolingDescriptor;IIIIIIII)I
     */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetPooling2dDescriptor_1v4Native
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetPooling2dDescriptorNative
         (JNIEnv *, jclass, jobject, jint, jint, jint, jint, jint, jint, jint, jint);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnGetPooling2dDescriptorNative
-    * Signature: (Ljcuda/jcudnn/cudnnPoolingDescriptor;[ILjcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;)I
+    * Signature: (Ljcuda/jcudnn/cudnnPoolingDescriptor;[I[I[I[I[I[I[I[I)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetPooling2dDescriptorNative
-        (JNIEnv *, jclass, jobject, jintArray, jobject, jobject, jobject, jobject, jobject, jobject);
-
-    /*
-    * Class:     jcuda_jcudnn_JCudnn
-    * Method:    cudnnGetPooling2dDescriptor_v4Native
-    * Signature: (Ljcuda/jcudnn/cudnnPoolingDescriptor;[I[ILjcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;)I
-    */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetPooling2dDescriptor_1v4Native
-        (JNIEnv *, jclass, jobject, jintArray, jintArray, jobject, jobject, jobject, jobject, jobject, jobject);
+        (JNIEnv *, jclass, jobject, jintArray, jintArray, jintArray, jintArray, jintArray, jintArray, jintArray, jintArray);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnSetPoolingNdDescriptorNative
-    * Signature: (Ljcuda/jcudnn/cudnnPoolingDescriptor;II[I[I[I)I
-    */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetPoolingNdDescriptorNative
-        (JNIEnv *, jclass, jobject, jint, jint, jintArray, jintArray, jintArray);
-
-    /*
-    * Class:     jcuda_jcudnn_JCudnn
-    * Method:    cudnnSetPoolingNdDescriptor_v4Native
     * Signature: (Ljcuda/jcudnn/cudnnPoolingDescriptor;III[I[I[I)I
     */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetPoolingNdDescriptor_1v4Native
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetPoolingNdDescriptorNative
         (JNIEnv *, jclass, jobject, jint, jint, jint, jintArray, jintArray, jintArray);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnGetPoolingNdDescriptorNative
-    * Signature: (Ljcuda/jcudnn/cudnnPoolingDescriptor;I[ILjcuda/Pointer;[I[I[I)I
+    * Signature: (Ljcuda/jcudnn/cudnnPoolingDescriptor;I[I[I[I[I[I[I)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetPoolingNdDescriptorNative
-        (JNIEnv *, jclass, jobject, jint, jintArray, jobject, jintArray, jintArray, jintArray);
-
-    /*
-    * Class:     jcuda_jcudnn_JCudnn
-    * Method:    cudnnGetPoolingNdDescriptor_v4Native
-    * Signature: (Ljcuda/jcudnn/cudnnPoolingDescriptor;I[I[ILjcuda/Pointer;[I[I[I)I
-    */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetPoolingNdDescriptor_1v4Native
-        (JNIEnv *, jclass, jobject, jint, jintArray, jintArray, jobject, jintArray, jintArray, jintArray);
+        (JNIEnv *, jclass, jobject, jint, jintArray, jintArray, jintArray, jintArray, jintArray, jintArray);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
@@ -586,10 +562,10 @@ extern "C" {
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnGetPooling2dForwardOutputDimNative
-    * Signature: (Ljcuda/jcudnn/cudnnPoolingDescriptor;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;)I
+    * Signature: (Ljcuda/jcudnn/cudnnPoolingDescriptor;Ljcuda/jcudnn/cudnnTensorDescriptor;[I[I[I[I)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetPooling2dForwardOutputDimNative
-        (JNIEnv *, jclass, jobject, jobject, jobject, jobject, jobject, jobject);
+        (JNIEnv *, jclass, jobject, jobject, jintArray, jintArray, jintArray, jintArray);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
@@ -634,10 +610,10 @@ extern "C" {
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnGetActivationDescriptorNative
-    * Signature: (Ljcuda/jcudnn/cudnnActivationDescriptor;[I[ILjcuda/Pointer;)I
+    * Signature: (Ljcuda/jcudnn/cudnnActivationDescriptor;[I[I[D)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetActivationDescriptorNative
-        (JNIEnv *, jclass, jobject, jintArray, jintArray, jobject);
+        (JNIEnv *, jclass, jobject, jintArray, jintArray, jdoubleArray);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
@@ -650,33 +626,17 @@ extern "C" {
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnActivationForwardNative
-    * Signature: (Ljcuda/jcudnn/cudnnHandle;ILjcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;)I
-    */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnActivationForwardNative
-        (JNIEnv *, jclass, jobject, jint, jobject, jobject, jobject, jobject, jobject, jobject);
-
-    /*
-    * Class:     jcuda_jcudnn_JCudnn
-    * Method:    cudnnActivationForward_v4Native
     * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnActivationDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;)I
     */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnActivationForward_1v4Native
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnActivationForwardNative
         (JNIEnv *, jclass, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnActivationBackwardNative
-    * Signature: (Ljcuda/jcudnn/cudnnHandle;ILjcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;)I
-    */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnActivationBackwardNative
-        (JNIEnv *, jclass, jobject, jint, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject);
-
-    /*
-    * Class:     jcuda_jcudnn_JCudnn
-    * Method:    cudnnActivationBackward_v4Native
     * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnActivationDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;)I
     */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnActivationBackward_1v4Native
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnActivationBackwardNative
         (JNIEnv *, jclass, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject);
 
     /*
@@ -698,10 +658,10 @@ extern "C" {
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnGetLRNDescriptorNative
-    * Signature: (Ljcuda/jcudnn/cudnnLRNDescriptor;[ILjcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;)I
+    * Signature: (Ljcuda/jcudnn/cudnnLRNDescriptor;[I[D[D[D)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetLRNDescriptorNative
-        (JNIEnv *, jclass, jobject, jintArray, jobject, jobject, jobject);
+        (JNIEnv *, jclass, jobject, jintArray, jdoubleArray, jdoubleArray, jdoubleArray);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
@@ -770,50 +730,218 @@ extern "C" {
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnBatchNormalizationBackwardNative
-    * Signature: (Ljcuda/jcudnn/cudnnHandle;ILjcuda/Pointer;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;DLjcuda/Pointer;Ljcuda/Pointer;)I
+    * Signature: (Ljcuda/jcudnn/cudnnHandle;ILjcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;DLjcuda/Pointer;Ljcuda/Pointer;)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnBatchNormalizationBackwardNative
-        (JNIEnv *, jclass, jobject, jint, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jdouble, jobject, jobject);
+        (JNIEnv *, jclass, jobject, jint, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jdouble, jobject, jobject);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
-    * Method:    cudnnSetConvolutionNdDescriptor_v2Native
-    * Signature: (Ljcuda/jcudnn/cudnnConvolutionDescriptor;I[I[I[II)I
+    * Method:    cudnnCreateSpatialTransformerDescriptorNative
+    * Signature: (Ljcuda/jcudnn/cudnnSpatialTransformerDescriptor;)I
     */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetConvolutionNdDescriptor_1v2Native
-        (JNIEnv *, jclass, jobject, jint, jintArray, jintArray, jintArray, jint);
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnCreateSpatialTransformerDescriptorNative
+        (JNIEnv *, jclass, jobject);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
-    * Method:    cudnnGetConvolutionNdDescriptor_v2Native
-    * Signature: (Ljcuda/jcudnn/cudnnConvolutionDescriptor;I[I[I[I[I[I)I
+    * Method:    cudnnSetSpatialTransformerNdDescriptorNative
+    * Signature: (Ljcuda/jcudnn/cudnnSpatialTransformerDescriptor;III[I)I
     */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolutionNdDescriptor_1v2Native
-        (JNIEnv *, jclass, jobject, jint, jintArray, jintArray, jintArray, jintArray, jintArray);
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetSpatialTransformerNdDescriptorNative
+        (JNIEnv *, jclass, jobject, jint, jint, jint, jintArray);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
-    * Method:    cudnnAddTensor_v2Native
-    * Signature: (Ljcuda/jcudnn/cudnnHandle;ILjcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;)I
+    * Method:    cudnnDestroySpatialTransformerDescriptorNative
+    * Signature: (Ljcuda/jcudnn/cudnnSpatialTransformerDescriptor;)I
     */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnAddTensor_1v2Native
-        (JNIEnv *, jclass, jobject, jint, jobject, jobject, jobject, jobject, jobject, jobject);
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroySpatialTransformerDescriptorNative
+        (JNIEnv *, jclass, jobject);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
-    * Method:    cudnnConvolutionBackwardFilter_v2Native
-    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnConvolutionDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnFilterDescriptor;Ljcuda/Pointer;)I
+    * Method:    cudnnSpatialTfGridGeneratorForwardNative
+    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnSpatialTransformerDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;)I
     */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnConvolutionBackwardFilter_1v2Native
-        (JNIEnv *, jclass, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject);
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSpatialTfGridGeneratorForwardNative
+        (JNIEnv *, jclass, jobject, jobject, jobject, jobject);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
-    * Method:    cudnnConvolutionBackwardData_v2Native
-    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnFilterDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnConvolutionDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;)I
+    * Method:    cudnnSpatialTfGridGeneratorBackwardNative
+    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnSpatialTransformerDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;)I
     */
-    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnConvolutionBackwardData_1v2Native
-        (JNIEnv *, jclass, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject);
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSpatialTfGridGeneratorBackwardNative
+        (JNIEnv *, jclass, jobject, jobject, jobject, jobject);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnSpatialTfSamplerForwardNative
+    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnSpatialTransformerDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSpatialTfSamplerForwardNative
+        (JNIEnv *, jclass, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnSpatialTfSamplerBackwardNative
+    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnSpatialTransformerDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;Ljcuda/Pointer;)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSpatialTfSamplerBackwardNative
+        (JNIEnv *, jclass, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnCreateDropoutDescriptorNative
+    * Signature: (Ljcuda/jcudnn/cudnnDropoutDescriptor;)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnCreateDropoutDescriptorNative
+        (JNIEnv *, jclass, jobject);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnDestroyDropoutDescriptorNative
+    * Signature: (Ljcuda/jcudnn/cudnnDropoutDescriptor;)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroyDropoutDescriptorNative
+        (JNIEnv *, jclass, jobject);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnDropoutGetStatesSizeNative
+    * Signature: (Ljcuda/jcudnn/cudnnHandle;[J)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDropoutGetStatesSizeNative
+        (JNIEnv *, jclass, jobject, jlongArray);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnDropoutGetReserveSpaceSizeNative
+    * Signature: (Ljcuda/jcudnn/cudnnTensorDescriptor;[J)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDropoutGetReserveSpaceSizeNative
+        (JNIEnv *, jclass, jobject, jlongArray);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnSetDropoutDescriptorNative
+    * Signature: (Ljcuda/jcudnn/cudnnDropoutDescriptor;Ljcuda/jcudnn/cudnnHandle;FLjcuda/Pointer;JJ)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetDropoutDescriptorNative
+        (JNIEnv *, jclass, jobject, jobject, jfloat, jobject, jlong, jlong);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnDropoutForwardNative
+    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnDropoutDescriptor;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;J)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDropoutForwardNative
+        (JNIEnv *, jclass, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jlong);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnDropoutBackwardNative
+    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnDropoutDescriptor;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;J)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDropoutBackwardNative
+        (JNIEnv *, jclass, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jlong);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnCreateRNNDescriptorNative
+    * Signature: (Ljcuda/jcudnn/cudnnRNNDescriptor;)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnCreateRNNDescriptorNative
+        (JNIEnv *, jclass, jobject);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnDestroyRNNDescriptorNative
+    * Signature: (Ljcuda/jcudnn/cudnnRNNDescriptor;)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroyRNNDescriptorNative
+        (JNIEnv *, jclass, jobject);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnSetRNNDescriptorNative
+    * Signature: (Ljcuda/jcudnn/cudnnRNNDescriptor;IILjcuda/jcudnn/cudnnDropoutDescriptor;IIII)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetRNNDescriptorNative
+        (JNIEnv *, jclass, jobject, jint, jint, jobject, jint, jint, jint, jint);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnGetRNNWorkspaceSizeNative
+    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnRNNDescriptor;ILjcuda/jcudnn/cudnnTensorDescriptor;[J)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNWorkspaceSizeNative
+        (JNIEnv *, jclass, jobject, jobject, jint, jobject, jlongArray);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnGetRNNTrainingReserveSizeNative
+    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnRNNDescriptor;ILjcuda/jcudnn/cudnnTensorDescriptor;[J)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNTrainingReserveSizeNative
+        (JNIEnv *, jclass, jobject, jobject, jint, jobject, jlongArray);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnGetRNNParamsSizeNative
+    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnRNNDescriptor;Ljcuda/jcudnn/cudnnTensorDescriptor;[JI)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNParamsSizeNative
+        (JNIEnv *, jclass, jobject, jobject, jobject, jlongArray, jint);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnGetRNNLinLayerMatrixParamsNative
+    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnRNNDescriptor;ILjcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/jcudnn/cudnnFilterDescriptor;Ljcuda/Pointer;ILjcuda/jcudnn/cudnnFilterDescriptor;Ljcuda/Pointer;)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNLinLayerMatrixParamsNative
+        (JNIEnv *, jclass, jobject, jobject, jint, jobject, jobject, jobject, jint, jobject, jobject);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnGetRNNLinLayerBiasParamsNative
+    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnRNNDescriptor;ILjcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/jcudnn/cudnnFilterDescriptor;Ljcuda/Pointer;ILjcuda/jcudnn/cudnnFilterDescriptor;Ljcuda/Pointer;)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNLinLayerBiasParamsNative
+        (JNIEnv *, jclass, jobject, jobject, jint, jobject, jobject, jobject, jint, jobject, jobject);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnRNNForwardInferenceNative
+    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnRNNDescriptor;ILjcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnFilterDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;J)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardInferenceNative
+        (JNIEnv *, jclass, jobject, jobject, jint, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jlong);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnRNNForwardTrainingNative
+    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnRNNDescriptor;ILjcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnFilterDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;JLjcuda/Pointer;J)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardTrainingNative
+        (JNIEnv *, jclass, jobject, jobject, jint, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jlong, jobject, jlong);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnRNNBackwardDataNative
+    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnRNNDescriptor;ILjcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnFilterDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;JLjcuda/Pointer;J)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardDataNative
+        (JNIEnv *, jclass, jobject, jobject, jint, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jlong, jobject, jlong);
+
+    /*
+    * Class:     jcuda_jcudnn_JCudnn
+    * Method:    cudnnRNNBackwardWeightsNative
+    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnRNNDescriptor;ILjcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/jcudnn/cudnnTensorDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;JLjcuda/jcudnn/cudnnFilterDescriptor;Ljcuda/Pointer;Ljcuda/Pointer;J)I
+    */
+    JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardWeightsNative
+        (JNIEnv *, jclass, jobject, jobject, jint, jobject, jobject, jobject, jobject, jobject, jobject, jobject, jlong, jobject, jobject, jobject, jlong);
 
 #ifdef __cplusplus
 }
