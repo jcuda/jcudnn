@@ -482,7 +482,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetStreamNative(JNIEnv *env
     return jniResult;
 }
 
-/* Create an instance of a generic Tensor descriptor */
+/** Create an instance of a generic Tensor descriptor */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnCreateTensorDescriptorNative(JNIEnv *env, jclass cls, jobject tensorDesc)
 {
     // Null-checks for non-primitive arguments
@@ -855,7 +855,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetTensorNdDescriptorNative
     return jniResult;
 }
 
-/*
+/**
 * <pre>
 * PixelOffset( n, c, h, w ) = n *input_stride + c * feature_stride + h * h_stride + w * w_stride
 
@@ -880,7 +880,7 @@ w_stride  :  >= h
 
 * </pre>
 */
-/* Destroy an instance of Tensor4d descriptor */
+/** Destroy an instance of Tensor4d descriptor */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroyTensorDescriptorNative(JNIEnv *env, jclass cls, jobject tensorDesc)
 {
     // Null-checks for non-primitive arguments
@@ -911,7 +911,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroyTensorDescriptorNati
     return jniResult;
 }
 
-/* Tensor layout conversion helper (y = alpha * x + beta * y) */
+/** Tensor layout conversion helper (y = alpha * x + beta * y) */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnTransformTensorNative(JNIEnv *env, jclass cls, jobject handle, jobject alpha, jobject xDesc, jobject x, jobject beta, jobject yDesc, jobject y)
 {
     // Null-checks for non-primitive arguments
@@ -1000,7 +1000,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnTransformTensorNative(JNIEn
     return jniResult;
 }
 
-/* Tensor Bias addition : C = alpha * A + beta * C  */
+/** Tensor Bias addition : C = alpha * A + beta * C  */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnAddTensorNative(JNIEnv *env, jclass cls, jobject handle, jobject alpha, jobject aDesc, jobject A, jobject beta, jobject cDesc, jobject C)
 {
     // Null-checks for non-primitive arguments
@@ -1245,7 +1245,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroyOpTensorDescriptorNa
     return jniResult;
 }
 
-/* Tensor Bias operation : C = op( alpha1 * A, alpha2 * B ) + beta * C */
+/** Tensor Bias operation : C = op( alpha1 * A, alpha2 * B ) + beta * C */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnOpTensorNative(JNIEnv *env, jclass cls, jobject handle, jobject opTensorDesc, jobject alpha1, jobject aDesc, jobject A, jobject alpha2, jobject bDesc, jobject B, jobject beta, jobject cDesc, jobject C)
 {
     // Null-checks for non-primitive arguments
@@ -1371,7 +1371,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnOpTensorNative(JNIEnv *env,
     return jniResult;
 }
 
-/* Set all values of a tensor to a given value : y[i] = value[0] */
+/** Set all values of a tensor to a given value : y[i] = value[0] */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetTensorNative(JNIEnv *env, jclass cls, jobject handle, jobject yDesc, jobject y, jobject valuePtr)
 {
     // Null-checks for non-primitive arguments
@@ -1426,7 +1426,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetTensorNative(JNIEnv *env
     return jniResult;
 }
 
-/* Scale all values of a tensor by a given factor : y[i] = alpha * y[i] */
+/** Scale all values of a tensor by a given factor : y[i] = alpha * y[i] */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnScaleTensorNative(JNIEnv *env, jclass cls, jobject handle, jobject yDesc, jobject y, jobject alpha)
 {
     // Null-checks for non-primitive arguments
@@ -1486,7 +1486,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnScaleTensorNative(JNIEnv *e
     return jniResult;
 }
 
-/* Create an instance of FilterStruct */
+/** Create an instance of FilterStruct */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnCreateFilterDescriptorNative(JNIEnv *env, jclass cls, jobject filterDesc)
 {
     // Null-checks for non-primitive arguments
@@ -1795,7 +1795,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroyFilterDescriptorNati
     return jniResult;
 }
 
-/* Create an instance of convolution descriptor */
+/** Create an instance of convolution descriptor */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnCreateConvolutionDescriptorNative(JNIEnv *env, jclass cls, jobject convDesc)
 {
     // Null-checks for non-primitive arguments
@@ -2126,7 +2126,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolution2dDescriptor_
     return jniResult;
 }
 
-/* Helper function to return the dimensions of the output tensor given a convolution descriptor */
+/** Helper function to return the dimensions of the output tensor given a convolution descriptor */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolution2dForwardOutputDimNative(JNIEnv *env, jclass cls, jobject convDesc, jobject inputTensorDesc, jobject filterDesc, jintArray n, jintArray c, jintArray h, jintArray w)
 {
     // Null-checks for non-primitive arguments
@@ -2353,7 +2353,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolutionNdDescriptorN
     return jniResult;
 }
 
-/* Helper function to return the dimensions of the output tensor given a convolution descriptor */
+/** Helper function to return the dimensions of the output tensor given a convolution descriptor */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolutionNdForwardOutputDimNative(JNIEnv *env, jclass cls, jobject convDesc, jobject inputTensorDesc, jobject filterDesc, jint nbDims, jintArray tensorOuputDimA)
 {
     // Null-checks for non-primitive arguments
@@ -2412,7 +2412,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolutionNdForwardOutp
     return jniResult;
 }
 
-/* Destroy an instance of convolution descriptor */
+/** Destroy an instance of convolution descriptor */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroyConvolutionDescriptorNative(JNIEnv *env, jclass cls, jobject convDesc)
 {
     // Null-checks for non-primitive arguments
@@ -2721,10 +2721,10 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolutionForwardAlgori
     return jniResult;
 }
 
-/*
+/**
 *  convolution algorithm (which requires potentially some workspace)
 */
-/* Helper function to return the minimum size of the workspace to be passed to the convolution given an algo*/
+/** Helper function to return the minimum size of the workspace to be passed to the convolution given an algo*/
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolutionForwardWorkspaceSizeNative(JNIEnv *env, jclass cls, jobject handle, jobject xDesc, jobject wDesc, jobject convDesc, jobject yDesc, jint algo, jlongArray sizeInBytes)
 {
     // Null-checks for non-primitive arguments
@@ -2799,8 +2799,8 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolutionForwardWorksp
     return jniResult;
 }
 
-/* Convolution functions: All of the form "output = alpha * Op(inputs) + beta * output" */
-/* Function to perform the forward pass for batch convolution */
+/** Convolution functions: All of the form "output = alpha * Op(inputs) + beta * output" */
+/** Function to perform the forward pass for batch convolution */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnConvolutionForwardNative(JNIEnv *env, jclass cls, jobject handle, jobject alpha, jobject xDesc, jobject x, jobject wDesc, jobject w, jobject convDesc, jint algo, jobject workSpace, jlong workSpaceSizeInBytes, jobject beta, jobject yDesc, jobject y)
 {
     // Null-checks for non-primitive arguments
@@ -2929,7 +2929,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnConvolutionForwardNative(JN
     return jniResult;
 }
 
-/* Function to compute the bias gradient for batch convolution */
+/** Function to compute the bias gradient for batch convolution */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnConvolutionBackwardBiasNative(JNIEnv *env, jclass cls, jobject handle, jobject alpha, jobject dyDesc, jobject dy, jobject beta, jobject dbDesc, jobject db)
 {
     // Null-checks for non-primitive arguments
@@ -3296,10 +3296,10 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolutionBackwardFilte
     return jniResult;
 }
 
-/*
+/**
 *  convolution algorithm (which requires potentially some workspace)
 */
-/* Helper function to return the minimum size of the workspace to be passed to the convolution given an algo*/
+/** Helper function to return the minimum size of the workspace to be passed to the convolution given an algo*/
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolutionBackwardFilterWorkspaceSizeNative(JNIEnv *env, jclass cls, jobject handle, jobject xDesc, jobject dyDesc, jobject convDesc, jobject gradDesc, jint algo, jlongArray sizeInBytes)
 {
     // Null-checks for non-primitive arguments
@@ -3780,7 +3780,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolutionBackwardDataA
     return jniResult;
 }
 
-/* Helper function to return the minimum size of the workspace to be passed to the convolution given an algo*/
+/** Helper function to return the minimum size of the workspace to be passed to the convolution given an algo*/
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolutionBackwardDataWorkspaceSizeNative(JNIEnv *env, jclass cls, jobject handle, jobject wDesc, jobject dyDesc, jobject convDesc, jobject dxDesc, jint algo, jlongArray sizeInBytes)
 {
     // Null-checks for non-primitive arguments
@@ -4053,8 +4053,8 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnIm2ColNative(JNIEnv *env, j
     return jniResult;
 }
 
-/* Softmax functions: All of the form "output = alpha * Op(inputs) + beta * output" */
-/* Function to perform forward softmax */
+/** Softmax functions: All of the form "output = alpha * Op(inputs) + beta * output" */
+/** Function to perform forward softmax */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSoftmaxForwardNative(JNIEnv *env, jclass cls, jobject handle, jint algo, jint mode, jobject alpha, jobject xDesc, jobject x, jobject beta, jobject yDesc, jobject y)
 {
     // Null-checks for non-primitive arguments
@@ -4151,7 +4151,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSoftmaxForwardNative(JNIEnv
     return jniResult;
 }
 
-/* Function to perform backward softmax */
+/** Function to perform backward softmax */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSoftmaxBackwardNative(JNIEnv *env, jclass cls, jobject handle, jint algo, jint mode, jobject alpha, jobject yDesc, jobject y, jobject dyDesc, jobject dy, jobject beta, jobject dxDesc, jobject dx)
 {
     // Null-checks for non-primitive arguments
@@ -4264,7 +4264,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSoftmaxBackwardNative(JNIEn
     return jniResult;
 }
 
-/* Create an instance of pooling descriptor */
+/** Create an instance of pooling descriptor */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnCreatePoolingDescriptorNative(JNIEnv *env, jclass cls, jobject poolingDesc)
 {
     // Null-checks for non-primitive arguments
@@ -4719,7 +4719,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetPooling2dForwardOutputDi
     return jniResult;
 }
 
-/* Destroy an instance of pooling descriptor */
+/** Destroy an instance of pooling descriptor */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroyPoolingDescriptorNative(JNIEnv *env, jclass cls, jobject poolingDesc)
 {
     // Null-checks for non-primitive arguments
@@ -4750,8 +4750,8 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroyPoolingDescriptorNat
     return jniResult;
 }
 
-/* Pooling functions: All of the form "output = alpha * Op(inputs) + beta * output" */
-/* Function to perform forward pooling */
+/** Pooling functions: All of the form "output = alpha * Op(inputs) + beta * output" */
+/** Function to perform forward pooling */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnPoolingForwardNative(JNIEnv *env, jclass cls, jobject handle, jobject poolingDesc, jobject alpha, jobject xDesc, jobject x, jobject beta, jobject yDesc, jobject y)
 {
     // Null-checks for non-primitive arguments
@@ -4848,7 +4848,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnPoolingForwardNative(JNIEnv
     return jniResult;
 }
 
-/* Function to perform backward pooling */
+/** Function to perform backward pooling */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnPoolingBackwardNative(JNIEnv *env, jclass cls, jobject handle, jobject poolingDesc, jobject alpha, jobject yDesc, jobject y, jobject dyDesc, jobject dy, jobject xDesc, jobject x, jobject beta, jobject dxDesc, jobject dx)
 {
     // Null-checks for non-primitive arguments
@@ -4977,7 +4977,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnPoolingBackwardNative(JNIEn
     return jniResult;
 }
 
-/* Activation functions: All of the form "output = alpha * Op(inputs) + beta * output" */
+/** Activation functions: All of the form "output = alpha * Op(inputs) + beta * output" */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnCreateActivationDescriptorNative(JNIEnv *env, jclass cls, jobject activationDesc)
 {
     // Null-checks for non-primitive arguments
@@ -5134,7 +5134,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroyActivationDescriptor
     return jniResult;
 }
 
-/* Function to perform forward activation  */
+/** Function to perform forward activation  */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnActivationForwardNative(JNIEnv *env, jclass cls, jobject handle, jobject activationDesc, jobject alpha, jobject xDesc, jobject x, jobject beta, jobject yDesc, jobject y)
 {
     // Null-checks for non-primitive arguments
@@ -5231,7 +5231,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnActivationForwardNative(JNI
     return jniResult;
 }
 
-/* Function to perform backward activation  */
+/** Function to perform backward activation  */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnActivationBackwardNative(JNIEnv *env, jclass cls, jobject handle, jobject activationDesc, jobject alpha, jobject yDesc, jobject y, jobject dyDesc, jobject dy, jobject xDesc, jobject x, jobject beta, jobject dxDesc, jobject dx)
 {
     // Null-checks for non-primitive arguments
@@ -5360,7 +5360,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnActivationBackwardNative(JN
     return jniResult;
 }
 
-/*
+/**
 * <pre>
 * Create an instance of LRN (Local Response Normalization) descriptor
 * Uses lrnN=5, lrnAlpha=1e-4, lrnBeta=0.75, lrnK=2.0 as defaults from Krizhevsky'12 ImageNet paper
@@ -5396,7 +5396,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnCreateLRNDescriptorNative(J
     return jniResult;
 }
 
-/*
+/**
 * <pre>
 * Uses a window [center-lookBehind, center+lookAhead], where
 * lookBehind = floor( (lrnN-1)/2 ), lookAhead = lrnN-lookBehind-1.
@@ -5449,7 +5449,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetLRNDescriptorNative(JNIE
     return jniResult;
 }
 
-/*
+/**
 * <pre>
 * Retrieve the settings currently stored in an LRN layer descriptor
 * Any of the provided pointers can be NULL (no corresponding value will be returned)
@@ -5501,7 +5501,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetLRNDescriptorNative(JNIE
     return jniResult;
 }
 
-/* Destroy an instance of LRN descriptor */
+/** Destroy an instance of LRN descriptor */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroyLRNDescriptorNative(JNIEnv *env, jclass cls, jobject lrnDesc)
 {
     // Null-checks for non-primitive arguments
@@ -5532,8 +5532,8 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroyLRNDescriptorNative(
     return jniResult;
 }
 
-/* LRN functions: output = alpha * normalize(x) + beta * old_y */
-/* LRN cross-channel forward computation. Double parameters cast to tensor data type */
+/** LRN functions: output = alpha * normalize(x) + beta * old_y */
+/** LRN cross-channel forward computation. Double parameters cast to tensor data type */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnLRNCrossChannelForwardNative(JNIEnv *env, jclass cls, jobject handle, jobject normDesc, jint lrnMode, jobject alpha, jobject xDesc, jobject x, jobject beta, jobject yDesc, jobject y)
 {
     // Null-checks for non-primitive arguments
@@ -5634,7 +5634,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnLRNCrossChannelForwardNativ
     return jniResult;
 }
 
-/* LRN cross-channel backward computation. Double parameters cast to tensor data type */
+/** LRN cross-channel backward computation. Double parameters cast to tensor data type */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnLRNCrossChannelBackwardNative(JNIEnv *env, jclass cls, jobject handle, jobject normDesc, jint lrnMode, jobject alpha, jobject yDesc, jobject y, jobject dyDesc, jobject dy, jobject xDesc, jobject x, jobject beta, jobject dxDesc, jobject dx)
 {
     // Null-checks for non-primitive arguments
@@ -5767,7 +5767,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnLRNCrossChannelBackwardNati
     return jniResult;
 }
 
-/* LCN/divisive normalization functions: y = alpha * normalize(x) + beta * y */
+/** LCN/divisive normalization functions: y = alpha * normalize(x) + beta * y */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDivisiveNormalizationForwardNative(JNIEnv *env, jclass cls, jobject handle, jobject normDesc, jint mode, jobject alpha, jobject xDesc, jobject x, jobject means, jobject temp, jobject temp2, jobject beta, jobject yDesc, jobject y)
 {
     // Null-checks for non-primitive arguments
@@ -6020,7 +6020,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDivisiveNormalizationBackwa
     return jniResult;
 }
 
-/*
+/**
 * <pre>
 * Derives a tensor descriptor from layer data descriptor for BatchNormalization
 * scale, invVariance, bnBias, bnScale tensors. Use this tensor desc for
@@ -6069,7 +6069,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDeriveBNTensorDescriptorNat
     return jniResult;
 }
 
-/* Computes y = BN(x). Also accumulates moving averages of mean and inverse variances */
+/** Computes y = BN(x). Also accumulates moving averages of mean and inverse variances */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnBatchNormalizationForwardTrainingNative(JNIEnv *env, jclass cls, jobject handle, jint mode, jobject alpha, jobject beta, jobject xDesc, jobject x, jobject yDesc, jobject y, jobject bnScaleBiasMeanVarDesc, jobject bnScale, jobject bnBias, jdouble exponentialAverageFactor, jobject resultRunningMean, jobject resultRunningVariance, jdouble epsilon, jobject resultSaveMean, jobject resultSaveInvVariance)
 {
     // Null-checks for non-primitive arguments
@@ -6218,7 +6218,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnBatchNormalizationForwardTr
     return jniResult;
 }
 
-/*
+/**
 * <pre>
 * Performs Batch Normalization during Inference:
 * y[i] = bnScale[k]*(x[i]-estimatedMean[k])/sqrt(epsilon+estimatedVariance[k]) + bnBias[k]
@@ -6363,7 +6363,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnBatchNormalizationForwardIn
     return jniResult;
 }
 
-/* Performs backward pass of Batch Normalization layer. Returns x gradient,
+/** Performs backward pass of Batch Normalization layer. Returns x gradient,
 * bnScale gradient and bnBias gradient */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnBatchNormalizationBackwardNative(JNIEnv *env, jclass cls, jobject handle, jint mode, jobject alphaDataDiff, jobject betaDataDiff, jobject alphaParamDiff, jobject betaParamDiff, jobject xDesc, jobject x, jobject dyDesc, jobject dy, jobject dxDesc, jobject dx, jobject dBnScaleBiasDesc, jobject bnScale, jobject dBnScaleResult, jobject dBnBiasResult, jdouble epsilon, jobject savedMean, jobject savedInvVariance)
 {
@@ -6445,16 +6445,8 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnBatchNormalizationBackwardN
         return JCUDNN_STATUS_INTERNAL_ERROR;
     }
     // epsilon is primitive
-    if (savedMean == NULL)
-    {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'savedMean' is null for cudnnBatchNormalizationBackward");
-        return JCUDNN_STATUS_INTERNAL_ERROR;
-    }
-    if (savedInvVariance == NULL)
-    {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'savedInvVariance' is null for cudnnBatchNormalizationBackward");
-        return JCUDNN_STATUS_INTERNAL_ERROR;
-    }
+    // savedMean may be NULL
+    // savedInvVariance may be NULL
 
     // Log message
     Logger::log(LOG_TRACE, "Executing cudnnBatchNormalizationBackward(handle=%p, mode=%d, alphaDataDiff=%p, betaDataDiff=%p, alphaParamDiff=%p, betaParamDiff=%p, xDesc=%p, x=%p, dyDesc=%p, dy=%p, dxDesc=%p, dx=%p, dBnScaleBiasDesc=%p, bnScale=%p, dBnScaleResult=%p, dBnBiasResult=%p, epsilon=%lf, savedMean=%p, savedInvVariance=%p)\n",
@@ -6484,10 +6476,30 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnBatchNormalizationBackwardN
     // Obtain native variable values
     handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
     mode_native = (cudnnBatchNormMode_t)mode;
-    alphaDataDiff_native = (void *)getPointer(env, alphaDataDiff);
-    betaDataDiff_native = (void *)getPointer(env, betaDataDiff);
-    alphaParamDiff_native = (void *)getPointer(env, alphaParamDiff);
-    betaParamDiff_native = (void *)getPointer(env, betaParamDiff);
+    PointerData *alphaDataDiff_pointerData = initPointerData(env, alphaDataDiff);
+    if (alphaDataDiff_pointerData == NULL)
+    {
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    alphaDataDiff_native = (void *)alphaDataDiff_pointerData->getPointer(env);
+    PointerData *betaDataDiff_pointerData = initPointerData(env, betaDataDiff);
+    if (betaDataDiff_pointerData == NULL)
+    {
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    betaDataDiff_native = (void *)betaDataDiff_pointerData->getPointer(env);
+    PointerData *alphaParamDiff_pointerData = initPointerData(env, alphaParamDiff);
+    if (alphaParamDiff_pointerData == NULL)
+    {
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    alphaParamDiff_native = (void *)alphaParamDiff_pointerData->getPointer(env);
+    PointerData *betaParamDiff_pointerData = initPointerData(env, betaParamDiff);
+    if (betaParamDiff_pointerData == NULL)
+    {
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    betaParamDiff_native = (void *)betaParamDiff_pointerData->getPointer(env);
     xDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, xDesc);
     x_native = (void *)getPointer(env, x);
     dyDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, dyDesc);
@@ -6508,10 +6520,10 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnBatchNormalizationBackwardN
     // Write back native variable values
     // handle is read-only
     // mode is primitive
-    // alphaDataDiff is a native pointer
-    // betaDataDiff is a native pointer
-    // alphaParamDiff is a native pointer
-    // betaParamDiff is a native pointer
+    if (!releasePointerData(env, alphaDataDiff_pointerData, JNI_ABORT)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!releasePointerData(env, betaDataDiff_pointerData, JNI_ABORT)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!releasePointerData(env, alphaParamDiff_pointerData, JNI_ABORT)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!releasePointerData(env, betaParamDiff_pointerData, JNI_ABORT)) return JCUDNN_STATUS_INTERNAL_ERROR;
     // xDesc is read-only
     // x is a native pointer
     // dyDesc is read-only
@@ -6966,11 +6978,21 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSpatialTfSamplerBackwardNat
     beta_native = (void *)beta_pointerData->getPointer(env);
     dxDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, dxDesc);
     dx_native = (void *)getPointer(env, dx);
-    alphaDgrid_native = (void *)getPointer(env, alphaDgrid);
+    PointerData *alphaDgrid_pointerData = initPointerData(env, alphaDgrid);
+    if (alphaDgrid_pointerData == NULL)
+    {
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    alphaDgrid_native = (void *)alphaDgrid_pointerData->getPointer(env);
     dyDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, dyDesc);
     dy_native = (void *)getPointer(env, dy);
     grid_native = (void *)getPointer(env, grid);
-    betaDgrid_native = (void *)getPointer(env, betaDgrid);
+    PointerData *betaDgrid_pointerData = initPointerData(env, betaDgrid);
+    if (betaDgrid_pointerData == NULL)
+    {
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    betaDgrid_native = (void *)betaDgrid_pointerData->getPointer(env);
     dgrid_native = (void *)getPointer(env, dgrid);
 
     // Native function call
@@ -6985,11 +7007,11 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSpatialTfSamplerBackwardNat
     if (!releasePointerData(env, beta_pointerData, JNI_ABORT)) return JCUDNN_STATUS_INTERNAL_ERROR;
     // dxDesc is read-only
     // dx is a native pointer
-    // alphaDgrid is a native pointer
+    if (!releasePointerData(env, alphaDgrid_pointerData, JNI_ABORT)) return JCUDNN_STATUS_INTERNAL_ERROR;
     // dyDesc is read-only
     // dy is a native pointer
     // grid is a native pointer
-    // betaDgrid is a native pointer
+    if (!releasePointerData(env, betaDgrid_pointerData, JNI_ABORT)) return JCUDNN_STATUS_INTERNAL_ERROR;
     // dgrid is a native pointer
 
     // Return the result
@@ -7057,7 +7079,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroyDropoutDescriptorNat
     return jniResult;
 }
 
-/*helper function to determine size of the states to be passed to cudnnSetDropoutDescriptor */
+/**helper function to determine size of the states to be passed to cudnnSetDropoutDescriptor */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDropoutGetStatesSizeNative(JNIEnv *env, jclass cls, jobject handle, jlongArray sizeInBytes)
 {
     // Null-checks for non-primitive arguments
@@ -7096,7 +7118,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDropoutGetStatesSizeNative(
     return jniResult;
 }
 
-/*helper function to determine size of the reserve space to be passed to dropout forward/backward calls */
+/**helper function to determine size of the reserve space to be passed to dropout forward/backward calls */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDropoutGetReserveSpaceSizeNative(JNIEnv *env, jclass cls, jobject xdesc, jlongArray sizeInBytes)
 {
     // Null-checks for non-primitive arguments
@@ -8526,5 +8548,6 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardWeightsNative(JN
     jint jniResult = (jint)jniResult_native;
     return jniResult;
 }
+
 
 
