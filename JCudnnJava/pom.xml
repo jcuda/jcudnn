@@ -6,10 +6,16 @@
         <groupId>org.jcuda</groupId>
         <artifactId>jcuda-parent</artifactId>
         <version>0.8.0</version>
-        <relativePath>../../jcuda-common/JCudaParentPOM/pom.xml</relativePath>
+        <relativePath></relativePath>
     </parent>
 
     <artifactId>jcudnn</artifactId>
+
+    <scm>
+        <connection>scm:git:git@github.com:jcuda/jcudnn.git</connection>
+        <developerConnection>scm:git:git@github.com:jcuda/jcudnn.git</developerConnection>
+        <url>git@github.com:jcuda/jcudnn.git</url>
+    </scm>
 
     <dependencies>
 
