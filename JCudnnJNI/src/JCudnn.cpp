@@ -147,7 +147,7 @@ bool releaseNative(JNIEnv *env, cudnnConvolutionFwdAlgoPerf_t input, jobject out
 
 /**
  * Release and delete the given input array, writing the values back
- * to the given java array, creating (up to 'size') objects if 
+ * to the given java array, creating (up to 'size') objects if
  * necessary
  */
 bool releaseNative(JNIEnv *env, cudnnConvolutionFwdAlgoPerf_t* &input, jobjectArray output, int size)
@@ -295,6 +295,34 @@ bool releaseNative(JNIEnv *env, cudnnConvolutionBwdDataAlgoPerf_t* &input, jobje
     }
     return true;
 }
+
+/**
+* Initialize the given native output array with the pointers that
+* are obtained from the Java objects in the given input array.
+*/
+bool initNative(JNIEnv *env, jobjectArray input, cudnnTensorDescriptor_t* &output, bool fillTarget)
+{
+    jsize arraySize = env->GetArrayLength(input);
+    output = new cudnnTensorDescriptor_t[arraySize];
+    for (jsize i = 0; i < arraySize; i++) 
+    {
+        jobject element = env->GetObjectArrayElement(input, i);
+        output[i] = (cudnnTensorDescriptor_t)getNativePointerValue(env, element);
+    }
+    return true;
+}
+
+/**
+* Release and delete the given input array. The writeBack flag
+* is ignored in this implementation.
+*/
+bool releaseNative(JNIEnv *env, cudnnTensorDescriptor_t* &input, jobjectArray output, bool writeBack)
+{
+    delete[] input;
+    input = NULL;
+    return true;
+}
+
 
 /*
 * Set the log level
@@ -856,30 +884,30 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetTensorNdDescriptorNative
 }
 
 /**
-* <pre>
-* PixelOffset( n, c, h, w ) = n *input_stride + c * feature_stride + h * h_stride + w * w_stride
+ * <pre>
+ * PixelOffset( n, c, h, w ) = n *input_stride + c * feature_stride + h * h_stride + w * w_stride
 
-1)Example of all images in row major order one batch of features after the other (with an optional padding on row)
-input_stride :  c x h x h_stride
-feature_stride : h x h_stride
-h_stride  :  >= w  ( h_stride = w if no padding)
-w_stride  : 1
+   1)Example of all images in row major order one batch of features after the other (with an optional padding on row)
+   input_stride :  c x h x h_stride
+   feature_stride : h x h_stride
+   h_stride  :  >= w  ( h_stride = w if no padding)
+   w_stride  : 1
 
 
-2)Example of all images in row major with features maps interleaved
-input_stride :  c x h x h_stride
-feature_stride : 1
-h_stride  :  w x c
-w_stride  : c
+   2)Example of all images in row major with features maps interleaved
+   input_stride :  c x h x h_stride
+   feature_stride : 1
+   h_stride  :  w x c
+   w_stride  : c
 
-3)Example of all images in column major order one batch of features after the other (with optional padding on column)
-input_stride :  c x w x w_stride
-feature_stride : w x w_stride
-h_stride  :  1
-w_stride  :  >= h
+   3)Example of all images in column major order one batch of features after the other (with optional padding on column)
+   input_stride :  c x w x w_stride
+   feature_stride : w x w_stride
+   h_stride  :  1
+   w_stride  :  >= h
 
-* </pre>
-*/
+ * </pre>
+ */
 /** Destroy an instance of Tensor4d descriptor */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroyTensorDescriptorNative(JNIEnv *env, jclass cls, jobject tensorDesc)
 {
@@ -2722,8 +2750,8 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolutionForwardAlgori
 }
 
 /**
-*  convolution algorithm (which requires potentially some workspace)
-*/
+ *  convolution algorithm (which requires potentially some workspace)
+ */
 /** Helper function to return the minimum size of the workspace to be passed to the convolution given an algo*/
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolutionForwardWorkspaceSizeNative(JNIEnv *env, jclass cls, jobject handle, jobject xDesc, jobject wDesc, jobject convDesc, jobject yDesc, jint algo, jlongArray sizeInBytes)
 {
@@ -3297,8 +3325,8 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolutionBackwardFilte
 }
 
 /**
-*  convolution algorithm (which requires potentially some workspace)
-*/
+ *  convolution algorithm (which requires potentially some workspace)
+ */
 /** Helper function to return the minimum size of the workspace to be passed to the convolution given an algo*/
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolutionBackwardFilterWorkspaceSizeNative(JNIEnv *env, jclass cls, jobject handle, jobject xDesc, jobject dyDesc, jobject convDesc, jobject gradDesc, jint algo, jlongArray sizeInBytes)
 {
@@ -5361,11 +5389,11 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnActivationBackwardNative(JN
 }
 
 /**
-* <pre>
+ * <pre>
 * Create an instance of LRN (Local Response Normalization) descriptor
 * Uses lrnN=5, lrnAlpha=1e-4, lrnBeta=0.75, lrnK=2.0 as defaults from Krizhevsky'12 ImageNet paper
-* </pre>
-*/
+ * </pre>
+ */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnCreateLRNDescriptorNative(JNIEnv *env, jclass cls, jobject normDesc)
 {
     // Null-checks for non-primitive arguments
@@ -5397,12 +5425,12 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnCreateLRNDescriptorNative(J
 }
 
 /**
-* <pre>
+ * <pre>
 * Uses a window [center-lookBehind, center+lookAhead], where
 * lookBehind = floor( (lrnN-1)/2 ), lookAhead = lrnN-lookBehind-1.
 * Values of double parameters cast to tensor data type.
-* </pre>
-*/
+ * </pre>
+ */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetLRNDescriptorNative(JNIEnv *env, jclass cls, jobject normDesc, jint lrnN, jdouble lrnAlpha, jdouble lrnBeta, jdouble lrnK)
 {
     // Null-checks for non-primitive arguments
@@ -5450,11 +5478,11 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetLRNDescriptorNative(JNIE
 }
 
 /**
-* <pre>
+ * <pre>
 * Retrieve the settings currently stored in an LRN layer descriptor
 * Any of the provided pointers can be NULL (no corresponding value will be returned)
-* </pre>
-*/
+ * </pre>
+ */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetLRNDescriptorNative(JNIEnv *env, jclass cls, jobject normDesc, jintArray lrnN, jdoubleArray lrnAlpha, jdoubleArray lrnBeta, jdoubleArray lrnK)
 {
     // Null-checks for non-primitive arguments
@@ -6021,12 +6049,12 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDivisiveNormalizationBackwa
 }
 
 /**
-* <pre>
+ * <pre>
 * Derives a tensor descriptor from layer data descriptor for BatchNormalization
 * scale, invVariance, bnBias, bnScale tensors. Use this tensor desc for
 * bnScaleBiasMeanVarDesc and bnScaleBiasDiffDesc in Batch Normalization forward and backward functions.
-* </pre>
-*/
+ * </pre>
+ */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDeriveBNTensorDescriptorNative(JNIEnv *env, jclass cls, jobject derivedBnDesc, jobject xDesc, jint mode)
 {
     // Null-checks for non-primitive arguments
@@ -6219,14 +6247,14 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnBatchNormalizationForwardTr
 }
 
 /**
-* <pre>
+ * <pre>
 * Performs Batch Normalization during Inference:
 * y[i] = bnScale[k]*(x[i]-estimatedMean[k])/sqrt(epsilon+estimatedVariance[k]) + bnBias[k]
 * with bnScale, bnBias, runningMean, runningInvVariance tensors indexed
 * according to spatial or per-activation mode. Refer to cudnnBatchNormalizationForwardTraining
 * above for notes on function arguments.
-* </pre>
-*/
+ * </pre>
+ */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnBatchNormalizationForwardInferenceNative(JNIEnv *env, jclass cls, jobject handle, jint mode, jobject alpha, jobject beta, jobject xDesc, jobject x, jobject yDesc, jobject y, jobject bnScaleBiasMeanVarDesc, jobject bnScale, jobject bnBias, jobject estimatedMean, jobject estimatedVariance, jdouble epsilon)
 {
     // Null-checks for non-primitive arguments
@@ -7503,7 +7531,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetRNNDescriptorNative(JNIE
 
 // dataType in the RNN descriptor is used to determine math precision
 // dataType in weight descriptors and input descriptors is used to describe storage
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNWorkspaceSizeNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint seqLength, jobject xDesc, jlongArray sizeInBytes)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNWorkspaceSizeNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint seqLength, jobjectArray xDesc, jlongArray sizeInBytes)
 {
     // Null-checks for non-primitive arguments
     if (handle == NULL)
@@ -7543,7 +7571,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNWorkspaceSizeNative(J
     handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
     rnnDesc_native = (cudnnRNNDescriptor_t)getNativePointerValue(env, rnnDesc);
     seqLength_native = (int)seqLength;
-    xDesc_native = (cudnnTensorDescriptor_t *)getNativePointerValue(env, xDesc);
+    if (!initNative(env, xDesc, xDesc_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
     // sizeInBytes is write-only
 
     // Native function call
@@ -7553,7 +7581,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNWorkspaceSizeNative(J
     // handle is read-only
     // rnnDesc is read-only
     // seqLength is primitive
-    // xDesc is read-only
+    if (!releaseNative(env, xDesc_native, xDesc, false)) return JCUDNN_STATUS_INTERNAL_ERROR;
     if (!set(env, sizeInBytes, 0, (jlong)sizeInBytes_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
 
     // Return the result
@@ -7561,7 +7589,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNWorkspaceSizeNative(J
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNTrainingReserveSizeNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint seqLength, jobject xDesc, jlongArray sizeInBytes)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNTrainingReserveSizeNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint seqLength, jobjectArray xDesc, jlongArray sizeInBytes)
 {
     // Null-checks for non-primitive arguments
     if (handle == NULL)
@@ -7601,7 +7629,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNTrainingReserveSizeNa
     handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
     rnnDesc_native = (cudnnRNNDescriptor_t)getNativePointerValue(env, rnnDesc);
     seqLength_native = (int)seqLength;
-    xDesc_native = (cudnnTensorDescriptor_t *)getNativePointerValue(env, xDesc);
+    if (!initNative(env, xDesc, xDesc_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
     // sizeInBytes is write-only
 
     // Native function call
@@ -7611,7 +7639,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNTrainingReserveSizeNa
     // handle is read-only
     // rnnDesc is read-only
     // seqLength is primitive
-    // xDesc is read-only
+    if (!releaseNative(env, xDesc_native, xDesc, false)) return JCUDNN_STATUS_INTERNAL_ERROR;
     if (!set(env, sizeInBytes, 0, (jlong)sizeInBytes_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
 
     // Return the result
@@ -7849,7 +7877,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNLinLayerBiasParamsNat
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardInferenceNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint seqLength, jobject xDesc, jobject x, jobject hxDesc, jobject hx, jobject cxDesc, jobject cx, jobject wDesc, jobject w, jobject yDesc, jobject y, jobject hyDesc, jobject hy, jobject cyDesc, jobject cy, jobject workspace, jlong workSpaceSizeInBytes)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardInferenceNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint seqLength, jobjectArray xDesc, jobject x, jobject hxDesc, jobject hx, jobject cxDesc, jobject cx, jobject wDesc, jobject w, jobjectArray yDesc, jobject y, jobject hyDesc, jobject hy, jobject cyDesc, jobject cy, jobject workspace, jlong workSpaceSizeInBytes)
 {
     // Null-checks for non-primitive arguments
     if (handle == NULL)
@@ -7969,7 +7997,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardInferenceNative(J
     handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
     rnnDesc_native = (cudnnRNNDescriptor_t)getNativePointerValue(env, rnnDesc);
     seqLength_native = (int)seqLength;
-    xDesc_native = (cudnnTensorDescriptor_t *)getNativePointerValue(env, xDesc);
+    if (!initNative(env, xDesc, xDesc_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
     x_native = (void *)getPointer(env, x);
     hxDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, hxDesc);
     hx_native = (void *)getPointer(env, hx);
@@ -7977,7 +8005,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardInferenceNative(J
     cx_native = (void *)getPointer(env, cx);
     wDesc_native = (cudnnFilterDescriptor_t)getNativePointerValue(env, wDesc);
     w_native = (void *)getPointer(env, w);
-    yDesc_native = (cudnnTensorDescriptor_t *)getNativePointerValue(env, yDesc);
+    if (!initNative(env, yDesc, yDesc_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
     y_native = (void *)getPointer(env, y);
     hyDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, hyDesc);
     hy_native = (void *)getPointer(env, hy);
@@ -7993,7 +8021,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardInferenceNative(J
     // handle is read-only
     // rnnDesc is read-only
     // seqLength is primitive
-    // xDesc is read-only
+    if (!releaseNative(env, xDesc_native, xDesc, false)) return JCUDNN_STATUS_INTERNAL_ERROR;
     // x is a native pointer
     // hxDesc is read-only
     // hx is a native pointer
@@ -8001,7 +8029,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardInferenceNative(J
     // cx is a native pointer
     // wDesc is read-only
     // w is a native pointer
-    // yDesc is read-only
+    if (!releaseNative(env, yDesc_native, yDesc, false)) return JCUDNN_STATUS_INTERNAL_ERROR;
     // y is a native pointer
     // hyDesc is read-only
     // hy is a native pointer
@@ -8015,7 +8043,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardInferenceNative(J
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardTrainingNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint seqLength, jobject xDesc, jobject x, jobject hxDesc, jobject hx, jobject cxDesc, jobject cx, jobject wDesc, jobject w, jobject yDesc, jobject y, jobject hyDesc, jobject hy, jobject cyDesc, jobject cy, jobject workspace, jlong workSpaceSizeInBytes, jobject reserveSpace, jlong reserveSpaceSizeInBytes)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardTrainingNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint seqLength, jobjectArray xDesc, jobject x, jobject hxDesc, jobject hx, jobject cxDesc, jobject cx, jobject wDesc, jobject w, jobjectArray yDesc, jobject y, jobject hyDesc, jobject hy, jobject cyDesc, jobject cy, jobject workspace, jlong workSpaceSizeInBytes, jobject reserveSpace, jlong reserveSpaceSizeInBytes)
 {
     // Null-checks for non-primitive arguments
     if (handle == NULL)
@@ -8143,7 +8171,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardTrainingNative(JN
     handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
     rnnDesc_native = (cudnnRNNDescriptor_t)getNativePointerValue(env, rnnDesc);
     seqLength_native = (int)seqLength;
-    xDesc_native = (cudnnTensorDescriptor_t *)getNativePointerValue(env, xDesc);
+    if (!initNative(env, xDesc, xDesc_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
     x_native = (void *)getPointer(env, x);
     hxDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, hxDesc);
     hx_native = (void *)getPointer(env, hx);
@@ -8151,7 +8179,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardTrainingNative(JN
     cx_native = (void *)getPointer(env, cx);
     wDesc_native = (cudnnFilterDescriptor_t)getNativePointerValue(env, wDesc);
     w_native = (void *)getPointer(env, w);
-    yDesc_native = (cudnnTensorDescriptor_t *)getNativePointerValue(env, yDesc);
+    if (!initNative(env, yDesc, yDesc_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
     y_native = (void *)getPointer(env, y);
     hyDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, hyDesc);
     hy_native = (void *)getPointer(env, hy);
@@ -8169,7 +8197,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardTrainingNative(JN
     // handle is read-only
     // rnnDesc is read-only
     // seqLength is primitive
-    // xDesc is read-only
+    if (!releaseNative(env, xDesc_native, xDesc, false)) return JCUDNN_STATUS_INTERNAL_ERROR;
     // x is a native pointer
     // hxDesc is read-only
     // hx is a native pointer
@@ -8177,7 +8205,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardTrainingNative(JN
     // cx is a native pointer
     // wDesc is read-only
     // w is a native pointer
-    // yDesc is read-only
+    if (!releaseNative(env, yDesc_native, yDesc, false)) return JCUDNN_STATUS_INTERNAL_ERROR;
     // y is a native pointer
     // hyDesc is read-only
     // hy is a native pointer
@@ -8193,7 +8221,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardTrainingNative(JN
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardDataNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint seqLength, jobject yDesc, jobject y, jobject dyDesc, jobject dy, jobject dhyDesc, jobject dhy, jobject dcyDesc, jobject dcy, jobject wDesc, jobject w, jobject hxDesc, jobject hx, jobject cxDesc, jobject cx, jobject dxDesc, jobject dx, jobject dhxDesc, jobject dhx, jobject dcxDesc, jobject dcx, jobject workspace, jlong workSpaceSizeInBytes, jobject reserveSpace, jlong reserveSpaceSizeInBytes)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardDataNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint seqLength, jobjectArray yDesc, jobject y, jobjectArray dyDesc, jobject dy, jobject dhyDesc, jobject dhy, jobject dcyDesc, jobject dcy, jobject wDesc, jobject w, jobject hxDesc, jobject hx, jobject cxDesc, jobject cx, jobjectArray dxDesc, jobject dx, jobject dhxDesc, jobject dhx, jobject dcxDesc, jobject dcx, jobject workspace, jlong workSpaceSizeInBytes, jobject reserveSpace, jlong reserveSpaceSizeInBytes)
 {
     // Null-checks for non-primitive arguments
     if (handle == NULL)
@@ -8357,9 +8385,9 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardDataNative(JNIEn
     handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
     rnnDesc_native = (cudnnRNNDescriptor_t)getNativePointerValue(env, rnnDesc);
     seqLength_native = (int)seqLength;
-    yDesc_native = (cudnnTensorDescriptor_t *)getNativePointerValue(env, yDesc);
+    if (!initNative(env, yDesc, yDesc_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
     y_native = (void *)getPointer(env, y);
-    dyDesc_native = (cudnnTensorDescriptor_t *)getNativePointerValue(env, dyDesc);
+    if (!initNative(env, dyDesc, dyDesc_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
     dy_native = (void *)getPointer(env, dy);
     dhyDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, dhyDesc);
     dhy_native = (void *)getPointer(env, dhy);
@@ -8371,7 +8399,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardDataNative(JNIEn
     hx_native = (void *)getPointer(env, hx);
     cxDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, cxDesc);
     cx_native = (void *)getPointer(env, cx);
-    dxDesc_native = (cudnnTensorDescriptor_t *)getNativePointerValue(env, dxDesc);
+    if (!initNative(env, dxDesc, dxDesc_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
     dx_native = (void *)getPointer(env, dx);
     dhxDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, dhxDesc);
     dhx_native = (void *)getPointer(env, dhx);
@@ -8389,9 +8417,9 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardDataNative(JNIEn
     // handle is read-only
     // rnnDesc is read-only
     // seqLength is primitive
-    // yDesc is read-only
+    if (!releaseNative(env, yDesc_native, yDesc, false)) return JCUDNN_STATUS_INTERNAL_ERROR;
     // y is a native pointer
-    // dyDesc is read-only
+    if (!releaseNative(env, dyDesc_native, dyDesc, false)) return JCUDNN_STATUS_INTERNAL_ERROR;
     // dy is a native pointer
     // dhyDesc is read-only
     // dhy is a native pointer
@@ -8403,7 +8431,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardDataNative(JNIEn
     // hx is a native pointer
     // cxDesc is read-only
     // cx is a native pointer
-    // dxDesc is read-only
+    if (!releaseNative(env, dxDesc_native, dxDesc, false)) return JCUDNN_STATUS_INTERNAL_ERROR;
     // dx is a native pointer
     // dhxDesc is read-only
     // dhx is a native pointer
@@ -8419,7 +8447,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardDataNative(JNIEn
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardWeightsNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint seqLength, jobject xDesc, jobject x, jobject hxDesc, jobject hx, jobject yDesc, jobject y, jobject workspace, jlong workSpaceSizeInBytes, jobject dwDesc, jobject dw, jobject reserveSpace, jlong reserveSpaceSizeInBytes)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardWeightsNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint seqLength, jobjectArray xDesc, jobject x, jobject hxDesc, jobject hx, jobjectArray yDesc, jobject y, jobject workspace, jlong workSpaceSizeInBytes, jobject dwDesc, jobject dw, jobject reserveSpace, jlong reserveSpaceSizeInBytes)
 {
     // Null-checks for non-primitive arguments
     if (handle == NULL)
@@ -8511,11 +8539,11 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardWeightsNative(JN
     handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
     rnnDesc_native = (cudnnRNNDescriptor_t)getNativePointerValue(env, rnnDesc);
     seqLength_native = (int)seqLength;
-    xDesc_native = (cudnnTensorDescriptor_t *)getNativePointerValue(env, xDesc);
+    if (!initNative(env, xDesc, xDesc_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
     x_native = (void *)getPointer(env, x);
     hxDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, hxDesc);
     hx_native = (void *)getPointer(env, hx);
-    yDesc_native = (cudnnTensorDescriptor_t *)getNativePointerValue(env, yDesc);
+    if (!initNative(env, yDesc, yDesc_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
     y_native = (void *)getPointer(env, y);
     workspace_native = (void *)getPointer(env, workspace);
     workSpaceSizeInBytes_native = (size_t)workSpaceSizeInBytes;
@@ -8531,11 +8559,11 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardWeightsNative(JN
     // handle is read-only
     // rnnDesc is read-only
     // seqLength is primitive
-    // xDesc is read-only
+    if (!releaseNative(env, xDesc_native, xDesc, false)) return JCUDNN_STATUS_INTERNAL_ERROR;
     // x is a native pointer
     // hxDesc is read-only
     // hx is a native pointer
-    // yDesc is read-only
+    if (!releaseNative(env, yDesc_native, yDesc, false)) return JCUDNN_STATUS_INTERNAL_ERROR;
     // y is a native pointer
     // workspace is a native pointer
     // workSpaceSizeInBytes is primitive
