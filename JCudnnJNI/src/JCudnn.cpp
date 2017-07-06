@@ -884,30 +884,30 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetTensorNdDescriptorNative
 }
 
 /**
- * <pre>
- * PixelOffset( n, c, h, w ) = n *input_stride + c * feature_stride + h * h_stride + w * w_stride
+* <pre>
+* PixelOffset( n, c, h, w ) = n *input_stride + c * feature_stride + h * h_stride + w * w_stride
 
-   1)Example of all images in row major order one batch of features after the other (with an optional padding on row)
-   input_stride :  c x h x h_stride
-   feature_stride : h x h_stride
-   h_stride  :  >= w  ( h_stride = w if no padding)
-   w_stride  : 1
+1)Example of all images in row major order one batch of features after the other (with an optional padding on row)
+input_stride :  c x h x h_stride
+feature_stride : h x h_stride
+h_stride  :  >= w  ( h_stride = w if no padding)
+w_stride  : 1
 
 
-   2)Example of all images in row major with features maps interleaved
-   input_stride :  c x h x h_stride
-   feature_stride : 1
-   h_stride  :  w x c
-   w_stride  : c
+2)Example of all images in row major with features maps interleaved
+input_stride :  c x h x h_stride
+feature_stride : 1
+h_stride  :  w x c
+w_stride  : c
 
-   3)Example of all images in column major order one batch of features after the other (with optional padding on column)
-   input_stride :  c x w x w_stride
-   feature_stride : w x w_stride
-   h_stride  :  1
-   w_stride  :  >= h
+3)Example of all images in column major order one batch of features after the other (with optional padding on column)
+input_stride :  c x w x w_stride
+feature_stride : w x w_stride
+h_stride  :  1
+w_stride  :  >= h
 
- * </pre>
- */
+* </pre>
+*/
 /** Destroy an instance of Tensor4d descriptor */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroyTensorDescriptorNative(JNIEnv *env, jclass cls, jobject tensorDesc)
 {
@@ -2750,8 +2750,8 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolutionForwardAlgori
 }
 
 /**
- *  convolution algorithm (which requires potentially some workspace)
- */
+*  convolution algorithm (which requires potentially some workspace)
+*/
 /** Helper function to return the minimum size of the workspace to be passed to the convolution given an algo*/
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolutionForwardWorkspaceSizeNative(JNIEnv *env, jclass cls, jobject handle, jobject xDesc, jobject wDesc, jobject convDesc, jobject yDesc, jint algo, jlongArray sizeInBytes)
 {
@@ -3325,8 +3325,8 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolutionBackwardFilte
 }
 
 /**
- *  convolution algorithm (which requires potentially some workspace)
- */
+*  convolution algorithm (which requires potentially some workspace)
+*/
 /** Helper function to return the minimum size of the workspace to be passed to the convolution given an algo*/
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolutionBackwardFilterWorkspaceSizeNative(JNIEnv *env, jclass cls, jobject handle, jobject xDesc, jobject dyDesc, jobject convDesc, jobject gradDesc, jint algo, jlongArray sizeInBytes)
 {
@@ -5389,11 +5389,11 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnActivationBackwardNative(JN
 }
 
 /**
- * <pre>
+* <pre>
 * Create an instance of LRN (Local Response Normalization) descriptor
 * Uses lrnN=5, lrnAlpha=1e-4, lrnBeta=0.75, lrnK=2.0 as defaults from Krizhevsky'12 ImageNet paper
- * </pre>
- */
+* </pre>
+*/
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnCreateLRNDescriptorNative(JNIEnv *env, jclass cls, jobject normDesc)
 {
     // Null-checks for non-primitive arguments
@@ -5425,12 +5425,12 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnCreateLRNDescriptorNative(J
 }
 
 /**
- * <pre>
+* <pre>
 * Uses a window [center-lookBehind, center+lookAhead], where
 * lookBehind = floor( (lrnN-1)/2 ), lookAhead = lrnN-lookBehind-1.
 * Values of double parameters cast to tensor data type.
- * </pre>
- */
+* </pre>
+*/
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetLRNDescriptorNative(JNIEnv *env, jclass cls, jobject normDesc, jint lrnN, jdouble lrnAlpha, jdouble lrnBeta, jdouble lrnK)
 {
     // Null-checks for non-primitive arguments
@@ -5478,11 +5478,11 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetLRNDescriptorNative(JNIE
 }
 
 /**
- * <pre>
+* <pre>
 * Retrieve the settings currently stored in an LRN layer descriptor
 * Any of the provided pointers can be NULL (no corresponding value will be returned)
- * </pre>
- */
+* </pre>
+*/
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetLRNDescriptorNative(JNIEnv *env, jclass cls, jobject normDesc, jintArray lrnN, jdoubleArray lrnAlpha, jdoubleArray lrnBeta, jdoubleArray lrnK)
 {
     // Null-checks for non-primitive arguments
@@ -6049,12 +6049,12 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDivisiveNormalizationBackwa
 }
 
 /**
- * <pre>
+* <pre>
 * Derives a tensor descriptor from layer data descriptor for BatchNormalization
 * scale, invVariance, bnBias, bnScale tensors. Use this tensor desc for
 * bnScaleBiasMeanVarDesc and bnScaleBiasDiffDesc in Batch Normalization forward and backward functions.
- * </pre>
- */
+* </pre>
+*/
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDeriveBNTensorDescriptorNative(JNIEnv *env, jclass cls, jobject derivedBnDesc, jobject xDesc, jint mode)
 {
     // Null-checks for non-primitive arguments
@@ -6247,14 +6247,14 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnBatchNormalizationForwardTr
 }
 
 /**
- * <pre>
+* <pre>
 * Performs Batch Normalization during Inference:
 * y[i] = bnScale[k]*(x[i]-estimatedMean[k])/sqrt(epsilon+estimatedVariance[k]) + bnBias[k]
 * with bnScale, bnBias, runningMean, runningInvVariance tensors indexed
 * according to spatial or per-activation mode. Refer to cudnnBatchNormalizationForwardTraining
 * above for notes on function arguments.
- * </pre>
- */
+* </pre>
+*/
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnBatchNormalizationForwardInferenceNative(JNIEnv *env, jclass cls, jobject handle, jint mode, jobject alpha, jobject beta, jobject xDesc, jobject x, jobject yDesc, jobject y, jobject bnScaleBiasMeanVarDesc, jobject bnScale, jobject bnBias, jobject estimatedMean, jobject estimatedVariance, jdouble epsilon)
 {
     // Null-checks for non-primitive arguments
@@ -7759,7 +7759,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNLinLayerMatrixParamsN
     void * w_native = NULL;
     int linLayerID_native = 0;
     cudnnFilterDescriptor_t linLayerMatDesc_native;
-    void * * linLayerMat_native = NULL;
+    void * linLayerMat_native;
 
     // Obtain native variable values
     handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
@@ -7770,10 +7770,10 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNLinLayerMatrixParamsN
     w_native = (void *)getPointer(env, w);
     linLayerID_native = (int)linLayerID;
     linLayerMatDesc_native = (cudnnFilterDescriptor_t)getNativePointerValue(env, linLayerMatDesc);
-    linLayerMat_native = (void * *)getPointer(env, linLayerMat);
+    // linLayerMat is write-only
 
     // Native function call
-    cudnnStatus_t jniResult_native = cudnnGetRNNLinLayerMatrixParams(handle_native, rnnDesc_native, layer_native, xDesc_native, wDesc_native, w_native, linLayerID_native, linLayerMatDesc_native, linLayerMat_native);
+    cudnnStatus_t jniResult_native = cudnnGetRNNLinLayerMatrixParams(handle_native, rnnDesc_native, layer_native, xDesc_native, wDesc_native, w_native, linLayerID_native, linLayerMatDesc_native, &linLayerMat_native);
 
     // Write back native variable values
     // handle is read-only
@@ -7784,7 +7784,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNLinLayerMatrixParamsN
     // w is a native pointer
     // linLayerID is primitive
     // linLayerMatDesc is read-only
-    // linLayerMat is a native pointer
+    setNativePointerValue(env, linLayerMat, (jlong)linLayerMat_native);
 
     // Return the result
     jint jniResult = (jint)jniResult_native;
@@ -7845,7 +7845,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNLinLayerBiasParamsNat
     void * w_native = NULL;
     int linLayerID_native = 0;
     cudnnFilterDescriptor_t linLayerBiasDesc_native;
-    void * * linLayerBias_native = NULL;
+    void * linLayerBias_native;
 
     // Obtain native variable values
     handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
@@ -7856,10 +7856,10 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNLinLayerBiasParamsNat
     w_native = (void *)getPointer(env, w);
     linLayerID_native = (int)linLayerID;
     linLayerBiasDesc_native = (cudnnFilterDescriptor_t)getNativePointerValue(env, linLayerBiasDesc);
-    linLayerBias_native = (void * *)getPointer(env, linLayerBias);
+    // linLayerBias is write-only
 
     // Native function call
-    cudnnStatus_t jniResult_native = cudnnGetRNNLinLayerBiasParams(handle_native, rnnDesc_native, layer_native, xDesc_native, wDesc_native, w_native, linLayerID_native, linLayerBiasDesc_native, linLayerBias_native);
+    cudnnStatus_t jniResult_native = cudnnGetRNNLinLayerBiasParams(handle_native, rnnDesc_native, layer_native, xDesc_native, wDesc_native, w_native, linLayerID_native, linLayerBiasDesc_native, &linLayerBias_native);
 
     // Write back native variable values
     // handle is read-only
@@ -7870,7 +7870,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNLinLayerBiasParamsNat
     // w is a native pointer
     // linLayerID is primitive
     // linLayerBiasDesc is read-only
-    // linLayerBias is a native pointer
+    setNativePointerValue(env, linLayerBias, (jlong)linLayerBias_native);
 
     // Return the result
     jint jniResult = (jint)jniResult_native;
