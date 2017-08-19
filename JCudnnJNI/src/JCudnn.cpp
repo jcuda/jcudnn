@@ -1854,7 +1854,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnCreateConvolutionDescriptor
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetConvolution2dDescriptorNative(JNIEnv *env, jclass cls, jobject convDesc, jint pad_h, jint pad_w, jint u, jint v, jint upscalex, jint upscaley, jint mode)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetConvolution2dDescriptorNative(JNIEnv *env, jclass cls, jobject convDesc, jint pad_h, jint pad_w, jint u, jint v, jint upscalex, jint upscaley, jint mode, jint dataType)
 {
     // Null-checks for non-primitive arguments
     if (convDesc == NULL)
@@ -1882,7 +1882,8 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetConvolution2dDescriptorN
     int v_native = 0;
     int upscalex_native = 0;
     int upscaley_native = 0;
-    cudnnConvolutionMode_t mode_native;
+	cudnnConvolutionMode_t mode_native;
+	cudnnDataType_t dataType_type;
 
     // Obtain native variable values
     convDesc_native = (cudnnConvolutionDescriptor_t)getNativePointerValue(env, convDesc);
@@ -1892,10 +1893,11 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetConvolution2dDescriptorN
     v_native = (int)v;
     upscalex_native = (int)upscalex;
     upscaley_native = (int)upscaley;
-    mode_native = (cudnnConvolutionMode_t)mode;
+	mode_native = (cudnnConvolutionMode_t)mode;
+	dataType_type = (cudnnDataType_t)dataType;
 
     // Native function call
-    cudnnStatus_t jniResult_native = cudnnSetConvolution2dDescriptor(convDesc_native, pad_h_native, pad_w_native, u_native, v_native, upscalex_native, upscaley_native, mode_native);
+    cudnnStatus_t jniResult_native = cudnnSetConvolution2dDescriptor(convDesc_native, pad_h_native, pad_w_native, u_native, v_native, upscalex_native, upscaley_native, mode_native, dataType_type);
 
     // Write back native variable values
     // convDesc is read-only
@@ -1912,69 +1914,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetConvolution2dDescriptorN
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetConvolution2dDescriptor_1v5Native(JNIEnv *env, jclass cls, jobject convDesc, jint pad_h, jint pad_w, jint u, jint v, jint upscalex, jint upscaley, jint mode, jint dataType)
-{
-    // Null-checks for non-primitive arguments
-    if (convDesc == NULL)
-    {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'convDesc' is null for cudnnSetConvolution2dDescriptor_v5");
-        return JCUDNN_STATUS_INTERNAL_ERROR;
-    }
-    // pad_h is primitive
-    // pad_w is primitive
-    // u is primitive
-    // v is primitive
-    // upscalex is primitive
-    // upscaley is primitive
-    // mode is primitive
-    // dataType is primitive
-
-    // Log message
-    Logger::log(LOG_TRACE, "Executing cudnnSetConvolution2dDescriptor_v5(convDesc=%p, pad_h=%d, pad_w=%d, u=%d, v=%d, upscalex=%d, upscaley=%d, mode=%d, dataType=%d)\n",
-        convDesc, pad_h, pad_w, u, v, upscalex, upscaley, mode, dataType);
-
-    // Native variable declarations
-    cudnnConvolutionDescriptor_t convDesc_native;
-    int pad_h_native = 0;
-    int pad_w_native = 0;
-    int u_native = 0;
-    int v_native = 0;
-    int upscalex_native = 0;
-    int upscaley_native = 0;
-    cudnnConvolutionMode_t mode_native;
-    cudnnDataType_t dataType_native;
-
-    // Obtain native variable values
-    convDesc_native = (cudnnConvolutionDescriptor_t)getNativePointerValue(env, convDesc);
-    pad_h_native = (int)pad_h;
-    pad_w_native = (int)pad_w;
-    u_native = (int)u;
-    v_native = (int)v;
-    upscalex_native = (int)upscalex;
-    upscaley_native = (int)upscaley;
-    mode_native = (cudnnConvolutionMode_t)mode;
-    dataType_native = (cudnnDataType_t)dataType;
-
-    // Native function call
-    cudnnStatus_t jniResult_native = cudnnSetConvolution2dDescriptor_v5(convDesc_native, pad_h_native, pad_w_native, u_native, v_native, upscalex_native, upscaley_native, mode_native, dataType_native);
-
-    // Write back native variable values
-    // convDesc is read-only
-    // pad_h is primitive
-    // pad_w is primitive
-    // u is primitive
-    // v is primitive
-    // upscalex is primitive
-    // upscaley is primitive
-    // mode is primitive
-    // dataType is primitive
-
-    // Return the result
-    jint jniResult = (jint)jniResult_native;
-    return jniResult;
-}
-
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolution2dDescriptorNative(JNIEnv *env, jclass cls, jobject convDesc, jintArray pad_h, jintArray pad_w, jintArray u, jintArray v, jintArray upscalex, jintArray upscaley, jintArray mode)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolution2dDescriptorNative(JNIEnv *env, jclass cls, jobject convDesc, jintArray pad_h, jintArray pad_w, jintArray u, jintArray v, jintArray upscalex, jintArray upscaley, jintArray mode, jintArray dataType)
 {
     // Null-checks for non-primitive arguments
     if (convDesc == NULL)
@@ -2030,7 +1970,8 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolution2dDescriptorN
     int v_native;
     int upscalex_native;
     int upscaley_native;
-    cudnnConvolutionMode_t mode_native;
+	cudnnConvolutionMode_t mode_native;
+	cudnnDataType_t type_native;
 
     // Obtain native variable values
     convDesc_native = (cudnnConvolutionDescriptor_t)getNativePointerValue(env, convDesc);
@@ -2043,7 +1984,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolution2dDescriptorN
     // mode is write-only
 
     // Native function call
-    cudnnStatus_t jniResult_native = cudnnGetConvolution2dDescriptor(convDesc_native, &pad_h_native, &pad_w_native, &u_native, &v_native, &upscalex_native, &upscaley_native, &mode_native);
+    cudnnStatus_t jniResult_native = cudnnGetConvolution2dDescriptor(convDesc_native, &pad_h_native, &pad_w_native, &u_native, &v_native, &upscalex_native, &upscaley_native, &mode_native, &type_native);
 
     // Write back native variable values
     // convDesc is read-only
@@ -2053,101 +1994,8 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolution2dDescriptorN
     if (!set(env, v, 0, (jint)v_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
     if (!set(env, upscalex, 0, (jint)upscalex_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
     if (!set(env, upscaley, 0, (jint)upscaley_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
-    if (!set(env, mode, 0, (jint)mode_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
-
-    // Return the result
-    jint jniResult = (jint)jniResult_native;
-    return jniResult;
-}
-
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetConvolution2dDescriptor_1v5Native(JNIEnv *env, jclass cls, jobject convDesc, jintArray pad_h, jintArray pad_w, jintArray u, jintArray v, jintArray upscalex, jintArray upscaley, jintArray mode, jintArray dataType)
-{
-    // Null-checks for non-primitive arguments
-    if (convDesc == NULL)
-    {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'convDesc' is null for cudnnGetConvolution2dDescriptor_v5");
-        return JCUDNN_STATUS_INTERNAL_ERROR;
-    }
-    if (pad_h == NULL)
-    {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'pad_h' is null for cudnnGetConvolution2dDescriptor_v5");
-        return JCUDNN_STATUS_INTERNAL_ERROR;
-    }
-    if (pad_w == NULL)
-    {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'pad_w' is null for cudnnGetConvolution2dDescriptor_v5");
-        return JCUDNN_STATUS_INTERNAL_ERROR;
-    }
-    if (u == NULL)
-    {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'u' is null for cudnnGetConvolution2dDescriptor_v5");
-        return JCUDNN_STATUS_INTERNAL_ERROR;
-    }
-    if (v == NULL)
-    {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'v' is null for cudnnGetConvolution2dDescriptor_v5");
-        return JCUDNN_STATUS_INTERNAL_ERROR;
-    }
-    if (upscalex == NULL)
-    {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'upscalex' is null for cudnnGetConvolution2dDescriptor_v5");
-        return JCUDNN_STATUS_INTERNAL_ERROR;
-    }
-    if (upscaley == NULL)
-    {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'upscaley' is null for cudnnGetConvolution2dDescriptor_v5");
-        return JCUDNN_STATUS_INTERNAL_ERROR;
-    }
-    if (mode == NULL)
-    {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'mode' is null for cudnnGetConvolution2dDescriptor_v5");
-        return JCUDNN_STATUS_INTERNAL_ERROR;
-    }
-    if (dataType == NULL)
-    {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dataType' is null for cudnnGetConvolution2dDescriptor_v5");
-        return JCUDNN_STATUS_INTERNAL_ERROR;
-    }
-
-    // Log message
-    Logger::log(LOG_TRACE, "Executing cudnnGetConvolution2dDescriptor_v5(convDesc=%p, pad_h=%p, pad_w=%p, u=%p, v=%p, upscalex=%p, upscaley=%p, mode=%p, dataType=%p)\n",
-        convDesc, pad_h, pad_w, u, v, upscalex, upscaley, mode, dataType);
-
-    // Native variable declarations
-    cudnnConvolutionDescriptor_t convDesc_native;
-    int pad_h_native;
-    int pad_w_native;
-    int u_native;
-    int v_native;
-    int upscalex_native;
-    int upscaley_native;
-    cudnnConvolutionMode_t mode_native;
-    cudnnDataType_t dataType_native;
-
-    // Obtain native variable values
-    convDesc_native = (cudnnConvolutionDescriptor_t)getNativePointerValue(env, convDesc);
-    // pad_h is write-only
-    // pad_w is write-only
-    // u is write-only
-    // v is write-only
-    // upscalex is write-only
-    // upscaley is write-only
-    // mode is write-only
-    // dataType is write-only
-
-    // Native function call
-    cudnnStatus_t jniResult_native = cudnnGetConvolution2dDescriptor_v5(convDesc_native, &pad_h_native, &pad_w_native, &u_native, &v_native, &upscalex_native, &upscaley_native, &mode_native, &dataType_native);
-
-    // Write back native variable values
-    // convDesc is read-only
-    if (!set(env, pad_h, 0, (jint)pad_h_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
-    if (!set(env, pad_w, 0, (jint)pad_w_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
-    if (!set(env, u, 0, (jint)u_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
-    if (!set(env, v, 0, (jint)v_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
-    if (!set(env, upscalex, 0, (jint)upscalex_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
-    if (!set(env, upscaley, 0, (jint)upscaley_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
-    if (!set(env, mode, 0, (jint)mode_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
-    if (!set(env, dataType, 0, (jint)dataType_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
+	if (!set(env, mode, 0, (jint)mode_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
+	if (!set(env, dataType, 0, (jint)type_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
 
     // Return the result
     jint jniResult = (jint)jniResult_native;
@@ -7467,9 +7315,15 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroyRNNDescriptorNative(
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetRNNDescriptorNative(JNIEnv *env, jclass cls, jobject rnnDesc, jint hiddenSize, jint numLayers, jobject dropoutDesc, jint inputMode, jint direction, jint mode, jint dataType)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetRNNDescriptorNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint hiddenSize, jint numLayers, jobject dropoutDesc, jint inputMode, jint direction, jint mode, jint algo, jint dataType)
 {
-    // Null-checks for non-primitive arguments
+	// Null-checks for non-primitive arguments
+	if (handle == NULL)
+	{
+		ThrowByName(env, "java/lang/NullPointerException", "Parameter 'handle' is null for cudnnDropoutBackward");
+		return JCUDNN_STATUS_INTERNAL_ERROR;
+	}
+	// Null-checks for non-primitive arguments
     if (rnnDesc == NULL)
     {
         ThrowByName(env, "java/lang/NullPointerException", "Parameter 'rnnDesc' is null for cudnnSetRNNDescriptor");
@@ -7488,31 +7342,35 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetRNNDescriptorNative(JNIE
     // dataType is primitive
 
     // Log message
-    Logger::log(LOG_TRACE, "Executing cudnnSetRNNDescriptor(rnnDesc=%p, hiddenSize=%d, numLayers=%d, dropoutDesc=%p, inputMode=%d, direction=%d, mode=%d, dataType=%d)\n",
-        rnnDesc, hiddenSize, numLayers, dropoutDesc, inputMode, direction, mode, dataType);
+    Logger::log(LOG_TRACE, "Executing cudnnSetRNNDescriptor(handle=%p, rnnDesc=%p, hiddenSize=%d, numLayers=%d, dropoutDesc=%p, inputMode=%d, direction=%d, mode=%d, algo=%d, dataType=%d)\n",
+		handle, rnnDesc, hiddenSize, numLayers, dropoutDesc, inputMode, direction, mode, algo, dataType);
 
     // Native variable declarations
-    cudnnRNNDescriptor_t rnnDesc_native;
+	cudnnHandle_t handle_native;
+	cudnnRNNDescriptor_t rnnDesc_native;
     int hiddenSize_native = 0;
     int numLayers_native = 0;
     cudnnDropoutDescriptor_t dropoutDesc_native;
     cudnnRNNInputMode_t inputMode_native;
     cudnnDirectionMode_t direction_native;
-    cudnnRNNMode_t mode_native;
-    cudnnDataType_t dataType_native;
+	cudnnRNNMode_t mode_native;
+	cudnnRNNAlgo_t algo_native;
+	cudnnDataType_t dataType_native;
 
     // Obtain native variable values
-    rnnDesc_native = (cudnnRNNDescriptor_t)getNativePointerValue(env, rnnDesc);
+	handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
+	rnnDesc_native = (cudnnRNNDescriptor_t)getNativePointerValue(env, rnnDesc);
     hiddenSize_native = (int)hiddenSize;
     numLayers_native = (int)numLayers;
     dropoutDesc_native = (cudnnDropoutDescriptor_t)getNativePointerValue(env, dropoutDesc);
     inputMode_native = (cudnnRNNInputMode_t)inputMode;
     direction_native = (cudnnDirectionMode_t)direction;
-    mode_native = (cudnnRNNMode_t)mode;
-    dataType_native = (cudnnDataType_t)dataType;
+	mode_native = (cudnnRNNMode_t)mode;
+	algo_native = (cudnnRNNAlgo_t)algo;
+	dataType_native = (cudnnDataType_t)dataType;
 
     // Native function call
-    cudnnStatus_t jniResult_native = cudnnSetRNNDescriptor(rnnDesc_native, hiddenSize_native, numLayers_native, dropoutDesc_native, inputMode_native, direction_native, mode_native, dataType_native);
+    cudnnStatus_t jniResult_native = cudnnSetRNNDescriptor(handle_native, rnnDesc_native, hiddenSize_native, numLayers_native, dropoutDesc_native, inputMode_native, direction_native, mode_native, algo_native, dataType_native);
 
     // Write back native variable values
     // rnnDesc is read-only
