@@ -636,10 +636,12 @@ public class JCudnn
         int v, // horizontal filter stride
         int upscalex, // upscale the input in x-direction
         int upscaley, // upscale the input in y-direction
-        int mode)
+        int mode,
+        int dataType)
     {
-        return checkResult(cudnnSetConvolution2dDescriptorNative(convDesc, pad_h, pad_w, u, v, upscalex, upscaley, mode));
+        return checkResult(cudnnSetConvolution2dDescriptorNative(convDesc, pad_h, pad_w, u, v, upscalex, upscaley, mode, dataType));
     }
+    
     private static native int cudnnSetConvolution2dDescriptorNative(
         cudnnConvolutionDescriptor convDesc, 
         int pad_h, // zero-padding height
@@ -648,31 +650,7 @@ public class JCudnn
         int v, // horizontal filter stride
         int upscalex, // upscale the input in x-direction
         int upscaley, // upscale the input in y-direction
-        int mode);
-
-
-    public static int cudnnSetConvolution2dDescriptor_v5(
-        cudnnConvolutionDescriptor convDesc, 
-        int pad_h, // zero-padding height
-        int pad_w, // zero-padding width
-        int u, // vertical filter stride
-        int v, // horizontal filter stride
-        int upscalex, // upscale the input in x-direction
-        int upscaley, // upscale the input in y-direction
-        int mode, 
-        int dataType)
-    {
-        return checkResult(cudnnSetConvolution2dDescriptor_v5Native(convDesc, pad_h, pad_w, u, v, upscalex, upscaley, mode, dataType));
-    }
-    private static native int cudnnSetConvolution2dDescriptor_v5Native(
-        cudnnConvolutionDescriptor convDesc, 
-        int pad_h, // zero-padding height
-        int pad_w, // zero-padding width
-        int u, // vertical filter stride
-        int v, // horizontal filter stride
-        int upscalex, // upscale the input in x-direction
-        int upscaley, // upscale the input in y-direction
-        int mode, 
+        int mode,
         int dataType);
 
 
@@ -697,31 +675,6 @@ public class JCudnn
         int[] upscalex, // upscale the input in x-direction
         int[] upscaley, // upscale the input in y-direction
         int[] mode);
-
-
-    public static int cudnnGetConvolution2dDescriptor_v5(
-        cudnnConvolutionDescriptor convDesc, 
-        int[] pad_h, // zero-padding height
-        int[] pad_w, // zero-padding width
-        int[] u, // vertical filter stride
-        int[] v, // horizontal filter stride
-        int[] upscalex, // upscale the input in x-direction
-        int[] upscaley, // upscale the input in y-direction
-        int[] mode, 
-        int[] dataType)
-    {
-        return checkResult(cudnnGetConvolution2dDescriptor_v5Native(convDesc, pad_h, pad_w, u, v, upscalex, upscaley, mode, dataType));
-    }
-    private static native int cudnnGetConvolution2dDescriptor_v5Native(
-        cudnnConvolutionDescriptor convDesc, 
-        int[] pad_h, // zero-padding height
-        int[] pad_w, // zero-padding width
-        int[] u, // vertical filter stride
-        int[] v, // horizontal filter stride
-        int[] upscalex, // upscale the input in x-direction
-        int[] upscaley, // upscale the input in y-direction
-        int[] mode, 
-        int[] dataType);
 
 
     /* Helper function to return the dimensions of the output tensor given a convolution descriptor */
