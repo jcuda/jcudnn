@@ -43,6 +43,9 @@ public class cudnnStatus
     public static final int CUDNN_STATUS_EXECUTION_FAILED = 8;
     public static final int CUDNN_STATUS_NOT_SUPPORTED = 9;
     public static final int CUDNN_STATUS_LICENSE_ERROR = 10;
+    public static final int CUDNN_STATUS_RUNTIME_PREREQUISITE_MISSING = 11;
+    public static final int CUDNN_STATUS_RUNTIME_IN_PROGRESS = 12;
+    public static final int CUDNN_STATUS_RUNTIME_FP_OVERFLOW = 13;
 
     /**
      * An internal JCudnn error occurred
@@ -75,6 +78,9 @@ public class cudnnStatus
             case CUDNN_STATUS_NOT_SUPPORTED: return "CUDNN_STATUS_NOT_SUPPORTED";
             case CUDNN_STATUS_LICENSE_ERROR: return "CUDNN_STATUS_LICENSE_ERROR";
             case JCUDNN_STATUS_INTERNAL_ERROR: return "JCUDNN_STATUS_INTERNAL_ERROR";
+            case CUDNN_STATUS_RUNTIME_PREREQUISITE_MISSING: return "CUDNN_STATUS_RUNTIME_PREREQUISITE_MISSING";
+            case CUDNN_STATUS_RUNTIME_IN_PROGRESS: return "CUDNN_STATUS_RUNTIME_IN_PROGRESS";
+            case CUDNN_STATUS_RUNTIME_FP_OVERFLOW: return "CUDNN_STATUS_RUNTIME_FP_OVERFLOW";
         }
         return "INVALID cudnnStatus: "+n;
     }
