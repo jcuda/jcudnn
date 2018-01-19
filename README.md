@@ -13,7 +13,7 @@ information and build instructions for these libraries.
 
 ## Building on Linux
 
-If you have already built and installed jcuda-main, this is a short set of building instractions for linux (provided `$JAVA_HOME` is set). In the project root:
+If you have already built and installed jcuda-main, this is a short set of building instructions for linux (provided `$JAVA_HOME` is set). In the project root:
 
 ```
 cmake JCudnnJNI/
