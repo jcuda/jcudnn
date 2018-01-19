@@ -29,7 +29,8 @@ set(CUDA_cuDNN_INCLUDE "NOT-DEFINED" CACHE PATH "cuDNN include directory")
 
 include_directories (${CUDA_cuDNN_INCLUDE} REQUIRED)
 find_library(CUDA_cuDNN_LIBRARY NAMES libcudnn.so cudnn.lib
-             DOC "cuDNN library")
+             DOC "cuDNN library"
+             PATH_SUFFIXES /lib64)
 target_link_libraries(${PROJECT_NAME} ${CUDA_cuDNN_LIBRARY})
 
 target_link_libraries(${PROJECT_NAME}

@@ -6,3 +6,10 @@
 /nativeLibraries
 /.settings
 /.project
+
+/bin/
+/CMakeFiles/
+/lib/
+/cmake_install.cmake
+/CMakeCache.txt
+/Makefile
