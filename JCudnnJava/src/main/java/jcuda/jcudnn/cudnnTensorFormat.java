@@ -2,7 +2,7 @@
  * JCudnn - Java bindings for cuDNN, the NVIDIA CUDA
  * Deep Neural Network library, to be used with JCuda
  *
- * Copyright (c) 2015-2015 Marco Hutter - http://www.jcuda.org
+ * Copyright (c) 2015-2018 Marco Hutter - http://www.jcuda.org
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -37,11 +37,18 @@ public class cudnnTensorFormat
      * feature maps interleaved ( cStride = 1 )
      */
     public static final int CUDNN_TENSOR_NHWC = 1;
+    /**
+     * each image point is vector of element of C : the length of the vector is carried by the data type
+     */
+    public static final int CUDNN_TENSOR_NCHW_VECT_C = 2;
 
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnTensorFormat(){}
+    private cudnnTensorFormat()
+    {
+        // Private constructor to prevent instantiation
+    }
 
     /**
      * Returns a string representation of the given constant
@@ -54,6 +61,7 @@ public class cudnnTensorFormat
         {
             case CUDNN_TENSOR_NCHW: return "CUDNN_TENSOR_NCHW";
             case CUDNN_TENSOR_NHWC: return "CUDNN_TENSOR_NHWC";
+            case CUDNN_TENSOR_NCHW_VECT_C: return "CUDNN_TENSOR_NCHW_VECT_C";
         }
         return "INVALID cudnnTensorFormat: "+n;
     }

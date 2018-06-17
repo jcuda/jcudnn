@@ -2,7 +2,7 @@
  * JCudnn - Java bindings for cuDNN, the NVIDIA CUDA
  * Deep Neural Network library, to be used with JCuda
  *
- * Copyright (c) 2015-2016 Marco Hutter - http://www.jcuda.org
+ * Copyright (c) 2015-2018 Marco Hutter - http://www.jcuda.org
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -27,7 +27,7 @@
  */
 package jcuda.jcudnn;
 
-/* APIs for spatial transformer network*/
+/** APIs for spatial transformer network*/
 public class cudnnSamplerType
 {
     public static final int CUDNN_SAMPLER_BILINEAR = 0;

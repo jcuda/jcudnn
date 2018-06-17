@@ -2,7 +2,7 @@
  * JCudnn - Java bindings for cuDNN, the NVIDIA CUDA
  * Deep Neural Network library, to be used with JCuda
  *
- * Copyright (c) 2015-2015 Marco Hutter - http://www.jcuda.org
+ * Copyright (c) 2015-2018 Marco Hutter - http://www.jcuda.org
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -27,15 +27,21 @@
  */
 package jcuda.jcudnn;
 
-// LRN layer mode, currently only cross-channel is supported (across the tensor's dimA[1] dimension)
+/** LRN layer mode */
 public class cudnnLRNMode
 {
+    /**
+     * Normalize across tensor's dimA[1] dimension 
+     */
     public static final int CUDNN_LRN_CROSS_CHANNEL_DIM1 = 0;
 
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnLRNMode(){}
+    private cudnnLRNMode()
+    {
+        // Private constructor to prevent instantiation
+    }
 
     /**
      * Returns a string representation of the given constant

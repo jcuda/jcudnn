@@ -2,7 +2,7 @@
  * JCudnn - Java bindings for cuDNN, the NVIDIA CUDA
  * Deep Neural Network library, to be used with JCuda
  *
- * Copyright (c) 2015-2015 Marco Hutter - http://www.jcuda.org
+ * Copyright (c) 2015-2018 Marco Hutter - http://www.jcuda.org
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -27,31 +27,20 @@
  */
 package jcuda.jcudnn;
 
-public class cudnnAddMode
+public class cudnnSeverity
 {
-    /**
-     * add one image to every feature maps of each input 
-     */
-    public static final int CUDNN_ADD_IMAGE = 0;
-    public static final int CUDNN_ADD_SAME_HW = 0;
-    /**
-     * add a set of feature maps to a batch of inputs : tensorBias has n=1 , same nb feature than Src/dest 
-     */
-    public static final int CUDNN_ADD_FEATURE_MAP = 1;
-    public static final int CUDNN_ADD_SAME_CHW = 1;
-    /**
-     * add a tensor of size 1,c,1,1 to every corresponding point of n,c,h,w input 
-     */
-    public static final int CUDNN_ADD_SAME_C = 2;
-    /**
-     * add 2 tensors with same n,c,h,w 
-     */
-    public static final int CUDNN_ADD_FULL_TENSOR = 3;
+    public static final int CUDNN_SEV_FATAL = 0;
+    public static final int CUDNN_SEV_ERROR = 1;
+    public static final int CUDNN_SEV_WARNING = 2;
+    public static final int CUDNN_SEV_INFO = 3;
 
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnAddMode(){}
+    private cudnnSeverity()
+    {
+        // Private constructor to prevent instantiation
+    }
 
     /**
      * Returns a string representation of the given constant
@@ -62,16 +51,12 @@ public class cudnnAddMode
     {
         switch (n)
         {
-            case CUDNN_ADD_IMAGE: 
-            //case CUDNN_ADD_SAME_HW: 
-                return "(CUDNN_ADD_IMAGE or CUDNN_ADD_SAME_HW)";
-            case CUDNN_ADD_FEATURE_MAP: 
-            //case CUDNN_ADD_SAME_CHW: 
-                return "(CUDNN_ADD_FEATURE_MAP or CUDNN_ADD_SAME_CHW)";
-            case CUDNN_ADD_SAME_C: return "CUDNN_ADD_SAME_C";
-            case CUDNN_ADD_FULL_TENSOR: return "CUDNN_ADD_FULL_TENSOR";
+            case CUDNN_SEV_FATAL: return "CUDNN_SEV_FATAL";
+            case CUDNN_SEV_ERROR: return "CUDNN_SEV_ERROR";
+            case CUDNN_SEV_WARNING: return "CUDNN_SEV_WARNING";
+            case CUDNN_SEV_INFO: return "CUDNN_SEV_INFO";
         }
-        return "INVALID cudnnAddMode: "+n;
+        return "INVALID cudnnSeverity: "+n;
     }
 }
 

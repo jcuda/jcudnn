@@ -2,7 +2,7 @@
  * JCudnn - Java bindings for cuDNN, the NVIDIA CUDA
  * Deep Neural Network library, to be used with JCuda
  *
- * Copyright (c) 2015-2015 Marco Hutter - http://www.jcuda.org
+ * Copyright (c) 2015-2018 Marco Hutter - http://www.jcuda.org
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -48,14 +48,12 @@ public class cudnnStatus
     public static final int CUDNN_STATUS_RUNTIME_FP_OVERFLOW = 13;
 
     /**
-     * An internal JCudnn error occurred
-     */
-    public static final int JCUDNN_STATUS_INTERNAL_ERROR = -1;
-    
-    /**
      * Private constructor to prevent instantiation
      */
-    private cudnnStatus(){}
+    private cudnnStatus()
+    {
+        // Private constructor to prevent instantiation
+    }
 
     /**
      * Returns a string representation of the given constant
@@ -77,7 +75,6 @@ public class cudnnStatus
             case CUDNN_STATUS_EXECUTION_FAILED: return "CUDNN_STATUS_EXECUTION_FAILED";
             case CUDNN_STATUS_NOT_SUPPORTED: return "CUDNN_STATUS_NOT_SUPPORTED";
             case CUDNN_STATUS_LICENSE_ERROR: return "CUDNN_STATUS_LICENSE_ERROR";
-            case JCUDNN_STATUS_INTERNAL_ERROR: return "JCUDNN_STATUS_INTERNAL_ERROR";
             case CUDNN_STATUS_RUNTIME_PREREQUISITE_MISSING: return "CUDNN_STATUS_RUNTIME_PREREQUISITE_MISSING";
             case CUDNN_STATUS_RUNTIME_IN_PROGRESS: return "CUDNN_STATUS_RUNTIME_IN_PROGRESS";
             case CUDNN_STATUS_RUNTIME_FP_OVERFLOW: return "CUDNN_STATUS_RUNTIME_FP_OVERFLOW";

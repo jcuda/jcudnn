@@ -2,7 +2,7 @@
  * JCudnn - Java bindings for cuDNN, the NVIDIA CUDA
  * Deep Neural Network library, to be used with JCuda
  *
- * Copyright (c) 2015-2015 Marco Hutter - http://www.jcuda.org
+ * Copyright (c) 2015-2018 Marco Hutter - http://www.jcuda.org
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -30,17 +30,23 @@ package jcuda.jcudnn;
 public class cudnnConvolutionBwdDataAlgo
 {
     /**
-     * non-deterministic
+     * non-deterministic 
      */
     public static final int CUDNN_CONVOLUTION_BWD_DATA_ALGO_0 = 0;
     public static final int CUDNN_CONVOLUTION_BWD_DATA_ALGO_1 = 1;
     public static final int CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT = 2;
     public static final int CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT_TILING = 3;
-    
+    public static final int CUDNN_CONVOLUTION_BWD_DATA_ALGO_WINOGRAD = 4;
+    public static final int CUDNN_CONVOLUTION_BWD_DATA_ALGO_WINOGRAD_NONFUSED = 5;
+    public static final int CUDNN_CONVOLUTION_BWD_DATA_ALGO_COUNT = 6;
+
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnConvolutionBwdDataAlgo(){}
+    private cudnnConvolutionBwdDataAlgo()
+    {
+        // Private constructor to prevent instantiation
+    }
 
     /**
      * Returns a string representation of the given constant
@@ -55,6 +61,9 @@ public class cudnnConvolutionBwdDataAlgo
             case CUDNN_CONVOLUTION_BWD_DATA_ALGO_1: return "CUDNN_CONVOLUTION_BWD_DATA_ALGO_1";
             case CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT: return "CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT";
             case CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT_TILING: return "CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT_TILING";
+            case CUDNN_CONVOLUTION_BWD_DATA_ALGO_WINOGRAD: return "CUDNN_CONVOLUTION_BWD_DATA_ALGO_WINOGRAD";
+            case CUDNN_CONVOLUTION_BWD_DATA_ALGO_WINOGRAD_NONFUSED: return "CUDNN_CONVOLUTION_BWD_DATA_ALGO_WINOGRAD_NONFUSED";
+            case CUDNN_CONVOLUTION_BWD_DATA_ALGO_COUNT: return "CUDNN_CONVOLUTION_BWD_DATA_ALGO_COUNT";
         }
         return "INVALID cudnnConvolutionBwdDataAlgo: "+n;
     }

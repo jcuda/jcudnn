@@ -2,7 +2,7 @@
  * JCudnn - Java bindings for cuDNN, the NVIDIA CUDA
  * Deep Neural Network library, to be used with JCuda
  *
- * Copyright (c) 2015-2016 Marco Hutter - http://www.jcuda.org
+ * Copyright (c) 2015-2018 Marco Hutter - http://www.jcuda.org
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -27,7 +27,7 @@
  */
 package jcuda.jcudnn;
 
-/*
+/**
 * CUDNN OpTensor op type
 */
 public class cudnnOpTensorOp
@@ -36,6 +36,8 @@ public class cudnnOpTensorOp
     public static final int CUDNN_OP_TENSOR_MUL = 1;
     public static final int CUDNN_OP_TENSOR_MIN = 2;
     public static final int CUDNN_OP_TENSOR_MAX = 3;
+    public static final int CUDNN_OP_TENSOR_SQRT = 4;
+    public static final int CUDNN_OP_TENSOR_NOT = 5;
 
     /**
      * Private constructor to prevent instantiation
@@ -58,6 +60,8 @@ public class cudnnOpTensorOp
             case CUDNN_OP_TENSOR_MUL: return "CUDNN_OP_TENSOR_MUL";
             case CUDNN_OP_TENSOR_MIN: return "CUDNN_OP_TENSOR_MIN";
             case CUDNN_OP_TENSOR_MAX: return "CUDNN_OP_TENSOR_MAX";
+            case CUDNN_OP_TENSOR_SQRT: return "CUDNN_OP_TENSOR_SQRT";
+            case CUDNN_OP_TENSOR_NOT: return "CUDNN_OP_TENSOR_NOT";
         }
         return "INVALID cudnnOpTensorOp: "+n;
     }

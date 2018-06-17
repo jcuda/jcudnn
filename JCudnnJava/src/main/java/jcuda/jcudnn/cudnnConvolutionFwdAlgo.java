@@ -2,7 +2,7 @@
  * JCudnn - Java bindings for cuDNN, the NVIDIA CUDA
  * Deep Neural Network library, to be used with JCuda
  *
- * Copyright (c) 2015-2015 Marco Hutter - http://www.jcuda.org
+ * Copyright (c) 2015-2018 Marco Hutter - http://www.jcuda.org
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -35,11 +35,17 @@ public class cudnnConvolutionFwdAlgo
     public static final int CUDNN_CONVOLUTION_FWD_ALGO_DIRECT = 3;
     public static final int CUDNN_CONVOLUTION_FWD_ALGO_FFT = 4;
     public static final int CUDNN_CONVOLUTION_FWD_ALGO_FFT_TILING = 5;
+    public static final int CUDNN_CONVOLUTION_FWD_ALGO_WINOGRAD = 6;
+    public static final int CUDNN_CONVOLUTION_FWD_ALGO_WINOGRAD_NONFUSED = 7;
+    public static final int CUDNN_CONVOLUTION_FWD_ALGO_COUNT = 8;
 
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnConvolutionFwdAlgo(){}
+    private cudnnConvolutionFwdAlgo()
+    {
+        // Private constructor to prevent instantiation
+    }
 
     /**
      * Returns a string representation of the given constant
@@ -56,6 +62,9 @@ public class cudnnConvolutionFwdAlgo
             case CUDNN_CONVOLUTION_FWD_ALGO_DIRECT: return "CUDNN_CONVOLUTION_FWD_ALGO_DIRECT";
             case CUDNN_CONVOLUTION_FWD_ALGO_FFT: return "CUDNN_CONVOLUTION_FWD_ALGO_FFT";
             case CUDNN_CONVOLUTION_FWD_ALGO_FFT_TILING: return "CUDNN_CONVOLUTION_FWD_ALGO_FFT_TILING";
+            case CUDNN_CONVOLUTION_FWD_ALGO_WINOGRAD: return "CUDNN_CONVOLUTION_FWD_ALGO_WINOGRAD";
+            case CUDNN_CONVOLUTION_FWD_ALGO_WINOGRAD_NONFUSED: return "CUDNN_CONVOLUTION_FWD_ALGO_WINOGRAD_NONFUSED";
+            case CUDNN_CONVOLUTION_FWD_ALGO_COUNT: return "CUDNN_CONVOLUTION_FWD_ALGO_COUNT";
         }
         return "INVALID cudnnConvolutionFwdAlgo: "+n;
     }

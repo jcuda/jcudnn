@@ -2,7 +2,7 @@
  * JCudnn - Java bindings for cuDNN, the NVIDIA CUDA
  * Deep Neural Network library, to be used with JCuda
  *
- * Copyright (c) 2015-2015 Marco Hutter - http://www.jcuda.org
+ * Copyright (c) 2015-2018 Marco Hutter - http://www.jcuda.org
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -33,13 +33,15 @@ package jcuda.jcudnn;
 public class cudnnNanPropagation
 {
     public static final int CUDNN_NOT_PROPAGATE_NAN = 0;
-    
     public static final int CUDNN_PROPAGATE_NAN = 1;
 
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnNanPropagation(){}
+    private cudnnNanPropagation()
+    {
+        // Private constructor to prevent instantiation
+    }
 
     /**
      * Returns a string representation of the given constant

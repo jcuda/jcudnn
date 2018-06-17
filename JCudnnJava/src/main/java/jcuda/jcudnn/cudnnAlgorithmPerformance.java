@@ -30,14 +30,14 @@ package jcuda.jcudnn;
 import jcuda.NativePointerObject;
 
 /**
- * Java port of a cudnnConvolutionDescriptor
+ * Java port of a cudnnAlgorithmPerformance
  */
-public class cudnnConvolutionDescriptor extends NativePointerObject
+public class cudnnAlgorithmPerformance extends NativePointerObject
 {
     /**
-     * Creates a new, uninitialized cudnnConvolutionDescriptor
+     * Creates a new, uninitialized cudnnAlgorithmPerformance
      */
-    public cudnnConvolutionDescriptor()
+    public cudnnAlgorithmPerformance()
     {
         // Default constructor
     }
@@ -50,7 +50,7 @@ public class cudnnConvolutionDescriptor extends NativePointerObject
     @Override
     public String toString()
     {
-        return "cudnnConvolutionDescriptor["+
+        return "cudnnAlgorithmPerformance["+
             "nativePointer=0x"+Long.toHexString(getNativePointer())+"]";
     }
 }

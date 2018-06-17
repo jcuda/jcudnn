@@ -2,7 +2,7 @@
  * JCudnn - Java bindings for cuDNN, the NVIDIA CUDA
  * Deep Neural Network library, to be used with JCuda
  *
- * Copyright (c) 2015-2017 Marco Hutter - http://www.jcuda.org
+ * Copyright (c) 2015-2018 Marco Hutter - http://www.jcuda.org
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -32,6 +32,7 @@ public class cudnnRNNAlgo
     public static final int CUDNN_RNN_ALGO_STANDARD = 0;
     public static final int CUDNN_RNN_ALGO_PERSIST_STATIC = 1;
     public static final int CUDNN_RNN_ALGO_PERSIST_DYNAMIC = 2;
+    public static final int CUDNN_RNN_ALGO_COUNT = 3;
 
     /**
      * Private constructor to prevent instantiation
@@ -53,6 +54,7 @@ public class cudnnRNNAlgo
             case CUDNN_RNN_ALGO_STANDARD: return "CUDNN_RNN_ALGO_STANDARD";
             case CUDNN_RNN_ALGO_PERSIST_STATIC: return "CUDNN_RNN_ALGO_PERSIST_STATIC";
             case CUDNN_RNN_ALGO_PERSIST_DYNAMIC: return "CUDNN_RNN_ALGO_PERSIST_DYNAMIC";
+            case CUDNN_RNN_ALGO_COUNT: return "CUDNN_RNN_ALGO_COUNT";
         }
         return "INVALID cudnnRNNAlgo: "+n;
     }

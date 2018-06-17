@@ -2,7 +2,7 @@
  * JCudnn - Java bindings for cuDNN, the NVIDIA CUDA
  * Deep Neural Network library, to be used with JCuda
  *
- * Copyright (c) 2015-2015 Marco Hutter - http://www.jcuda.org
+ * Copyright (c) 2015-2018 Marco Hutter - http://www.jcuda.org
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -34,18 +34,22 @@ public class cudnnPoolingMode
 {
     public static final int CUDNN_POOLING_MAX = 0;
     /**
-     * count for average includes padded values
+     * count for average includes padded values 
      */
     public static final int CUDNN_POOLING_AVERAGE_COUNT_INCLUDE_PADDING = 1;
     /**
-     * count for average does not include padded values
+     * count for average does not include padded values 
      */
     public static final int CUDNN_POOLING_AVERAGE_COUNT_EXCLUDE_PADDING = 2;
+    public static final int CUDNN_POOLING_MAX_DETERMINISTIC = 3;
 
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnPoolingMode(){}
+    private cudnnPoolingMode()
+    {
+        // Private constructor to prevent instantiation
+    }
 
     /**
      * Returns a string representation of the given constant
@@ -59,6 +63,7 @@ public class cudnnPoolingMode
             case CUDNN_POOLING_MAX: return "CUDNN_POOLING_MAX";
             case CUDNN_POOLING_AVERAGE_COUNT_INCLUDE_PADDING: return "CUDNN_POOLING_AVERAGE_COUNT_INCLUDE_PADDING";
             case CUDNN_POOLING_AVERAGE_COUNT_EXCLUDE_PADDING: return "CUDNN_POOLING_AVERAGE_COUNT_EXCLUDE_PADDING";
+            case CUDNN_POOLING_MAX_DETERMINISTIC: return "CUDNN_POOLING_MAX_DETERMINISTIC";
         }
         return "INVALID cudnnPoolingMode: "+n;
     }

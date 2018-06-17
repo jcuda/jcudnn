@@ -2,7 +2,7 @@
  * JCudnn - Java bindings for cuDNN, the NVIDIA CUDA
  * Deep Neural Network library, to be used with JCuda
  *
- * Copyright (c) 2015-2015 Marco Hutter - http://www.jcuda.org
+ * Copyright (c) 2015-2018 Marco Hutter - http://www.jcuda.org
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -30,20 +30,30 @@ package jcuda.jcudnn;
 public class cudnnConvolutionBwdFilterAlgo
 {
     /**
-     * non-deterministic
+     * non-deterministic 
      */
     public static final int CUDNN_CONVOLUTION_BWD_FILTER_ALGO_0 = 0;
     public static final int CUDNN_CONVOLUTION_BWD_FILTER_ALGO_1 = 1;
     public static final int CUDNN_CONVOLUTION_BWD_FILTER_ALGO_FFT = 2;
     /**
-     * non-deterministic, algo0 with workspace
+     * non-deterministic 
      */
     public static final int CUDNN_CONVOLUTION_BWD_FILTER_ALGO_3 = 3;
+    /**
+     * not implemented 
+     */
+    public static final int CUDNN_CONVOLUTION_BWD_FILTER_ALGO_WINOGRAD = 4;
+    public static final int CUDNN_CONVOLUTION_BWD_FILTER_ALGO_WINOGRAD_NONFUSED = 5;
+    public static final int CUDNN_CONVOLUTION_BWD_FILTER_ALGO_FFT_TILING = 6;
+    public static final int CUDNN_CONVOLUTION_BWD_FILTER_ALGO_COUNT = 7;
 
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnConvolutionBwdFilterAlgo(){}
+    private cudnnConvolutionBwdFilterAlgo()
+    {
+        // Private constructor to prevent instantiation
+    }
 
     /**
      * Returns a string representation of the given constant
@@ -58,6 +68,10 @@ public class cudnnConvolutionBwdFilterAlgo
             case CUDNN_CONVOLUTION_BWD_FILTER_ALGO_1: return "CUDNN_CONVOLUTION_BWD_FILTER_ALGO_1";
             case CUDNN_CONVOLUTION_BWD_FILTER_ALGO_FFT: return "CUDNN_CONVOLUTION_BWD_FILTER_ALGO_FFT";
             case CUDNN_CONVOLUTION_BWD_FILTER_ALGO_3: return "CUDNN_CONVOLUTION_BWD_FILTER_ALGO_3";
+            case CUDNN_CONVOLUTION_BWD_FILTER_ALGO_WINOGRAD: return "CUDNN_CONVOLUTION_BWD_FILTER_ALGO_WINOGRAD";
+            case CUDNN_CONVOLUTION_BWD_FILTER_ALGO_WINOGRAD_NONFUSED: return "CUDNN_CONVOLUTION_BWD_FILTER_ALGO_WINOGRAD_NONFUSED";
+            case CUDNN_CONVOLUTION_BWD_FILTER_ALGO_FFT_TILING: return "CUDNN_CONVOLUTION_BWD_FILTER_ALGO_FFT_TILING";
+            case CUDNN_CONVOLUTION_BWD_FILTER_ALGO_COUNT: return "CUDNN_CONVOLUTION_BWD_FILTER_ALGO_COUNT";
         }
         return "INVALID cudnnConvolutionBwdFilterAlgo: "+n;
     }

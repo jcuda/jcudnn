@@ -27,32 +27,34 @@
  */
 package jcuda.jcudnn;
 
-import jcuda.NativePointerObject;
-
-/**
- * Java port of a cudnnConvolutionDescriptor
- */
-public class cudnnConvolutionDescriptor extends NativePointerObject
+public class libraryPropertyType
 {
+    public static final int MAJOR_VERSION = 0;
+    public static final int MINOR_VERSION = 1;
+    public static final int PATCH_LEVEL = 2;
+
     /**
-     * Creates a new, uninitialized cudnnConvolutionDescriptor
+     * Private constructor to prevent instantiation
      */
-    public cudnnConvolutionDescriptor()
+    private libraryPropertyType()
     {
-        // Default constructor
+        // Private constructor to prevent instantiation
     }
 
-     /**
-     * Returns a String representation of this object.
+    /**
+     * Returns a string representation of the given constant
      *
-     * @return A String representation of this object.
+     * @return A string representation of the given constant
      */
-    @Override
-    public String toString()
+    public static String stringFor(int n)
     {
-        return "cudnnConvolutionDescriptor["+
-            "nativePointer=0x"+Long.toHexString(getNativePointer())+"]";
+        switch (n)
+        {
+            case MAJOR_VERSION: return "MAJOR_VERSION";
+            case MINOR_VERSION: return "MINOR_VERSION";
+            case PATCH_LEVEL: return "PATCH_LEVEL";
+        }
+        return "INVALID libraryPropertyType: "+n;
     }
 }
-
 

@@ -2,7 +2,7 @@
  * JCudnn - Java bindings for cuDNN, the NVIDIA CUDA
  * Deep Neural Network library, to be used with JCuda
  *
- * Copyright (c) 2015-2015 Marco Hutter - http://www.jcuda.org
+ * Copyright (c) 2015-2018 Marco Hutter - http://www.jcuda.org
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -36,11 +36,16 @@ public class cudnnActivationMode
     public static final int CUDNN_ACTIVATION_RELU = 1;
     public static final int CUDNN_ACTIVATION_TANH = 2;
     public static final int CUDNN_ACTIVATION_CLIPPED_RELU = 3;
-    
+    public static final int CUDNN_ACTIVATION_ELU = 4;
+    public static final int CUDNN_ACTIVATION_IDENTITY = 5;
+
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnActivationMode(){}
+    private cudnnActivationMode()
+    {
+        // Private constructor to prevent instantiation
+    }
 
     /**
      * Returns a string representation of the given constant
@@ -55,6 +60,8 @@ public class cudnnActivationMode
             case CUDNN_ACTIVATION_RELU: return "CUDNN_ACTIVATION_RELU";
             case CUDNN_ACTIVATION_TANH: return "CUDNN_ACTIVATION_TANH";
             case CUDNN_ACTIVATION_CLIPPED_RELU: return "CUDNN_ACTIVATION_CLIPPED_RELU";
+            case CUDNN_ACTIVATION_ELU: return "CUDNN_ACTIVATION_ELU";
+            case CUDNN_ACTIVATION_IDENTITY: return "CUDNN_ACTIVATION_IDENTITY";
         }
         return "INVALID cudnnActivationMode: "+n;
     }

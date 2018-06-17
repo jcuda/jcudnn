@@ -2,7 +2,7 @@
  * JCudnn - Java bindings for cuDNN, the NVIDIA CUDA
  * Deep Neural Network library, to be used with JCuda
  *
- * Copyright (c) 2015-2015 Marco Hutter - http://www.jcuda.org
+ * Copyright (c) 2015-2018 Marco Hutter - http://www.jcuda.org
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -35,11 +35,19 @@ public class cudnnDataType
     public static final int CUDNN_DATA_FLOAT = 0;
     public static final int CUDNN_DATA_DOUBLE = 1;
     public static final int CUDNN_DATA_HALF = 2;
+    public static final int CUDNN_DATA_INT8 = 3;
+    public static final int CUDNN_DATA_INT32 = 4;
+    public static final int CUDNN_DATA_INT8x4 = 5;
+    public static final int CUDNN_DATA_UINT8 = 6;
+    public static final int CUDNN_DATA_UINT8x4 = 7;
 
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnDataType(){}
+    private cudnnDataType()
+    {
+        // Private constructor to prevent instantiation
+    }
 
     /**
      * Returns a string representation of the given constant
@@ -53,6 +61,11 @@ public class cudnnDataType
             case CUDNN_DATA_FLOAT: return "CUDNN_DATA_FLOAT";
             case CUDNN_DATA_DOUBLE: return "CUDNN_DATA_DOUBLE";
             case CUDNN_DATA_HALF: return "CUDNN_DATA_HALF";
+            case CUDNN_DATA_INT8: return "CUDNN_DATA_INT8";
+            case CUDNN_DATA_INT32: return "CUDNN_DATA_INT32";
+            case CUDNN_DATA_INT8x4: return "CUDNN_DATA_INT8x4";
+            case CUDNN_DATA_UINT8: return "CUDNN_DATA_UINT8";
+            case CUDNN_DATA_UINT8x4: return "CUDNN_DATA_UINT8x4";
         }
         return "INVALID cudnnDataType: "+n;
     }

@@ -2,7 +2,7 @@
  * JCudnn - Java bindings for cuDNN, the NVIDIA CUDA
  * Deep Neural Network library, to be used with JCuda
  *
- * Copyright (c) 2015-2016 Marco Hutter - http://www.jcuda.org
+ * Copyright (c) 2015-2018 Marco Hutter - http://www.jcuda.org
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -27,23 +27,23 @@
  */
 package jcuda.jcudnn;
 
-/* RNN API */
+/** RNN API */
 public class cudnnRNNMode
 {
     /**
-     * Stock RNN with ReLu activation
+     * Stock RNN with ReLu activation 
      */
     public static final int CUDNN_RNN_RELU = 0;
     /**
-     * Stock RNN with tanh activation
+     * Stock RNN with tanh activation 
      */
     public static final int CUDNN_RNN_TANH = 1;
     /**
-     * LSTM with no peephole connections
+     * LSTM with no peephole connections 
      */
     public static final int CUDNN_LSTM = 2;
     /**
-     * Using h' = tanh(r * Uh(t-1) + Wx) and h = (1 - z) * h' + z * h(t-1);
+     * Using h' = tanh(r * Uh(t-1) + Wx) and h = (1 - z) * h' + z * h(t-1); 
      */
     public static final int CUDNN_GRU = 3;
 

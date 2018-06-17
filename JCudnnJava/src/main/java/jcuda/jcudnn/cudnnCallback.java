@@ -2,7 +2,7 @@
  * JCudnn - Java bindings for cuDNN, the NVIDIA CUDA
  * Deep Neural Network library, to be used with JCuda
  *
- * Copyright (c) 2015-2015 Marco Hutter - http://www.jcuda.org
+ * Copyright (c) 2015-2018 Marco Hutter - http://www.jcuda.org
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -25,23 +25,28 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
+package jcuda.jcudnn;
 
-#ifndef JCUDNN_COMMON
-#define JCUDNN_COMMON
-
-#define JCUDNN_STATUS_INTERNAL_ERROR (-1)
-
-#include <stdlib.h>
-#include <jni.h>
-#include <cudnn.h>
-#include <cuda_runtime.h>
-
-#include "Logger.hpp"
-#include "JNIUtils.hpp"
-#include "PointerUtils.hpp"
-
- // The JVM, used for attaching threads in callbacks, and initialized
- // in JNI_OnLoad
-JavaVM *globalJvm;
-
-#endif
+/**
+ * Emulation of a cudnnCallback:<br>
+ * <pre><code>
+ * typedef void (*cudnnCallback_t) (
+ *     cudnnSeverity_t sev, 
+ *     void *udata, 
+ *     const cudnnDebug_t *dbg, 
+ *     const char *msg);
+ * </code>
+ * </pre>
+ */
+public interface cudnnCallback
+{
+    /**
+     * The function that will be called
+     * 
+     * @param sev The severity, see {@link cudnnSeverity}
+     * @param udata The user data
+     * @param dbg The {@link cudnnDebug} instance
+     * @param msg The message
+     */
+    void call(int sev, Object udata, cudnnDebug dbg, String msg);
+}

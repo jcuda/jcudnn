@@ -2,7 +2,7 @@
  * JCudnn - Java bindings for cuDNN, the NVIDIA CUDA
  * Deep Neural Network library, to be used with JCuda
  *
- * Copyright (c) 2015-2015 Marco Hutter - http://www.jcuda.org
+ * Copyright (c) 2015-2018 Marco Hutter - http://www.jcuda.org
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -36,14 +36,18 @@ public class cudnnConvolutionBwdDataAlgoPerf
     public int status;
     public float time;
     public long memory;
+    public int determinism;
+    public int mathType;
+    public int[] reserved;
 
     /**
-     * Default constructor
+     * Creates a new, uninitialized cudnnConvolutionBwdDataAlgoPerf
      */
     public cudnnConvolutionBwdDataAlgoPerf()
     {
+        // Default constructor
     }
-    
+
     /**
      * Creates a new cudnnConvolutionBwdDataAlgoPerf with the given values
      *
@@ -51,23 +55,32 @@ public class cudnnConvolutionBwdDataAlgoPerf
      * @param status The status value
      * @param time The time value
      * @param memory The memory value
+     * @param determinism The determinism value
+     * @param mathType The mathType value
+     * @param reserved The reserved value
      */
-    public cudnnConvolutionBwdDataAlgoPerf(int algo, int status, float time, long memory)
+    public cudnnConvolutionBwdDataAlgoPerf(int algo, int status, float time, long memory, int determinism, int mathType, int[] reserved)
     {
         this.algo = algo;
         this.status = status;
         this.time = time;
         this.memory = memory;
+        this.determinism = determinism;
+        this.mathType = mathType;
+        this.reserved = reserved;
     }
 
     @Override
     public String toString()
     {
         return "cudnnConvolutionBwdDataAlgoPerf["+
-            "algo="+cudnnConvolutionBwdDataAlgo.stringFor(algo)+","+
-            "status="+cudnnStatus.stringFor(status)+","+
+            "algo="+algo+","+
+            "status="+status+","+
             "time="+time+","+
-            "memory="+memory+"]";
+            "memory="+memory+","+
+            "determinism="+determinism+","+
+            "mathType="+mathType+","+
+            "reserved="+reserved+"]";
     }
 }
 
