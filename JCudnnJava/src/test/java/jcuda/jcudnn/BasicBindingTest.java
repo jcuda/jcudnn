@@ -78,6 +78,7 @@ public class BasicBindingTest
         {
             if (e.getCause() instanceof UnsatisfiedLinkError)
             {
+                e.getCause().printStackTrace();
                 logWarning("Missing " + method);
                 return false;
             }

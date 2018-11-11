@@ -1834,7 +1834,8 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroyReduceTensorDescript
     return jniResult;
 }
 
-/** Helper function to return the minimum size of the index space to be passed to the reduction given the input and output tensors */
+/** Helper function to return the minimum size of the index space to be passed to the reduction given the input and
+* output tensors */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetReductionIndicesSizeNative(JNIEnv *env, jclass cls, jobject handle, jobject reduceTensorDesc, jobject aDesc, jobject cDesc, jlongArray sizeInBytes)
 {
     // Null-checks for non-primitive arguments
@@ -1897,7 +1898,8 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetReductionIndicesSizeNati
     return jniResult;
 }
 
-/** Helper function to return the minimum size of the workspace to be passed to the reduction given the input and output tensors */
+/** Helper function to return the minimum size of the workspace to be passed to the reduction given the input and output
+* tensors */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetReductionWorkspaceSizeNative(JNIEnv *env, jclass cls, jobject handle, jobject reduceTensorDesc, jobject aDesc, jobject cDesc, jlongArray sizeInBytes)
 {
     // Null-checks for non-primitive arguments
@@ -7310,6 +7312,256 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDeriveBNTensorDescriptorNat
     return jniResult;
 }
 
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetBatchNormalizationForwardTrainingExWorkspaceSizeNative(JNIEnv *env, jclass cls, jobject handle, jint mode, jint bnOps, jobject xDesc, jobject zDesc, jobject yDesc, jobject bnScaleBiasMeanVarDesc, jobject activationDesc, jlongArray sizeInBytes)
+{
+    // Null-checks for non-primitive arguments
+    if (handle == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'handle' is null for cudnnGetBatchNormalizationForwardTrainingExWorkspaceSize");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    // mode is primitive
+    // bnOps is primitive
+    if (xDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'xDesc' is null for cudnnGetBatchNormalizationForwardTrainingExWorkspaceSize");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (zDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'zDesc' is null for cudnnGetBatchNormalizationForwardTrainingExWorkspaceSize");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (yDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'yDesc' is null for cudnnGetBatchNormalizationForwardTrainingExWorkspaceSize");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (bnScaleBiasMeanVarDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'bnScaleBiasMeanVarDesc' is null for cudnnGetBatchNormalizationForwardTrainingExWorkspaceSize");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (activationDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'activationDesc' is null for cudnnGetBatchNormalizationForwardTrainingExWorkspaceSize");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (sizeInBytes == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'sizeInBytes' is null for cudnnGetBatchNormalizationForwardTrainingExWorkspaceSize");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+
+    // Log message
+    Logger::log(LOG_TRACE, "Executing cudnnGetBatchNormalizationForwardTrainingExWorkspaceSize(handle=%p, mode=%d, bnOps=%d, xDesc=%p, zDesc=%p, yDesc=%p, bnScaleBiasMeanVarDesc=%p, activationDesc=%p, sizeInBytes=%p)\n",
+        handle, mode, bnOps, xDesc, zDesc, yDesc, bnScaleBiasMeanVarDesc, activationDesc, sizeInBytes);
+
+    // Native variable declarations
+    cudnnHandle_t handle_native;
+    cudnnBatchNormMode_t mode_native;
+    cudnnBatchNormOps_t bnOps_native;
+    cudnnTensorDescriptor_t xDesc_native;
+    cudnnTensorDescriptor_t zDesc_native;
+    cudnnTensorDescriptor_t yDesc_native;
+    cudnnTensorDescriptor_t bnScaleBiasMeanVarDesc_native;
+    cudnnActivationDescriptor_t activationDesc_native;
+    size_t sizeInBytes_native;
+
+    // Obtain native variable values
+    handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
+    mode_native = (cudnnBatchNormMode_t)mode;
+    bnOps_native = (cudnnBatchNormOps_t)bnOps;
+    xDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, xDesc);
+    zDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, zDesc);
+    yDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, yDesc);
+    bnScaleBiasMeanVarDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, bnScaleBiasMeanVarDesc);
+    activationDesc_native = (cudnnActivationDescriptor_t)getNativePointerValue(env, activationDesc);
+    // sizeInBytes is write-only
+
+    // Native function call
+    cudnnStatus_t jniResult_native = cudnnGetBatchNormalizationForwardTrainingExWorkspaceSize(handle_native, mode_native, bnOps_native, xDesc_native, zDesc_native, yDesc_native, bnScaleBiasMeanVarDesc_native, activationDesc_native, &sizeInBytes_native);
+
+    // Write back native variable values
+    // handle is read-only
+    // mode is primitive
+    // bnOps is primitive
+    // xDesc is read-only
+    // zDesc is read-only
+    // yDesc is read-only
+    // bnScaleBiasMeanVarDesc is read-only
+    // activationDesc is read-only
+    if (!set(env, sizeInBytes, 0, (jlong)sizeInBytes_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
+
+    // Return the result
+    jint jniResult = (jint)jniResult_native;
+    return jniResult;
+}
+
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetBatchNormalizationBackwardExWorkspaceSizeNative(JNIEnv *env, jclass cls, jobject handle, jint mode, jint bnOps, jobject xDesc, jobject yDesc, jobject dyDesc, jobject dzDesc, jobject dxDesc, jobject dBnScaleBiasDesc, jobject activationDesc, jlongArray sizeInBytes)
+{
+    // Null-checks for non-primitive arguments
+    if (handle == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'handle' is null for cudnnGetBatchNormalizationBackwardExWorkspaceSize");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    // mode is primitive
+    // bnOps is primitive
+    if (xDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'xDesc' is null for cudnnGetBatchNormalizationBackwardExWorkspaceSize");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (yDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'yDesc' is null for cudnnGetBatchNormalizationBackwardExWorkspaceSize");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dyDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dyDesc' is null for cudnnGetBatchNormalizationBackwardExWorkspaceSize");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dzDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dzDesc' is null for cudnnGetBatchNormalizationBackwardExWorkspaceSize");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dxDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dxDesc' is null for cudnnGetBatchNormalizationBackwardExWorkspaceSize");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dBnScaleBiasDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dBnScaleBiasDesc' is null for cudnnGetBatchNormalizationBackwardExWorkspaceSize");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (activationDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'activationDesc' is null for cudnnGetBatchNormalizationBackwardExWorkspaceSize");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (sizeInBytes == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'sizeInBytes' is null for cudnnGetBatchNormalizationBackwardExWorkspaceSize");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+
+    // Log message
+    Logger::log(LOG_TRACE, "Executing cudnnGetBatchNormalizationBackwardExWorkspaceSize(handle=%p, mode=%d, bnOps=%d, xDesc=%p, yDesc=%p, dyDesc=%p, dzDesc=%p, dxDesc=%p, dBnScaleBiasDesc=%p, activationDesc=%p, sizeInBytes=%p)\n",
+        handle, mode, bnOps, xDesc, yDesc, dyDesc, dzDesc, dxDesc, dBnScaleBiasDesc, activationDesc, sizeInBytes);
+
+    // Native variable declarations
+    cudnnHandle_t handle_native;
+    cudnnBatchNormMode_t mode_native;
+    cudnnBatchNormOps_t bnOps_native;
+    cudnnTensorDescriptor_t xDesc_native;
+    cudnnTensorDescriptor_t yDesc_native;
+    cudnnTensorDescriptor_t dyDesc_native;
+    cudnnTensorDescriptor_t dzDesc_native;
+    cudnnTensorDescriptor_t dxDesc_native;
+    cudnnTensorDescriptor_t dBnScaleBiasDesc_native;
+    cudnnActivationDescriptor_t activationDesc_native;
+    size_t sizeInBytes_native;
+
+    // Obtain native variable values
+    handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
+    mode_native = (cudnnBatchNormMode_t)mode;
+    bnOps_native = (cudnnBatchNormOps_t)bnOps;
+    xDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, xDesc);
+    yDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, yDesc);
+    dyDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, dyDesc);
+    dzDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, dzDesc);
+    dxDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, dxDesc);
+    dBnScaleBiasDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, dBnScaleBiasDesc);
+    activationDesc_native = (cudnnActivationDescriptor_t)getNativePointerValue(env, activationDesc);
+    // sizeInBytes is write-only
+
+    // Native function call
+    cudnnStatus_t jniResult_native = cudnnGetBatchNormalizationBackwardExWorkspaceSize(handle_native, mode_native, bnOps_native, xDesc_native, yDesc_native, dyDesc_native, dzDesc_native, dxDesc_native, dBnScaleBiasDesc_native, activationDesc_native, &sizeInBytes_native);
+
+    // Write back native variable values
+    // handle is read-only
+    // mode is primitive
+    // bnOps is primitive
+    // xDesc is read-only
+    // yDesc is read-only
+    // dyDesc is read-only
+    // dzDesc is read-only
+    // dxDesc is read-only
+    // dBnScaleBiasDesc is read-only
+    // activationDesc is read-only
+    if (!set(env, sizeInBytes, 0, (jlong)sizeInBytes_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
+
+    // Return the result
+    jint jniResult = (jint)jniResult_native;
+    return jniResult;
+}
+
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetBatchNormalizationTrainingExReserveSpaceSizeNative(JNIEnv *env, jclass cls, jobject handle, jint mode, jint bnOps, jobject activationDesc, jobject xDesc, jlongArray sizeInBytes)
+{
+    // Null-checks for non-primitive arguments
+    if (handle == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'handle' is null for cudnnGetBatchNormalizationTrainingExReserveSpaceSize");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    // mode is primitive
+    // bnOps is primitive
+    if (activationDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'activationDesc' is null for cudnnGetBatchNormalizationTrainingExReserveSpaceSize");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (xDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'xDesc' is null for cudnnGetBatchNormalizationTrainingExReserveSpaceSize");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (sizeInBytes == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'sizeInBytes' is null for cudnnGetBatchNormalizationTrainingExReserveSpaceSize");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+
+    // Log message
+    Logger::log(LOG_TRACE, "Executing cudnnGetBatchNormalizationTrainingExReserveSpaceSize(handle=%p, mode=%d, bnOps=%d, activationDesc=%p, xDesc=%p, sizeInBytes=%p)\n",
+        handle, mode, bnOps, activationDesc, xDesc, sizeInBytes);
+
+    // Native variable declarations
+    cudnnHandle_t handle_native;
+    cudnnBatchNormMode_t mode_native;
+    cudnnBatchNormOps_t bnOps_native;
+    cudnnActivationDescriptor_t activationDesc_native;
+    cudnnTensorDescriptor_t xDesc_native;
+    size_t sizeInBytes_native;
+
+    // Obtain native variable values
+    handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
+    mode_native = (cudnnBatchNormMode_t)mode;
+    bnOps_native = (cudnnBatchNormOps_t)bnOps;
+    activationDesc_native = (cudnnActivationDescriptor_t)getNativePointerValue(env, activationDesc);
+    xDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, xDesc);
+    // sizeInBytes is write-only
+
+    // Native function call
+    cudnnStatus_t jniResult_native = cudnnGetBatchNormalizationTrainingExReserveSpaceSize(handle_native, mode_native, bnOps_native, activationDesc_native, xDesc_native, &sizeInBytes_native);
+
+    // Write back native variable values
+    // handle is read-only
+    // mode is primitive
+    // bnOps is primitive
+    // activationDesc is read-only
+    // xDesc is read-only
+    if (!set(env, sizeInBytes, 0, (jlong)sizeInBytes_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
+
+    // Return the result
+    jint jniResult = (jint)jniResult_native;
+    return jniResult;
+}
+
 /** Computes y = BN(x). Also accumulates moving averages of mean and inverse variances */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnBatchNormalizationForwardTrainingNative(JNIEnv *env, jclass cls, jobject handle, jint mode, jobject alpha, jobject beta, jobject xDesc, jobject x, jobject yDesc, jobject y, jobject bnScaleBiasMeanVarDesc, jobject bnScale, jobject bnBias, jdouble exponentialAverageFactor, jobject resultRunningMean, jobject resultRunningVariance, jdouble epsilon, jobject resultSaveMean, jobject resultSaveInvVariance)
 {
@@ -7453,6 +7705,215 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnBatchNormalizationForwardTr
     // epsilon is primitive
     // resultSaveMean is a native pointer
     // resultSaveInvVariance is a native pointer
+
+    // Return the result
+    jint jniResult = (jint)jniResult_native;
+    return jniResult;
+}
+
+/** Computes y = relu(BN(x) + z). Also accumulates moving averages of mean and inverse variances */
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnBatchNormalizationForwardTrainingExNative(JNIEnv *env, jclass cls, jobject handle, jint mode, jint bnOps, jobject alpha, jobject beta, jobject xDesc, jobject xData, jobject zDesc, jobject zData, jobject yDesc, jobject yData, jobject bnScaleBiasMeanVarDesc, jobject bnScale, jobject bnBias, jdouble exponentialAverageFactor, jobject resultRunningMean, jobject resultRunningVariance, jdouble epsilon, jobject resultSaveMean, jobject resultSaveInvVariance, jobject activationDesc, jobject workspace, jlong workSpaceSizeInBytes, jobject reserveSpace, jlong reserveSpaceSizeInBytes)
+{
+    // Null-checks for non-primitive arguments
+    if (handle == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'handle' is null for cudnnBatchNormalizationForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    // mode is primitive
+    // bnOps is primitive
+    if (alpha == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'alpha' is null for cudnnBatchNormalizationForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (beta == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'beta' is null for cudnnBatchNormalizationForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (xDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'xDesc' is null for cudnnBatchNormalizationForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (xData == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'xData' is null for cudnnBatchNormalizationForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (zDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'zDesc' is null for cudnnBatchNormalizationForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (zData == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'zData' is null for cudnnBatchNormalizationForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (yDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'yDesc' is null for cudnnBatchNormalizationForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (yData == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'yData' is null for cudnnBatchNormalizationForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (bnScaleBiasMeanVarDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'bnScaleBiasMeanVarDesc' is null for cudnnBatchNormalizationForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (bnScale == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'bnScale' is null for cudnnBatchNormalizationForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (bnBias == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'bnBias' is null for cudnnBatchNormalizationForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    // exponentialAverageFactor is primitive
+    if (resultRunningMean == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'resultRunningMean' is null for cudnnBatchNormalizationForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (resultRunningVariance == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'resultRunningVariance' is null for cudnnBatchNormalizationForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    // epsilon is primitive
+    if (resultSaveMean == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'resultSaveMean' is null for cudnnBatchNormalizationForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (resultSaveInvVariance == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'resultSaveInvVariance' is null for cudnnBatchNormalizationForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (activationDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'activationDesc' is null for cudnnBatchNormalizationForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (workspace == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'workspace' is null for cudnnBatchNormalizationForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    // workSpaceSizeInBytes is primitive
+    if (reserveSpace == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'reserveSpace' is null for cudnnBatchNormalizationForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    // reserveSpaceSizeInBytes is primitive
+
+    // Log message
+    Logger::log(LOG_TRACE, "Executing cudnnBatchNormalizationForwardTrainingEx(handle=%p, mode=%d, bnOps=%d, alpha=%p, beta=%p, xDesc=%p, xData=%p, zDesc=%p, zData=%p, yDesc=%p, yData=%p, bnScaleBiasMeanVarDesc=%p, bnScale=%p, bnBias=%p, exponentialAverageFactor=%lf, resultRunningMean=%p, resultRunningVariance=%p, epsilon=%lf, resultSaveMean=%p, resultSaveInvVariance=%p, activationDesc=%p, workspace=%p, workSpaceSizeInBytes=%ld, reserveSpace=%p, reserveSpaceSizeInBytes=%ld)\n",
+        handle, mode, bnOps, alpha, beta, xDesc, xData, zDesc, zData, yDesc, yData, bnScaleBiasMeanVarDesc, bnScale, bnBias, exponentialAverageFactor, resultRunningMean, resultRunningVariance, epsilon, resultSaveMean, resultSaveInvVariance, activationDesc, workspace, workSpaceSizeInBytes, reserveSpace, reserveSpaceSizeInBytes);
+
+    // Native variable declarations
+    cudnnHandle_t handle_native;
+    cudnnBatchNormMode_t mode_native;
+    cudnnBatchNormOps_t bnOps_native;
+    void * alpha_native = NULL;
+    void * beta_native = NULL;
+    cudnnTensorDescriptor_t xDesc_native;
+    void * xData_native = NULL;
+    cudnnTensorDescriptor_t zDesc_native;
+    void * zData_native = NULL;
+    cudnnTensorDescriptor_t yDesc_native;
+    void * yData_native = NULL;
+    cudnnTensorDescriptor_t bnScaleBiasMeanVarDesc_native;
+    void * bnScale_native = NULL;
+    void * bnBias_native = NULL;
+    double exponentialAverageFactor_native = 0.0;
+    void * resultRunningMean_native = NULL;
+    void * resultRunningVariance_native = NULL;
+    double epsilon_native = 0.0;
+    void * resultSaveMean_native = NULL;
+    void * resultSaveInvVariance_native = NULL;
+    cudnnActivationDescriptor_t activationDesc_native;
+    void * workspace_native = NULL;
+    size_t workSpaceSizeInBytes_native = 0;
+    void * reserveSpace_native = NULL;
+    size_t reserveSpaceSizeInBytes_native = 0;
+
+    // Obtain native variable values
+    handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
+    mode_native = (cudnnBatchNormMode_t)mode;
+    bnOps_native = (cudnnBatchNormOps_t)bnOps;
+    PointerData *alpha_pointerData = initPointerData(env, alpha);
+    if (alpha_pointerData == NULL)
+    {
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    alpha_native = (void *)alpha_pointerData->getPointer(env);
+    PointerData *beta_pointerData = initPointerData(env, beta);
+    if (beta_pointerData == NULL)
+    {
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    beta_native = (void *)beta_pointerData->getPointer(env);
+    xDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, xDesc);
+    xData_native = (void *)getPointer(env, xData);
+    zDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, zDesc);
+    zData_native = (void *)getPointer(env, zData);
+    yDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, yDesc);
+    yData_native = (void *)getPointer(env, yData);
+    bnScaleBiasMeanVarDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, bnScaleBiasMeanVarDesc);
+    bnScale_native = (void *)getPointer(env, bnScale);
+    bnBias_native = (void *)getPointer(env, bnBias);
+    exponentialAverageFactor_native = (double)exponentialAverageFactor;
+    resultRunningMean_native = (void *)getPointer(env, resultRunningMean);
+    resultRunningVariance_native = (void *)getPointer(env, resultRunningVariance);
+    epsilon_native = (double)epsilon;
+    resultSaveMean_native = (void *)getPointer(env, resultSaveMean);
+    resultSaveInvVariance_native = (void *)getPointer(env, resultSaveInvVariance);
+    activationDesc_native = (cudnnActivationDescriptor_t)getNativePointerValue(env, activationDesc);
+    workspace_native = (void *)getPointer(env, workspace);
+    workSpaceSizeInBytes_native = (size_t)workSpaceSizeInBytes;
+    reserveSpace_native = (void *)getPointer(env, reserveSpace);
+    reserveSpaceSizeInBytes_native = (size_t)reserveSpaceSizeInBytes;
+
+    // Native function call
+    cudnnStatus_t jniResult_native = cudnnBatchNormalizationForwardTrainingEx(handle_native, mode_native, bnOps_native, alpha_native, beta_native, xDesc_native, xData_native, zDesc_native, zData_native, yDesc_native, yData_native, bnScaleBiasMeanVarDesc_native, bnScale_native, bnBias_native, exponentialAverageFactor_native, resultRunningMean_native, resultRunningVariance_native, epsilon_native, resultSaveMean_native, resultSaveInvVariance_native, activationDesc_native, workspace_native, workSpaceSizeInBytes_native, reserveSpace_native, reserveSpaceSizeInBytes_native);
+
+    // Write back native variable values
+    // handle is read-only
+    // mode is primitive
+    // bnOps is primitive
+    if (!releasePointerData(env, alpha_pointerData, JNI_ABORT)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!releasePointerData(env, beta_pointerData, JNI_ABORT)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    // xDesc is read-only
+    // xData is a native pointer
+    // zDesc is read-only
+    // zData is a native pointer
+    // yDesc is read-only
+    // yData is a native pointer
+    // bnScaleBiasMeanVarDesc is read-only
+    // bnScale is a native pointer
+    // bnBias is a native pointer
+    // exponentialAverageFactor is primitive
+    // resultRunningMean is a native pointer
+    // resultRunningVariance is a native pointer
+    // epsilon is primitive
+    // resultSaveMean is a native pointer
+    // resultSaveInvVariance is a native pointer
+    // activationDesc is read-only
+    // workspace is a native pointer
+    // workSpaceSizeInBytes is primitive
+    // reserveSpace is a native pointer
+    // reserveSpaceSizeInBytes is primitive
 
     // Return the result
     jint jniResult = (jint)jniResult_native;
@@ -7778,6 +8239,260 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnBatchNormalizationBackwardN
     // epsilon is primitive
     // savedMean is a native pointer
     // savedInvVariance is a native pointer
+
+    // Return the result
+    jint jniResult = (jint)jniResult_native;
+    return jniResult;
+}
+
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnBatchNormalizationBackwardExNative(JNIEnv *env, jclass cls, jobject handle, jint mode, jint bnOps, jobject alphaDataDiff, jobject betaDataDiff, jobject alphaParamDiff, jobject betaParamDiff, jobject xDesc, jobject xData, jobject yDesc, jobject yData, jobject dyDesc, jobject dyData, jobject dzDesc, jobject dzData, jobject dxDesc, jobject dxData, jobject dBnScaleBiasDesc, jobject bnScaleData, jobject bnBiasData, jobject dBnScaleData, jobject dBnBiasData, jdouble epsilon, jobject savedMean, jobject savedInvVariance, jobject activationDesc, jobject workSpace, jlong workSpaceSizeInBytes, jobject reserveSpace, jlong reserveSpaceSizeInBytes)
+{
+    // Null-checks for non-primitive arguments
+    if (handle == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'handle' is null for cudnnBatchNormalizationBackwardEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    // mode is primitive
+    // bnOps is primitive
+    if (alphaDataDiff == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'alphaDataDiff' is null for cudnnBatchNormalizationBackwardEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (betaDataDiff == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'betaDataDiff' is null for cudnnBatchNormalizationBackwardEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (alphaParamDiff == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'alphaParamDiff' is null for cudnnBatchNormalizationBackwardEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (betaParamDiff == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'betaParamDiff' is null for cudnnBatchNormalizationBackwardEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (xDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'xDesc' is null for cudnnBatchNormalizationBackwardEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (xData == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'xData' is null for cudnnBatchNormalizationBackwardEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (yDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'yDesc' is null for cudnnBatchNormalizationBackwardEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (yData == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'yData' is null for cudnnBatchNormalizationBackwardEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dyDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dyDesc' is null for cudnnBatchNormalizationBackwardEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dyData == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dyData' is null for cudnnBatchNormalizationBackwardEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dzDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dzDesc' is null for cudnnBatchNormalizationBackwardEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dzData == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dzData' is null for cudnnBatchNormalizationBackwardEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dxDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dxDesc' is null for cudnnBatchNormalizationBackwardEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dxData == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dxData' is null for cudnnBatchNormalizationBackwardEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dBnScaleBiasDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dBnScaleBiasDesc' is null for cudnnBatchNormalizationBackwardEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (bnScaleData == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'bnScaleData' is null for cudnnBatchNormalizationBackwardEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (bnBiasData == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'bnBiasData' is null for cudnnBatchNormalizationBackwardEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dBnScaleData == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dBnScaleData' is null for cudnnBatchNormalizationBackwardEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dBnBiasData == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dBnBiasData' is null for cudnnBatchNormalizationBackwardEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    // epsilon is primitive
+    // savedMean may be NULL
+    // savedInvVariance may be NULL
+    if (activationDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'activationDesc' is null for cudnnBatchNormalizationBackwardEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (workSpace == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'workSpace' is null for cudnnBatchNormalizationBackwardEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    // workSpaceSizeInBytes is primitive
+    if (reserveSpace == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'reserveSpace' is null for cudnnBatchNormalizationBackwardEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    // reserveSpaceSizeInBytes is primitive
+
+    // Log message
+    Logger::log(LOG_TRACE, "Executing cudnnBatchNormalizationBackwardEx(handle=%p, mode=%d, bnOps=%d, alphaDataDiff=%p, betaDataDiff=%p, alphaParamDiff=%p, betaParamDiff=%p, xDesc=%p, xData=%p, yDesc=%p, yData=%p, dyDesc=%p, dyData=%p, dzDesc=%p, dzData=%p, dxDesc=%p, dxData=%p, dBnScaleBiasDesc=%p, bnScaleData=%p, bnBiasData=%p, dBnScaleData=%p, dBnBiasData=%p, epsilon=%lf, savedMean=%p, savedInvVariance=%p, activationDesc=%p, workSpace=%p, workSpaceSizeInBytes=%ld, reserveSpace=%p, reserveSpaceSizeInBytes=%ld)\n",
+        handle, mode, bnOps, alphaDataDiff, betaDataDiff, alphaParamDiff, betaParamDiff, xDesc, xData, yDesc, yData, dyDesc, dyData, dzDesc, dzData, dxDesc, dxData, dBnScaleBiasDesc, bnScaleData, bnBiasData, dBnScaleData, dBnBiasData, epsilon, savedMean, savedInvVariance, activationDesc, workSpace, workSpaceSizeInBytes, reserveSpace, reserveSpaceSizeInBytes);
+
+    // Native variable declarations
+    cudnnHandle_t handle_native;
+    cudnnBatchNormMode_t mode_native;
+    cudnnBatchNormOps_t bnOps_native;
+    void * alphaDataDiff_native = NULL;
+    void * betaDataDiff_native = NULL;
+    void * alphaParamDiff_native = NULL;
+    void * betaParamDiff_native = NULL;
+    cudnnTensorDescriptor_t xDesc_native;
+    void * xData_native = NULL;
+    cudnnTensorDescriptor_t yDesc_native;
+    void * yData_native = NULL;
+    cudnnTensorDescriptor_t dyDesc_native;
+    void * dyData_native = NULL;
+    cudnnTensorDescriptor_t dzDesc_native;
+    void * dzData_native = NULL;
+    cudnnTensorDescriptor_t dxDesc_native;
+    void * dxData_native = NULL;
+    cudnnTensorDescriptor_t dBnScaleBiasDesc_native;
+    void * bnScaleData_native = NULL;
+    void * bnBiasData_native = NULL;
+    void * dBnScaleData_native = NULL;
+    void * dBnBiasData_native = NULL;
+    double epsilon_native = 0.0;
+    void * savedMean_native = NULL;
+    void * savedInvVariance_native = NULL;
+    cudnnActivationDescriptor_t activationDesc_native;
+    void * workSpace_native = NULL;
+    size_t workSpaceSizeInBytes_native = 0;
+    void * reserveSpace_native = NULL;
+    size_t reserveSpaceSizeInBytes_native = 0;
+
+    // Obtain native variable values
+    handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
+    mode_native = (cudnnBatchNormMode_t)mode;
+    bnOps_native = (cudnnBatchNormOps_t)bnOps;
+    PointerData *alphaDataDiff_pointerData = initPointerData(env, alphaDataDiff);
+    if (alphaDataDiff_pointerData == NULL)
+    {
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    alphaDataDiff_native = (void *)alphaDataDiff_pointerData->getPointer(env);
+    PointerData *betaDataDiff_pointerData = initPointerData(env, betaDataDiff);
+    if (betaDataDiff_pointerData == NULL)
+    {
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    betaDataDiff_native = (void *)betaDataDiff_pointerData->getPointer(env);
+    PointerData *alphaParamDiff_pointerData = initPointerData(env, alphaParamDiff);
+    if (alphaParamDiff_pointerData == NULL)
+    {
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    alphaParamDiff_native = (void *)alphaParamDiff_pointerData->getPointer(env);
+    PointerData *betaParamDiff_pointerData = initPointerData(env, betaParamDiff);
+    if (betaParamDiff_pointerData == NULL)
+    {
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    betaParamDiff_native = (void *)betaParamDiff_pointerData->getPointer(env);
+    xDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, xDesc);
+    xData_native = (void *)getPointer(env, xData);
+    yDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, yDesc);
+    yData_native = (void *)getPointer(env, yData);
+    dyDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, dyDesc);
+    dyData_native = (void *)getPointer(env, dyData);
+    dzDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, dzDesc);
+    dzData_native = (void *)getPointer(env, dzData);
+    dxDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, dxDesc);
+    dxData_native = (void *)getPointer(env, dxData);
+    dBnScaleBiasDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, dBnScaleBiasDesc);
+    bnScaleData_native = (void *)getPointer(env, bnScaleData);
+    bnBiasData_native = (void *)getPointer(env, bnBiasData);
+    dBnScaleData_native = (void *)getPointer(env, dBnScaleData);
+    dBnBiasData_native = (void *)getPointer(env, dBnBiasData);
+    epsilon_native = (double)epsilon;
+    savedMean_native = (void *)getPointer(env, savedMean);
+    savedInvVariance_native = (void *)getPointer(env, savedInvVariance);
+    activationDesc_native = (cudnnActivationDescriptor_t)getNativePointerValue(env, activationDesc);
+    workSpace_native = (void *)getPointer(env, workSpace);
+    workSpaceSizeInBytes_native = (size_t)workSpaceSizeInBytes;
+    reserveSpace_native = (void *)getPointer(env, reserveSpace);
+    reserveSpaceSizeInBytes_native = (size_t)reserveSpaceSizeInBytes;
+
+    // Native function call
+    cudnnStatus_t jniResult_native = cudnnBatchNormalizationBackwardEx(handle_native, mode_native, bnOps_native, alphaDataDiff_native, betaDataDiff_native, alphaParamDiff_native, betaParamDiff_native, xDesc_native, xData_native, yDesc_native, yData_native, dyDesc_native, dyData_native, dzDesc_native, dzData_native, dxDesc_native, dxData_native, dBnScaleBiasDesc_native, bnScaleData_native, bnBiasData_native, dBnScaleData_native, dBnBiasData_native, epsilon_native, savedMean_native, savedInvVariance_native, activationDesc_native, workSpace_native, workSpaceSizeInBytes_native, reserveSpace_native, reserveSpaceSizeInBytes_native);
+
+    // Write back native variable values
+    // handle is read-only
+    // mode is primitive
+    // bnOps is primitive
+    if (!releasePointerData(env, alphaDataDiff_pointerData, JNI_ABORT)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!releasePointerData(env, betaDataDiff_pointerData, JNI_ABORT)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!releasePointerData(env, alphaParamDiff_pointerData, JNI_ABORT)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!releasePointerData(env, betaParamDiff_pointerData, JNI_ABORT)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    // xDesc is read-only
+    // xData is a native pointer
+    // yDesc is read-only
+    // yData is a native pointer
+    // dyDesc is read-only
+    // dyData is a native pointer
+    // dzDesc is read-only
+    // dzData is a native pointer
+    // dxDesc is read-only
+    // dxData is a native pointer
+    // dBnScaleBiasDesc is read-only
+    // bnScaleData is a native pointer
+    // bnBiasData is a native pointer
+    // dBnScaleData is a native pointer
+    // dBnBiasData is a native pointer
+    // epsilon is primitive
+    // savedMean is a native pointer
+    // savedInvVariance is a native pointer
+    // activationDesc is read-only
+    // workSpace is a native pointer
+    // workSpaceSizeInBytes is primitive
+    // reserveSpace is a native pointer
+    // reserveSpaceSizeInBytes is primitive
 
     // Return the result
     jint jniResult = (jint)jniResult_native;
@@ -8456,7 +9171,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetDropoutDescriptorNative(
     return jniResult;
 }
 
-// Restores the dropout descriptor to a previously saved-off state
+/** Restores the dropout descriptor to a previously saved-off state */
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRestoreDropoutDescriptorNative(JNIEnv *env, jclass cls, jobject dropoutDesc, jobject handle, jfloat dropout, jobject states, jlong stateSizeInBytes, jlong seed)
 {
     // Null-checks for non-primitive arguments
@@ -12180,6 +12895,130 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRestoreAlgorithmNative(JNIE
     return jniResult;
 }
 
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNSetClipNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint clipMode, jint clipNanOpt, jdouble lclip, jdouble rclip)
+{
+    // Null-checks for non-primitive arguments
+    if (handle == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'handle' is null for cudnnRNNSetClip");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (rnnDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'rnnDesc' is null for cudnnRNNSetClip");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    // clipMode is primitive
+    // clipNanOpt is primitive
+    // lclip is primitive
+    // rclip is primitive
+
+    // Log message
+    Logger::log(LOG_TRACE, "Executing cudnnRNNSetClip(handle=%p, rnnDesc=%p, clipMode=%d, clipNanOpt=%d, lclip=%lf, rclip=%lf)\n",
+        handle, rnnDesc, clipMode, clipNanOpt, lclip, rclip);
+
+    // Native variable declarations
+    cudnnHandle_t handle_native;
+    cudnnRNNDescriptor_t rnnDesc_native;
+    cudnnRNNClipMode_t clipMode_native;
+    cudnnNanPropagation_t clipNanOpt_native;
+    double lclip_native = 0.0;
+    double rclip_native = 0.0;
+
+    // Obtain native variable values
+    handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
+    rnnDesc_native = (cudnnRNNDescriptor_t)getNativePointerValue(env, rnnDesc);
+    clipMode_native = (cudnnRNNClipMode_t)clipMode;
+    clipNanOpt_native = (cudnnNanPropagation_t)clipNanOpt;
+    lclip_native = (double)lclip;
+    rclip_native = (double)rclip;
+
+    // Native function call
+    cudnnStatus_t jniResult_native = cudnnRNNSetClip(handle_native, rnnDesc_native, clipMode_native, clipNanOpt_native, lclip_native, rclip_native);
+
+    // Write back native variable values
+    // handle is read-only
+    // rnnDesc is read-only
+    // clipMode is primitive
+    // clipNanOpt is primitive
+    // lclip is primitive
+    // rclip is primitive
+
+    // Return the result
+    jint jniResult = (jint)jniResult_native;
+    return jniResult;
+}
+
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNGetClipNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jintArray clipMode, jintArray clipNanOpt, jdoubleArray lclip, jdoubleArray rclip)
+{
+    // Null-checks for non-primitive arguments
+    if (handle == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'handle' is null for cudnnRNNGetClip");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (rnnDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'rnnDesc' is null for cudnnRNNGetClip");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (clipMode == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'clipMode' is null for cudnnRNNGetClip");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (clipNanOpt == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'clipNanOpt' is null for cudnnRNNGetClip");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (lclip == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'lclip' is null for cudnnRNNGetClip");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (rclip == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'rclip' is null for cudnnRNNGetClip");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+
+    // Log message
+    Logger::log(LOG_TRACE, "Executing cudnnRNNGetClip(handle=%p, rnnDesc=%p, clipMode=%p, clipNanOpt=%p, lclip=%p, rclip=%p)\n",
+        handle, rnnDesc, clipMode, clipNanOpt, lclip, rclip);
+
+    // Native variable declarations
+    cudnnHandle_t handle_native;
+    cudnnRNNDescriptor_t rnnDesc_native;
+    cudnnRNNClipMode_t clipMode_native;
+    cudnnNanPropagation_t clipNanOpt_native;
+    double lclip_native;
+    double rclip_native;
+
+    // Obtain native variable values
+    handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
+    rnnDesc_native = (cudnnRNNDescriptor_t)getNativePointerValue(env, rnnDesc);
+    // clipMode is write-only
+    // clipNanOpt is write-only
+    // lclip is write-only
+    // rclip is write-only
+
+    // Native function call
+    cudnnStatus_t jniResult_native = cudnnRNNGetClip(handle_native, rnnDesc_native, &clipMode_native, &clipNanOpt_native, &lclip_native, &rclip_native);
+
+    // Write back native variable values
+    // handle is read-only
+    // rnnDesc is read-only
+    if (!set(env, clipMode, 0, (jint)clipMode_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!set(env, clipNanOpt, 0, (jint)clipNanOpt_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!set(env, lclip, 0, (jdouble)lclip_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!set(env, rclip, 0, (jdouble)rclip_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
+
+    // Return the result
+    jint jniResult = (jint)jniResult_native;
+    return jniResult;
+}
+
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetCallbackNative(JNIEnv *env, jclass cls, jint mask, jobject udata, jobject fptr)
 {
     // XXX Callbacks are not supported yet
@@ -12192,6 +13031,1138 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetCallbackNative(JNIEnv *e
     // XXX Callbacks are not supported yet
     ThrowByName(env, "java/lang/UnsupportedOperationException", "This function is not supported yet");
     return JCUDNN_STATUS_INTERNAL_ERROR;
+}
+
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetRNNPaddingModeNative(JNIEnv *env, jclass cls, jobject rnnDesc, jint paddingMode)
+{
+    // Null-checks for non-primitive arguments
+    if (rnnDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'rnnDesc' is null for cudnnSetRNNPaddingMode");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    // paddingMode is primitive
+
+    // Log message
+    Logger::log(LOG_TRACE, "Executing cudnnSetRNNPaddingMode(rnnDesc=%p, paddingMode=%d)\n",
+        rnnDesc, paddingMode);
+
+    // Native variable declarations
+    cudnnRNNDescriptor_t rnnDesc_native;
+    cudnnRNNPaddingMode_t paddingMode_native;
+
+    // Obtain native variable values
+    rnnDesc_native = (cudnnRNNDescriptor_t)getNativePointerValue(env, rnnDesc);
+    paddingMode_native = (cudnnRNNPaddingMode_t)paddingMode;
+
+    // Native function call
+    cudnnStatus_t jniResult_native = cudnnSetRNNPaddingMode(rnnDesc_native, paddingMode_native);
+
+    // Write back native variable values
+    // rnnDesc is read-only
+    // paddingMode is primitive
+
+    // Return the result
+    jint jniResult = (jint)jniResult_native;
+    return jniResult;
+}
+
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNPaddingModeNative(JNIEnv *env, jclass cls, jobject rnnDesc, jintArray paddingMode)
+{
+    // Null-checks for non-primitive arguments
+    if (rnnDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'rnnDesc' is null for cudnnGetRNNPaddingMode");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (paddingMode == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'paddingMode' is null for cudnnGetRNNPaddingMode");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+
+    // Log message
+    Logger::log(LOG_TRACE, "Executing cudnnGetRNNPaddingMode(rnnDesc=%p, paddingMode=%p)\n",
+        rnnDesc, paddingMode);
+
+    // Native variable declarations
+    cudnnRNNDescriptor_t rnnDesc_native;
+    cudnnRNNPaddingMode_t paddingMode_native;
+
+    // Obtain native variable values
+    rnnDesc_native = (cudnnRNNDescriptor_t)getNativePointerValue(env, rnnDesc);
+    // paddingMode is write-only
+
+    // Native function call
+    cudnnStatus_t jniResult_native = cudnnGetRNNPaddingMode(rnnDesc_native, &paddingMode_native);
+
+    // Write back native variable values
+    // rnnDesc is read-only
+    if (!set(env, paddingMode, 0, (jint)paddingMode_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
+
+    // Return the result
+    jint jniResult = (jint)jniResult_native;
+    return jniResult;
+}
+
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnCreateRNNDataDescriptorNative(JNIEnv *env, jclass cls, jobject RNNDataDesc)
+{
+    // Null-checks for non-primitive arguments
+    if (RNNDataDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'RNNDataDesc' is null for cudnnCreateRNNDataDescriptor");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+
+    // Log message
+    Logger::log(LOG_TRACE, "Executing cudnnCreateRNNDataDescriptor(RNNDataDesc=%p)\n",
+        RNNDataDesc);
+
+    // Native variable declarations
+    cudnnRNNDataDescriptor_t RNNDataDesc_native;
+
+    // Obtain native variable values
+    // RNNDataDesc is write-only
+
+    // Native function call
+    cudnnStatus_t jniResult_native = cudnnCreateRNNDataDescriptor(&RNNDataDesc_native);
+
+    // Write back native variable values
+    setNativePointerValue(env, RNNDataDesc, (jlong)RNNDataDesc_native);
+
+    // Return the result
+    jint jniResult = (jint)jniResult_native;
+    return jniResult;
+}
+
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroyRNNDataDescriptorNative(JNIEnv *env, jclass cls, jobject RNNDataDesc)
+{
+    // Null-checks for non-primitive arguments
+    if (RNNDataDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'RNNDataDesc' is null for cudnnDestroyRNNDataDescriptor");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+
+    // Log message
+    Logger::log(LOG_TRACE, "Executing cudnnDestroyRNNDataDescriptor(RNNDataDesc=%p)\n",
+        RNNDataDesc);
+
+    // Native variable declarations
+    cudnnRNNDataDescriptor_t RNNDataDesc_native;
+
+    // Obtain native variable values
+    RNNDataDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, RNNDataDesc);
+
+    // Native function call
+    cudnnStatus_t jniResult_native = cudnnDestroyRNNDataDescriptor(RNNDataDesc_native);
+
+    // Write back native variable values
+    // RNNDataDesc is read-only
+
+    // Return the result
+    jint jniResult = (jint)jniResult_native;
+    return jniResult;
+}
+
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetRNNDataDescriptorNative(JNIEnv *env, jclass cls, jobject RNNDataDesc, jint dataType, jint layout, jint maxSeqLength, jint batchSize, jint vectorSize, jintArray seqLengthArray, jobject paddingFill)
+{
+    // Null-checks for non-primitive arguments
+    if (RNNDataDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'RNNDataDesc' is null for cudnnSetRNNDataDescriptor");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    // dataType is primitive
+    // layout is primitive
+    // maxSeqLength is primitive
+    // batchSize is primitive
+    // vectorSize is primitive
+    if (seqLengthArray == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'seqLengthArray' is null for cudnnSetRNNDataDescriptor");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (paddingFill == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'paddingFill' is null for cudnnSetRNNDataDescriptor");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+
+    // Log message
+    Logger::log(LOG_TRACE, "Executing cudnnSetRNNDataDescriptor(RNNDataDesc=%p, dataType=%d, layout=%d, maxSeqLength=%d, batchSize=%d, vectorSize=%d, seqLengthArray=%p, paddingFill=%p)\n",
+        RNNDataDesc, dataType, layout, maxSeqLength, batchSize, vectorSize, seqLengthArray, paddingFill);
+
+    // Native variable declarations
+    cudnnRNNDataDescriptor_t RNNDataDesc_native;
+    cudnnDataType_t dataType_native;
+    cudnnRNNDataLayout_t layout_native;
+    int maxSeqLength_native = 0;
+    int batchSize_native = 0;
+    int vectorSize_native = 0;
+    int * seqLengthArray_native = NULL;
+    void * paddingFill_native = NULL;
+
+    // Obtain native variable values
+    RNNDataDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, RNNDataDesc);
+    dataType_native = (cudnnDataType_t)dataType;
+    layout_native = (cudnnRNNDataLayout_t)layout;
+    maxSeqLength_native = (int)maxSeqLength;
+    batchSize_native = (int)batchSize;
+    vectorSize_native = (int)vectorSize;
+    if (!initNative(env, seqLengthArray, seqLengthArray_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    paddingFill_native = (void *)getPointer(env, paddingFill);
+
+    // Native function call
+    cudnnStatus_t jniResult_native = cudnnSetRNNDataDescriptor(RNNDataDesc_native, dataType_native, layout_native, maxSeqLength_native, batchSize_native, vectorSize_native, seqLengthArray_native, paddingFill_native);
+
+    // Write back native variable values
+    // RNNDataDesc is read-only
+    // dataType is primitive
+    // layout is primitive
+    // maxSeqLength is primitive
+    // batchSize is primitive
+    // vectorSize is primitive
+    if (!releaseNative(env, seqLengthArray_native, seqLengthArray, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    // paddingFill is a native pointer
+
+    // Return the result
+    jint jniResult = (jint)jniResult_native;
+    return jniResult;
+}
+
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNDataDescriptorNative(JNIEnv *env, jclass cls, jobject RNNDataDesc, jintArray dataType, jintArray layout, jintArray maxSeqLength, jintArray batchSize, jintArray vectorSize, jint arrayLengthRequested, jintArray seqLengthArray, jobject paddingFill)
+{
+    // Null-checks for non-primitive arguments
+    if (RNNDataDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'RNNDataDesc' is null for cudnnGetRNNDataDescriptor");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dataType == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dataType' is null for cudnnGetRNNDataDescriptor");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (layout == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'layout' is null for cudnnGetRNNDataDescriptor");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (maxSeqLength == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'maxSeqLength' is null for cudnnGetRNNDataDescriptor");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (batchSize == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'batchSize' is null for cudnnGetRNNDataDescriptor");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (vectorSize == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'vectorSize' is null for cudnnGetRNNDataDescriptor");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    // arrayLengthRequested is primitive
+    if (seqLengthArray == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'seqLengthArray' is null for cudnnGetRNNDataDescriptor");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (paddingFill == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'paddingFill' is null for cudnnGetRNNDataDescriptor");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+
+    // Log message
+    Logger::log(LOG_TRACE, "Executing cudnnGetRNNDataDescriptor(RNNDataDesc=%p, dataType=%p, layout=%p, maxSeqLength=%p, batchSize=%p, vectorSize=%p, arrayLengthRequested=%d, seqLengthArray=%p, paddingFill=%p)\n",
+        RNNDataDesc, dataType, layout, maxSeqLength, batchSize, vectorSize, arrayLengthRequested, seqLengthArray, paddingFill);
+
+    // Native variable declarations
+    cudnnRNNDataDescriptor_t RNNDataDesc_native;
+    cudnnDataType_t dataType_native;
+    cudnnRNNDataLayout_t layout_native;
+    int maxSeqLength_native;
+    int batchSize_native;
+    int vectorSize_native;
+    int arrayLengthRequested_native = 0;
+    int * seqLengthArray_native = NULL;
+    void * paddingFill_native = NULL;
+
+    // Obtain native variable values
+    RNNDataDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, RNNDataDesc);
+    // dataType is write-only
+    // layout is write-only
+    // maxSeqLength is write-only
+    // batchSize is write-only
+    // vectorSize is write-only
+    arrayLengthRequested_native = (int)arrayLengthRequested;
+    if (!initNative(env, seqLengthArray, seqLengthArray_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    paddingFill_native = (void *)getPointer(env, paddingFill);
+
+    // Native function call
+    cudnnStatus_t jniResult_native = cudnnGetRNNDataDescriptor(RNNDataDesc_native, &dataType_native, &layout_native, &maxSeqLength_native, &batchSize_native, &vectorSize_native, arrayLengthRequested_native, seqLengthArray_native, paddingFill_native);
+
+    // Write back native variable values
+    // RNNDataDesc is read-only
+    if (!set(env, dataType, 0, (jint)dataType_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!set(env, layout, 0, (jint)layout_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!set(env, maxSeqLength, 0, (jint)maxSeqLength_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!set(env, batchSize, 0, (jint)batchSize_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!set(env, vectorSize, 0, (jint)vectorSize_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    // arrayLengthRequested is primitive
+    if (!releaseNative(env, seqLengthArray_native, seqLengthArray, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    // paddingFill is a native pointer
+
+    // Return the result
+    jint jniResult = (jint)jniResult_native;
+    return jniResult;
+}
+
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardTrainingExNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jobject xDesc, jobject x, jobject hxDesc, jobject hx, jobject cxDesc, jobject cx, jobject wDesc, jobject w, jobject yDesc, jobject y, jobject hyDesc, jobject hy, jobject cyDesc, jobject cy, jobject kDesc, jobject keys, jobject cDesc, jobject cAttn, jobject iDesc, jobject iAttn, jobject qDesc, jobject queries, jobject workSpace, jlong workSpaceSizeInBytes, jobject reserveSpace, jlong reserveSpaceSizeInBytes)
+{
+    // Null-checks for non-primitive arguments
+    if (handle == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'handle' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (rnnDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'rnnDesc' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (xDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'xDesc' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (x == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'x' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (hxDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'hxDesc' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (hx == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'hx' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (cxDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'cxDesc' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (cx == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'cx' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (wDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'wDesc' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (w == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'w' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (yDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'yDesc' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (y == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'y' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (hyDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'hyDesc' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (hy == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'hy' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (cyDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'cyDesc' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (cy == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'cy' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (kDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'kDesc' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (keys == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'keys' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (cDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'cDesc' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (cAttn == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'cAttn' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (iDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'iDesc' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (iAttn == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'iAttn' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (qDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'qDesc' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (queries == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'queries' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (workSpace == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'workSpace' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    // workSpaceSizeInBytes is primitive
+    if (reserveSpace == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'reserveSpace' is null for cudnnRNNForwardTrainingEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    // reserveSpaceSizeInBytes is primitive
+
+    // Log message
+    Logger::log(LOG_TRACE, "Executing cudnnRNNForwardTrainingEx(handle=%p, rnnDesc=%p, xDesc=%p, x=%p, hxDesc=%p, hx=%p, cxDesc=%p, cx=%p, wDesc=%p, w=%p, yDesc=%p, y=%p, hyDesc=%p, hy=%p, cyDesc=%p, cy=%p, kDesc=%p, keys=%p, cDesc=%p, cAttn=%p, iDesc=%p, iAttn=%p, qDesc=%p, queries=%p, workSpace=%p, workSpaceSizeInBytes=%ld, reserveSpace=%p, reserveSpaceSizeInBytes=%ld)\n",
+        handle, rnnDesc, xDesc, x, hxDesc, hx, cxDesc, cx, wDesc, w, yDesc, y, hyDesc, hy, cyDesc, cy, kDesc, keys, cDesc, cAttn, iDesc, iAttn, qDesc, queries, workSpace, workSpaceSizeInBytes, reserveSpace, reserveSpaceSizeInBytes);
+
+    // Native variable declarations
+    cudnnHandle_t handle_native;
+    cudnnRNNDescriptor_t rnnDesc_native;
+    cudnnRNNDataDescriptor_t xDesc_native;
+    void * x_native = NULL;
+    cudnnTensorDescriptor_t hxDesc_native;
+    void * hx_native = NULL;
+    cudnnTensorDescriptor_t cxDesc_native;
+    void * cx_native = NULL;
+    cudnnFilterDescriptor_t wDesc_native;
+    void * w_native = NULL;
+    cudnnRNNDataDescriptor_t yDesc_native;
+    void * y_native = NULL;
+    cudnnTensorDescriptor_t hyDesc_native;
+    void * hy_native = NULL;
+    cudnnTensorDescriptor_t cyDesc_native;
+    void * cy_native = NULL;
+    cudnnRNNDataDescriptor_t kDesc_native;
+    void * keys_native = NULL;
+    cudnnRNNDataDescriptor_t cDesc_native;
+    void * cAttn_native = NULL;
+    cudnnRNNDataDescriptor_t iDesc_native;
+    void * iAttn_native = NULL;
+    cudnnRNNDataDescriptor_t qDesc_native;
+    void * queries_native = NULL;
+    void * workSpace_native = NULL;
+    size_t workSpaceSizeInBytes_native = 0;
+    void * reserveSpace_native = NULL;
+    size_t reserveSpaceSizeInBytes_native = 0;
+
+    // Obtain native variable values
+    handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
+    rnnDesc_native = (cudnnRNNDescriptor_t)getNativePointerValue(env, rnnDesc);
+    xDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, xDesc);
+    x_native = (void *)getPointer(env, x);
+    hxDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, hxDesc);
+    hx_native = (void *)getPointer(env, hx);
+    cxDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, cxDesc);
+    cx_native = (void *)getPointer(env, cx);
+    wDesc_native = (cudnnFilterDescriptor_t)getNativePointerValue(env, wDesc);
+    w_native = (void *)getPointer(env, w);
+    yDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, yDesc);
+    y_native = (void *)getPointer(env, y);
+    hyDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, hyDesc);
+    hy_native = (void *)getPointer(env, hy);
+    cyDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, cyDesc);
+    cy_native = (void *)getPointer(env, cy);
+    kDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, kDesc);
+    keys_native = (void *)getPointer(env, keys);
+    cDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, cDesc);
+    cAttn_native = (void *)getPointer(env, cAttn);
+    iDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, iDesc);
+    iAttn_native = (void *)getPointer(env, iAttn);
+    qDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, qDesc);
+    queries_native = (void *)getPointer(env, queries);
+    workSpace_native = (void *)getPointer(env, workSpace);
+    workSpaceSizeInBytes_native = (size_t)workSpaceSizeInBytes;
+    reserveSpace_native = (void *)getPointer(env, reserveSpace);
+    reserveSpaceSizeInBytes_native = (size_t)reserveSpaceSizeInBytes;
+
+    // Native function call
+    cudnnStatus_t jniResult_native = cudnnRNNForwardTrainingEx(handle_native, rnnDesc_native, xDesc_native, x_native, hxDesc_native, hx_native, cxDesc_native, cx_native, wDesc_native, w_native, yDesc_native, y_native, hyDesc_native, hy_native, cyDesc_native, cy_native, kDesc_native, keys_native, cDesc_native, cAttn_native, iDesc_native, iAttn_native, qDesc_native, queries_native, workSpace_native, workSpaceSizeInBytes_native, reserveSpace_native, reserveSpaceSizeInBytes_native);
+
+    // Write back native variable values
+    // handle is read-only
+    // rnnDesc is read-only
+    // xDesc is read-only
+    // x is a native pointer
+    // hxDesc is read-only
+    // hx is a native pointer
+    // cxDesc is read-only
+    // cx is a native pointer
+    // wDesc is read-only
+    // w is a native pointer
+    // yDesc is read-only
+    // y is a native pointer
+    // hyDesc is read-only
+    // hy is a native pointer
+    // cyDesc is read-only
+    // cy is a native pointer
+    // kDesc is read-only
+    // keys is a native pointer
+    // cDesc is read-only
+    // cAttn is a native pointer
+    // iDesc is read-only
+    // iAttn is a native pointer
+    // qDesc is read-only
+    // queries is a native pointer
+    // workSpace is a native pointer
+    // workSpaceSizeInBytes is primitive
+    // reserveSpace is a native pointer
+    // reserveSpaceSizeInBytes is primitive
+
+    // Return the result
+    jint jniResult = (jint)jniResult_native;
+    return jniResult;
+}
+
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardInferenceExNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jobject xDesc, jobject x, jobject hxDesc, jobject hx, jobject cxDesc, jobject cx, jobject wDesc, jobject w, jobject yDesc, jobject y, jobject hyDesc, jobject hy, jobject cyDesc, jobject cy, jobject kDesc, jobject keys, jobject cDesc, jobject cAttn, jobject iDesc, jobject iAttn, jobject qDesc, jobject queries, jobject workSpace, jlong workSpaceSizeInBytes)
+{
+    // Null-checks for non-primitive arguments
+    if (handle == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'handle' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (rnnDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'rnnDesc' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (xDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'xDesc' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (x == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'x' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (hxDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'hxDesc' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (hx == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'hx' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (cxDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'cxDesc' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (cx == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'cx' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (wDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'wDesc' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (w == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'w' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (yDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'yDesc' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (y == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'y' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (hyDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'hyDesc' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (hy == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'hy' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (cyDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'cyDesc' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (cy == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'cy' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (kDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'kDesc' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (keys == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'keys' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (cDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'cDesc' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (cAttn == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'cAttn' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (iDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'iDesc' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (iAttn == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'iAttn' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (qDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'qDesc' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (queries == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'queries' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (workSpace == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'workSpace' is null for cudnnRNNForwardInferenceEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    // workSpaceSizeInBytes is primitive
+
+    // Log message
+    Logger::log(LOG_TRACE, "Executing cudnnRNNForwardInferenceEx(handle=%p, rnnDesc=%p, xDesc=%p, x=%p, hxDesc=%p, hx=%p, cxDesc=%p, cx=%p, wDesc=%p, w=%p, yDesc=%p, y=%p, hyDesc=%p, hy=%p, cyDesc=%p, cy=%p, kDesc=%p, keys=%p, cDesc=%p, cAttn=%p, iDesc=%p, iAttn=%p, qDesc=%p, queries=%p, workSpace=%p, workSpaceSizeInBytes=%ld)\n",
+        handle, rnnDesc, xDesc, x, hxDesc, hx, cxDesc, cx, wDesc, w, yDesc, y, hyDesc, hy, cyDesc, cy, kDesc, keys, cDesc, cAttn, iDesc, iAttn, qDesc, queries, workSpace, workSpaceSizeInBytes);
+
+    // Native variable declarations
+    cudnnHandle_t handle_native;
+    cudnnRNNDescriptor_t rnnDesc_native;
+    cudnnRNNDataDescriptor_t xDesc_native;
+    void * x_native = NULL;
+    cudnnTensorDescriptor_t hxDesc_native;
+    void * hx_native = NULL;
+    cudnnTensorDescriptor_t cxDesc_native;
+    void * cx_native = NULL;
+    cudnnFilterDescriptor_t wDesc_native;
+    void * w_native = NULL;
+    cudnnRNNDataDescriptor_t yDesc_native;
+    void * y_native = NULL;
+    cudnnTensorDescriptor_t hyDesc_native;
+    void * hy_native = NULL;
+    cudnnTensorDescriptor_t cyDesc_native;
+    void * cy_native = NULL;
+    cudnnRNNDataDescriptor_t kDesc_native;
+    void * keys_native = NULL;
+    cudnnRNNDataDescriptor_t cDesc_native;
+    void * cAttn_native = NULL;
+    cudnnRNNDataDescriptor_t iDesc_native;
+    void * iAttn_native = NULL;
+    cudnnRNNDataDescriptor_t qDesc_native;
+    void * queries_native = NULL;
+    void * workSpace_native = NULL;
+    size_t workSpaceSizeInBytes_native = 0;
+
+    // Obtain native variable values
+    handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
+    rnnDesc_native = (cudnnRNNDescriptor_t)getNativePointerValue(env, rnnDesc);
+    xDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, xDesc);
+    x_native = (void *)getPointer(env, x);
+    hxDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, hxDesc);
+    hx_native = (void *)getPointer(env, hx);
+    cxDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, cxDesc);
+    cx_native = (void *)getPointer(env, cx);
+    wDesc_native = (cudnnFilterDescriptor_t)getNativePointerValue(env, wDesc);
+    w_native = (void *)getPointer(env, w);
+    yDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, yDesc);
+    y_native = (void *)getPointer(env, y);
+    hyDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, hyDesc);
+    hy_native = (void *)getPointer(env, hy);
+    cyDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, cyDesc);
+    cy_native = (void *)getPointer(env, cy);
+    kDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, kDesc);
+    keys_native = (void *)getPointer(env, keys);
+    cDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, cDesc);
+    cAttn_native = (void *)getPointer(env, cAttn);
+    iDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, iDesc);
+    iAttn_native = (void *)getPointer(env, iAttn);
+    qDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, qDesc);
+    queries_native = (void *)getPointer(env, queries);
+    workSpace_native = (void *)getPointer(env, workSpace);
+    workSpaceSizeInBytes_native = (size_t)workSpaceSizeInBytes;
+
+    // Native function call
+    cudnnStatus_t jniResult_native = cudnnRNNForwardInferenceEx(handle_native, rnnDesc_native, xDesc_native, x_native, hxDesc_native, hx_native, cxDesc_native, cx_native, wDesc_native, w_native, yDesc_native, y_native, hyDesc_native, hy_native, cyDesc_native, cy_native, kDesc_native, keys_native, cDesc_native, cAttn_native, iDesc_native, iAttn_native, qDesc_native, queries_native, workSpace_native, workSpaceSizeInBytes_native);
+
+    // Write back native variable values
+    // handle is read-only
+    // rnnDesc is read-only
+    // xDesc is read-only
+    // x is a native pointer
+    // hxDesc is read-only
+    // hx is a native pointer
+    // cxDesc is read-only
+    // cx is a native pointer
+    // wDesc is read-only
+    // w is a native pointer
+    // yDesc is read-only
+    // y is a native pointer
+    // hyDesc is read-only
+    // hy is a native pointer
+    // cyDesc is read-only
+    // cy is a native pointer
+    // kDesc is read-only
+    // keys is a native pointer
+    // cDesc is read-only
+    // cAttn is a native pointer
+    // iDesc is read-only
+    // iAttn is a native pointer
+    // qDesc is read-only
+    // queries is a native pointer
+    // workSpace is a native pointer
+    // workSpaceSizeInBytes is primitive
+
+    // Return the result
+    jint jniResult = (jint)jniResult_native;
+    return jniResult;
+}
+
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardDataExNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jobject yDesc, jobject y, jobject dyDesc, jobject dy, jobject dcDesc, jobject dcAttn, jobject dhyDesc, jobject dhy, jobject dcyDesc, jobject dcy, jobject wDesc, jobject w, jobject hxDesc, jobject hx, jobject cxDesc, jobject cx, jobject dxDesc, jobject dx, jobject dhxDesc, jobject dhx, jobject dcxDesc, jobject dcx, jobject dkDesc, jobject dkeys, jobject workSpace, jlong workSpaceSizeInBytes, jobject reserveSpace, jlong reserveSpaceSizeInBytes)
+{
+    // Null-checks for non-primitive arguments
+    if (handle == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'handle' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (rnnDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'rnnDesc' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (yDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'yDesc' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (y == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'y' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dyDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dyDesc' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dy == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dy' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dcDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dcDesc' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dcAttn == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dcAttn' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dhyDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dhyDesc' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dhy == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dhy' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dcyDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dcyDesc' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dcy == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dcy' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (wDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'wDesc' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (w == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'w' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (hxDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'hxDesc' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (hx == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'hx' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (cxDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'cxDesc' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (cx == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'cx' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dxDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dxDesc' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dx == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dx' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dhxDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dhxDesc' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dhx == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dhx' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dcxDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dcxDesc' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dcx == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dcx' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dkDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dkDesc' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dkeys == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dkeys' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (workSpace == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'workSpace' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    // workSpaceSizeInBytes is primitive
+    if (reserveSpace == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'reserveSpace' is null for cudnnRNNBackwardDataEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    // reserveSpaceSizeInBytes is primitive
+
+    // Log message
+    Logger::log(LOG_TRACE, "Executing cudnnRNNBackwardDataEx(handle=%p, rnnDesc=%p, yDesc=%p, y=%p, dyDesc=%p, dy=%p, dcDesc=%p, dcAttn=%p, dhyDesc=%p, dhy=%p, dcyDesc=%p, dcy=%p, wDesc=%p, w=%p, hxDesc=%p, hx=%p, cxDesc=%p, cx=%p, dxDesc=%p, dx=%p, dhxDesc=%p, dhx=%p, dcxDesc=%p, dcx=%p, dkDesc=%p, dkeys=%p, workSpace=%p, workSpaceSizeInBytes=%ld, reserveSpace=%p, reserveSpaceSizeInBytes=%ld)\n",
+        handle, rnnDesc, yDesc, y, dyDesc, dy, dcDesc, dcAttn, dhyDesc, dhy, dcyDesc, dcy, wDesc, w, hxDesc, hx, cxDesc, cx, dxDesc, dx, dhxDesc, dhx, dcxDesc, dcx, dkDesc, dkeys, workSpace, workSpaceSizeInBytes, reserveSpace, reserveSpaceSizeInBytes);
+
+    // Native variable declarations
+    cudnnHandle_t handle_native;
+    cudnnRNNDescriptor_t rnnDesc_native;
+    cudnnRNNDataDescriptor_t yDesc_native;
+    void * y_native = NULL;
+    cudnnRNNDataDescriptor_t dyDesc_native;
+    void * dy_native = NULL;
+    cudnnRNNDataDescriptor_t dcDesc_native;
+    void * dcAttn_native = NULL;
+    cudnnTensorDescriptor_t dhyDesc_native;
+    void * dhy_native = NULL;
+    cudnnTensorDescriptor_t dcyDesc_native;
+    void * dcy_native = NULL;
+    cudnnFilterDescriptor_t wDesc_native;
+    void * w_native = NULL;
+    cudnnTensorDescriptor_t hxDesc_native;
+    void * hx_native = NULL;
+    cudnnTensorDescriptor_t cxDesc_native;
+    void * cx_native = NULL;
+    cudnnRNNDataDescriptor_t dxDesc_native;
+    void * dx_native = NULL;
+    cudnnTensorDescriptor_t dhxDesc_native;
+    void * dhx_native = NULL;
+    cudnnTensorDescriptor_t dcxDesc_native;
+    void * dcx_native = NULL;
+    cudnnRNNDataDescriptor_t dkDesc_native;
+    void * dkeys_native = NULL;
+    void * workSpace_native = NULL;
+    size_t workSpaceSizeInBytes_native = 0;
+    void * reserveSpace_native = NULL;
+    size_t reserveSpaceSizeInBytes_native = 0;
+
+    // Obtain native variable values
+    handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
+    rnnDesc_native = (cudnnRNNDescriptor_t)getNativePointerValue(env, rnnDesc);
+    yDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, yDesc);
+    y_native = (void *)getPointer(env, y);
+    dyDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, dyDesc);
+    dy_native = (void *)getPointer(env, dy);
+    dcDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, dcDesc);
+    dcAttn_native = (void *)getPointer(env, dcAttn);
+    dhyDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, dhyDesc);
+    dhy_native = (void *)getPointer(env, dhy);
+    dcyDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, dcyDesc);
+    dcy_native = (void *)getPointer(env, dcy);
+    wDesc_native = (cudnnFilterDescriptor_t)getNativePointerValue(env, wDesc);
+    w_native = (void *)getPointer(env, w);
+    hxDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, hxDesc);
+    hx_native = (void *)getPointer(env, hx);
+    cxDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, cxDesc);
+    cx_native = (void *)getPointer(env, cx);
+    dxDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, dxDesc);
+    dx_native = (void *)getPointer(env, dx);
+    dhxDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, dhxDesc);
+    dhx_native = (void *)getPointer(env, dhx);
+    dcxDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, dcxDesc);
+    dcx_native = (void *)getPointer(env, dcx);
+    dkDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, dkDesc);
+    dkeys_native = (void *)getPointer(env, dkeys);
+    workSpace_native = (void *)getPointer(env, workSpace);
+    workSpaceSizeInBytes_native = (size_t)workSpaceSizeInBytes;
+    reserveSpace_native = (void *)getPointer(env, reserveSpace);
+    reserveSpaceSizeInBytes_native = (size_t)reserveSpaceSizeInBytes;
+
+    // Native function call
+    cudnnStatus_t jniResult_native = cudnnRNNBackwardDataEx(handle_native, rnnDesc_native, yDesc_native, y_native, dyDesc_native, dy_native, dcDesc_native, dcAttn_native, dhyDesc_native, dhy_native, dcyDesc_native, dcy_native, wDesc_native, w_native, hxDesc_native, hx_native, cxDesc_native, cx_native, dxDesc_native, dx_native, dhxDesc_native, dhx_native, dcxDesc_native, dcx_native, dkDesc_native, dkeys_native, workSpace_native, workSpaceSizeInBytes_native, reserveSpace_native, reserveSpaceSizeInBytes_native);
+
+    // Write back native variable values
+    // handle is read-only
+    // rnnDesc is read-only
+    // yDesc is read-only
+    // y is a native pointer
+    // dyDesc is read-only
+    // dy is a native pointer
+    // dcDesc is read-only
+    // dcAttn is a native pointer
+    // dhyDesc is read-only
+    // dhy is a native pointer
+    // dcyDesc is read-only
+    // dcy is a native pointer
+    // wDesc is read-only
+    // w is a native pointer
+    // hxDesc is read-only
+    // hx is a native pointer
+    // cxDesc is read-only
+    // cx is a native pointer
+    // dxDesc is read-only
+    // dx is a native pointer
+    // dhxDesc is read-only
+    // dhx is a native pointer
+    // dcxDesc is read-only
+    // dcx is a native pointer
+    // dkDesc is read-only
+    // dkeys is a native pointer
+    // workSpace is a native pointer
+    // workSpaceSizeInBytes is primitive
+    // reserveSpace is a native pointer
+    // reserveSpaceSizeInBytes is primitive
+
+    // Return the result
+    jint jniResult = (jint)jniResult_native;
+    return jniResult;
+}
+
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardWeightsExNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jobject xDesc, jobject x, jobject hxDesc, jobject hx, jobject yDesc, jobject y, jobject workSpace, jlong workSpaceSizeInBytes, jobject dwDesc, jobject dw, jobject reserveSpace, jlong reserveSpaceSizeInBytes)
+{
+    // Null-checks for non-primitive arguments
+    if (handle == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'handle' is null for cudnnRNNBackwardWeightsEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (rnnDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'rnnDesc' is null for cudnnRNNBackwardWeightsEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (xDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'xDesc' is null for cudnnRNNBackwardWeightsEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (x == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'x' is null for cudnnRNNBackwardWeightsEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (hxDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'hxDesc' is null for cudnnRNNBackwardWeightsEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (hx == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'hx' is null for cudnnRNNBackwardWeightsEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (yDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'yDesc' is null for cudnnRNNBackwardWeightsEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (y == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'y' is null for cudnnRNNBackwardWeightsEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (workSpace == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'workSpace' is null for cudnnRNNBackwardWeightsEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    // workSpaceSizeInBytes is primitive
+    if (dwDesc == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dwDesc' is null for cudnnRNNBackwardWeightsEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (dw == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dw' is null for cudnnRNNBackwardWeightsEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    if (reserveSpace == NULL)
+    {
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'reserveSpace' is null for cudnnRNNBackwardWeightsEx");
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    // reserveSpaceSizeInBytes is primitive
+
+    // Log message
+    Logger::log(LOG_TRACE, "Executing cudnnRNNBackwardWeightsEx(handle=%p, rnnDesc=%p, xDesc=%p, x=%p, hxDesc=%p, hx=%p, yDesc=%p, y=%p, workSpace=%p, workSpaceSizeInBytes=%ld, dwDesc=%p, dw=%p, reserveSpace=%p, reserveSpaceSizeInBytes=%ld)\n",
+        handle, rnnDesc, xDesc, x, hxDesc, hx, yDesc, y, workSpace, workSpaceSizeInBytes, dwDesc, dw, reserveSpace, reserveSpaceSizeInBytes);
+
+    // Native variable declarations
+    cudnnHandle_t handle_native;
+    cudnnRNNDescriptor_t rnnDesc_native;
+    cudnnRNNDataDescriptor_t xDesc_native;
+    void * x_native = NULL;
+    cudnnTensorDescriptor_t hxDesc_native;
+    void * hx_native = NULL;
+    cudnnRNNDataDescriptor_t yDesc_native;
+    void * y_native = NULL;
+    void * workSpace_native = NULL;
+    size_t workSpaceSizeInBytes_native = 0;
+    cudnnFilterDescriptor_t dwDesc_native;
+    void * dw_native = NULL;
+    void * reserveSpace_native = NULL;
+    size_t reserveSpaceSizeInBytes_native = 0;
+
+    // Obtain native variable values
+    handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
+    rnnDesc_native = (cudnnRNNDescriptor_t)getNativePointerValue(env, rnnDesc);
+    xDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, xDesc);
+    x_native = (void *)getPointer(env, x);
+    hxDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, hxDesc);
+    hx_native = (void *)getPointer(env, hx);
+    yDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, yDesc);
+    y_native = (void *)getPointer(env, y);
+    workSpace_native = (void *)getPointer(env, workSpace);
+    workSpaceSizeInBytes_native = (size_t)workSpaceSizeInBytes;
+    dwDesc_native = (cudnnFilterDescriptor_t)getNativePointerValue(env, dwDesc);
+    dw_native = (void *)getPointer(env, dw);
+    reserveSpace_native = (void *)getPointer(env, reserveSpace);
+    reserveSpaceSizeInBytes_native = (size_t)reserveSpaceSizeInBytes;
+
+    // Native function call
+    cudnnStatus_t jniResult_native = cudnnRNNBackwardWeightsEx(handle_native, rnnDesc_native, xDesc_native, x_native, hxDesc_native, hx_native, yDesc_native, y_native, workSpace_native, workSpaceSizeInBytes_native, dwDesc_native, dw_native, reserveSpace_native, reserveSpaceSizeInBytes_native);
+
+    // Write back native variable values
+    // handle is read-only
+    // rnnDesc is read-only
+    // xDesc is read-only
+    // x is a native pointer
+    // hxDesc is read-only
+    // hx is a native pointer
+    // yDesc is read-only
+    // y is a native pointer
+    // workSpace is a native pointer
+    // workSpaceSizeInBytes is primitive
+    // dwDesc is read-only
+    // dw is a native pointer
+    // reserveSpace is a native pointer
+    // reserveSpaceSizeInBytes is primitive
+
+    // Return the result
+    jint jniResult = (jint)jniResult_native;
+    return jniResult;
 }
 
 /**
@@ -12336,6 +14307,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetRNNDescriptor_1v5Native(
     jint jniResult = (jint)jniResult_native;
     return jniResult;
 }
+
 
 
 
