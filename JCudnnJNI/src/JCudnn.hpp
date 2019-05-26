@@ -1800,66 +1800,66 @@ extern "C" {
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnCreateFusedOpsConstParamPackNative
-    * Signature: ([II)I
+    * Signature: (Ljcuda/jcudnn/cudnnFusedOpsConstParamPack;I)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnCreateFusedOpsConstParamPackNative
-        (JNIEnv *, jclass, jintArray, jint);
+        (JNIEnv *, jclass, jobject, jint);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnDestroyFusedOpsConstParamPackNative
-    * Signature: (I)I
+    * Signature: (Ljcuda/jcudnn/cudnnFusedOpsConstParamPack;)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroyFusedOpsConstParamPackNative
-        (JNIEnv *, jclass, jint);
+        (JNIEnv *, jclass, jobject);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnSetFusedOpsConstParamPackAttributeNative
-    * Signature: (IILjcuda/Pointer;)I
+    * Signature: (Ljcuda/jcudnn/cudnnFusedOpsConstParamPack;ILjcuda/Pointer;)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetFusedOpsConstParamPackAttributeNative
-        (JNIEnv *, jclass, jint, jint, jobject);
+        (JNIEnv *, jclass, jobject, jint, jobject);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnGetFusedOpsConstParamPackAttributeNative
-    * Signature: (IILjcuda/Pointer;[I)I
+    * Signature: (Ljcuda/jcudnn/cudnnFusedOpsConstParamPack;ILjcuda/Pointer;[I)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetFusedOpsConstParamPackAttributeNative
-        (JNIEnv *, jclass, jint, jint, jobject, jintArray);
+        (JNIEnv *, jclass, jobject, jint, jobject, jintArray);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnCreateFusedOpsVariantParamPackNative
-    * Signature: ([II)I
+    * Signature: (Ljcuda/jcudnn/cudnnFusedOpsVariantParamPack;I)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnCreateFusedOpsVariantParamPackNative
-        (JNIEnv *, jclass, jintArray, jint);
+        (JNIEnv *, jclass, jobject, jint);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnDestroyFusedOpsVariantParamPackNative
-    * Signature: (I)I
+    * Signature: (Ljcuda/jcudnn/cudnnFusedOpsVariantParamPack;)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroyFusedOpsVariantParamPackNative
-        (JNIEnv *, jclass, jint);
+        (JNIEnv *, jclass, jobject);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnSetFusedOpsVariantParamPackAttributeNative
-    * Signature: (IILjcuda/Pointer;)I
+    * Signature: (Ljcuda/jcudnn/cudnnFusedOpsVariantParamPack;ILjcuda/Pointer;)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetFusedOpsVariantParamPackAttributeNative
-        (JNIEnv *, jclass, jint, jint, jobject);
+        (JNIEnv *, jclass, jobject, jint, jobject);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnGetFusedOpsVariantParamPackAttributeNative
-    * Signature: (IILjcuda/Pointer;)I
+    * Signature: (Ljcuda/jcudnn/cudnnFusedOpsVariantParamPack;ILjcuda/Pointer;)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetFusedOpsVariantParamPackAttributeNative
-        (JNIEnv *, jclass, jint, jint, jobject);
+        (JNIEnv *, jclass, jobject, jint, jobject);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
@@ -1880,18 +1880,18 @@ extern "C" {
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnMakeFusedOpsPlanNative
-    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnFusedOpsPlan;I[J)I
+    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnFusedOpsPlan;Ljcuda/jcudnn/cudnnFusedOpsConstParamPack;[J)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMakeFusedOpsPlanNative
-        (JNIEnv *, jclass, jobject, jobject, jint, jlongArray);
+        (JNIEnv *, jclass, jobject, jobject, jobject, jlongArray);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    cudnnFusedOpsExecuteNative
-    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnFusedOpsPlan;I)I
+    * Signature: (Ljcuda/jcudnn/cudnnHandle;Ljcuda/jcudnn/cudnnFusedOpsPlan;Ljcuda/jcudnn/cudnnFusedOpsVariantParamPack;)I
     */
     JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnFusedOpsExecuteNative
-        (JNIEnv *, jclass, jobject, jobject, jint);
+        (JNIEnv *, jclass, jobject, jobject, jobject);
 
     /*
     * Class:     jcuda_jcudnn_JCudnn
