@@ -27,25 +27,29 @@
  */
 package jcuda.jcudnn;
 
-public class cudnnRNNDataLayout
+public class cudnnMultiHeadAttnWeightKind
 {
     /**
-     * padded, outer stride from one time-step to the next 
+     * input projection weights for 'queries' 
      */
-    public static final int CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED = 0;
+    public static final int CUDNN_MH_ATTN_Q_WEIGHTS = 0;
     /**
-     * sequence length sorted and packed as in basic RNN api 
+     * input projection weights for 'keys' 
      */
-    public static final int CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED = 1;
+    public static final int CUDNN_MH_ATTN_K_WEIGHTS = 1;
     /**
-     * padded, outer stride from one batch to the next 
+     * input projection weights for 'values' 
      */
-    public static final int CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED = 2;
+    public static final int CUDNN_MH_ATTN_V_WEIGHTS = 2;
+    /**
+     * output projection weights 
+     */
+    public static final int CUDNN_MH_ATTN_O_WEIGHTS = 3;
 
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnRNNDataLayout()
+    private cudnnMultiHeadAttnWeightKind()
     {
         // Private constructor to prevent instantiation
     }
@@ -59,11 +63,12 @@ public class cudnnRNNDataLayout
     {
         switch (n)
         {
-            case CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED: return "CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED";
-            case CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED: return "CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED";
-            case CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED: return "CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED";
+            case CUDNN_MH_ATTN_Q_WEIGHTS: return "CUDNN_MH_ATTN_Q_WEIGHTS";
+            case CUDNN_MH_ATTN_K_WEIGHTS: return "CUDNN_MH_ATTN_K_WEIGHTS";
+            case CUDNN_MH_ATTN_V_WEIGHTS: return "CUDNN_MH_ATTN_V_WEIGHTS";
+            case CUDNN_MH_ATTN_O_WEIGHTS: return "CUDNN_MH_ATTN_O_WEIGHTS";
         }
-        return "INVALID cudnnRNNDataLayout: "+n;
+        return "INVALID cudnnMultiHeadAttnWeightKind: "+n;
     }
 }
 

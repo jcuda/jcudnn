@@ -27,38 +27,11 @@
  */
 package jcuda.jcudnn;
 
-public class cudnnRNNClipMode
+/**
+ * Java port of a cudnnAlgorithm
+ */
+public interface cudnnAlgorithm
 {
-    /**
-     * disables LSTM cell clipping 
-     */
-    public static final int CUDNN_RNN_CLIP_NONE = 0;
-    /**
-     * enables LSTM cell clipping 
-     */
-    public static final int CUDNN_RNN_CLIP_MINMAX = 1;
-
-    /**
-     * Private constructor to prevent instantiation
-     */
-    private cudnnRNNClipMode()
-    {
-        // Private constructor to prevent instantiation
-    }
-
-    /**
-     * Returns a string representation of the given constant
-     *
-     * @return A string representation of the given constant
-     */
-    public static String stringFor(int n)
-    {
-        switch (n)
-        {
-            case CUDNN_RNN_CLIP_NONE: return "CUDNN_RNN_CLIP_NONE";
-            case CUDNN_RNN_CLIP_MINMAX: return "CUDNN_RNN_CLIP_MINMAX";
-        }
-        return "INVALID cudnnRNNClipMode: "+n;
-    }
 }
+
 

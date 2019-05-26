@@ -27,25 +27,29 @@
  */
 package jcuda.jcudnn;
 
-public class cudnnRNNDataLayout
+public class cudnnRNNBiasMode
 {
     /**
-     * padded, outer stride from one time-step to the next 
+     * rnn cell formulas do not use biases 
      */
-    public static final int CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED = 0;
+    public static final int CUDNN_RNN_NO_BIAS = 0;
     /**
-     * sequence length sorted and packed as in basic RNN api 
+     * rnn cell formulas use one input bias in input GEMM 
      */
-    public static final int CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED = 1;
+    public static final int CUDNN_RNN_SINGLE_INP_BIAS = 1;
     /**
-     * padded, outer stride from one batch to the next 
+     * default, rnn cell formulas use two bias vectors 
      */
-    public static final int CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED = 2;
+    public static final int CUDNN_RNN_DOUBLE_BIAS = 2;
+    /**
+     * rnn cell formulas use one recurrent bias in recurrent GEMM 
+     */
+    public static final int CUDNN_RNN_SINGLE_REC_BIAS = 3;
 
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnRNNDataLayout()
+    private cudnnRNNBiasMode()
     {
         // Private constructor to prevent instantiation
     }
@@ -59,11 +63,12 @@ public class cudnnRNNDataLayout
     {
         switch (n)
         {
-            case CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED: return "CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED";
-            case CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED: return "CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED";
-            case CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED: return "CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED";
+            case CUDNN_RNN_NO_BIAS: return "CUDNN_RNN_NO_BIAS";
+            case CUDNN_RNN_SINGLE_INP_BIAS: return "CUDNN_RNN_SINGLE_INP_BIAS";
+            case CUDNN_RNN_DOUBLE_BIAS: return "CUDNN_RNN_DOUBLE_BIAS";
+            case CUDNN_RNN_SINGLE_REC_BIAS: return "CUDNN_RNN_SINGLE_REC_BIAS";
         }
-        return "INVALID cudnnRNNDataLayout: "+n;
+        return "INVALID cudnnRNNBiasMode: "+n;
     }
 }
 

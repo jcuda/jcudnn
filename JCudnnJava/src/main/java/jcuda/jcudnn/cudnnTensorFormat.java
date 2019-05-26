@@ -38,7 +38,7 @@ public class cudnnTensorFormat
      */
     public static final int CUDNN_TENSOR_NHWC = 1;
     /**
-     * each image point is vector of element of C : the length of the vector is carried by the data type
+     * each image point is vector of element of C, vector length in data type 
      */
     public static final int CUDNN_TENSOR_NCHW_VECT_C = 2;
 

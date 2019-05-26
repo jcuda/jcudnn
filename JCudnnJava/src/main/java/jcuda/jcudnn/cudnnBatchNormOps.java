@@ -27,25 +27,25 @@
  */
 package jcuda.jcudnn;
 
-public class cudnnRNNDataLayout
+public class cudnnBatchNormOps
 {
     /**
-     * padded, outer stride from one time-step to the next 
+     * do batch normalization only 
      */
-    public static final int CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED = 0;
+    public static final int CUDNN_BATCHNORM_OPS_BN = 0;
     /**
-     * sequence length sorted and packed as in basic RNN api 
+     * do batchNorm, then activation 
      */
-    public static final int CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED = 1;
+    public static final int CUDNN_BATCHNORM_OPS_BN_ACTIVATION = 1;
     /**
-     * padded, outer stride from one batch to the next 
+     * do batchNorm, then elemWiseAdd, then activation 
      */
-    public static final int CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED = 2;
+    public static final int CUDNN_BATCHNORM_OPS_BN_ADD_ACTIVATION = 2;
 
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnRNNDataLayout()
+    private cudnnBatchNormOps()
     {
         // Private constructor to prevent instantiation
     }
@@ -59,11 +59,11 @@ public class cudnnRNNDataLayout
     {
         switch (n)
         {
-            case CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED: return "CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED";
-            case CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED: return "CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED";
-            case CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED: return "CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED";
+            case CUDNN_BATCHNORM_OPS_BN: return "CUDNN_BATCHNORM_OPS_BN";
+            case CUDNN_BATCHNORM_OPS_BN_ACTIVATION: return "CUDNN_BATCHNORM_OPS_BN_ACTIVATION";
+            case CUDNN_BATCHNORM_OPS_BN_ADD_ACTIVATION: return "CUDNN_BATCHNORM_OPS_BN_ADD_ACTIVATION";
         }
-        return "INVALID cudnnRNNDataLayout: "+n;
+        return "INVALID cudnnBatchNormOps: "+n;
     }
 }
 

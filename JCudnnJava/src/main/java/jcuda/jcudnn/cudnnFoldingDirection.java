@@ -27,25 +27,16 @@
  */
 package jcuda.jcudnn;
 
-public class cudnnRNNDataLayout
+/** Fold/unfold transforms */
+public class cudnnFoldingDirection
 {
-    /**
-     * padded, outer stride from one time-step to the next 
-     */
-    public static final int CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED = 0;
-    /**
-     * sequence length sorted and packed as in basic RNN api 
-     */
-    public static final int CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED = 1;
-    /**
-     * padded, outer stride from one batch to the next 
-     */
-    public static final int CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED = 2;
+    public static final int CUDNN_TRANSFORM_FOLD = 0;
+    public static final int CUDNN_TRANSFORM_UNFOLD = 1;
 
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnRNNDataLayout()
+    private cudnnFoldingDirection()
     {
         // Private constructor to prevent instantiation
     }
@@ -59,11 +50,10 @@ public class cudnnRNNDataLayout
     {
         switch (n)
         {
-            case CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED: return "CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED";
-            case CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED: return "CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED";
-            case CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED: return "CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED";
+            case CUDNN_TRANSFORM_FOLD: return "CUDNN_TRANSFORM_FOLD";
+            case CUDNN_TRANSFORM_UNFOLD: return "CUDNN_TRANSFORM_UNFOLD";
         }
-        return "INVALID cudnnRNNDataLayout: "+n;
+        return "INVALID cudnnFoldingDirection: "+n;
     }
 }
 

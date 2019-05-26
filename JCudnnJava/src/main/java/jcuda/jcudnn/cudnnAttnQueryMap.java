@@ -27,25 +27,22 @@
  */
 package jcuda.jcudnn;
 
-public class cudnnRNNDataLayout
+/** Multihead Attention */
+public class cudnnAttnQueryMap
 {
     /**
-     * padded, outer stride from one time-step to the next 
+     * multiple Q-s when beam width > 1 map to a single (K,V) set 
      */
-    public static final int CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED = 0;
+    public static final int CUDNN_ATTN_QUERYMAP_ALL_TO_ONE = 0;
     /**
-     * sequence length sorted and packed as in basic RNN api 
+     * multiple Q-s when beam width > 1 map to corresponding (K,V) sets 
      */
-    public static final int CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED = 1;
-    /**
-     * padded, outer stride from one batch to the next 
-     */
-    public static final int CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED = 2;
+    public static final int CUDNN_ATTN_QUERYMAP_ONE_TO_ONE = 1;
 
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnRNNDataLayout()
+    private cudnnAttnQueryMap()
     {
         // Private constructor to prevent instantiation
     }
@@ -59,11 +56,10 @@ public class cudnnRNNDataLayout
     {
         switch (n)
         {
-            case CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED: return "CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED";
-            case CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED: return "CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED";
-            case CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED: return "CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED";
+            case CUDNN_ATTN_QUERYMAP_ALL_TO_ONE: return "CUDNN_ATTN_QUERYMAP_ALL_TO_ONE";
+            case CUDNN_ATTN_QUERYMAP_ONE_TO_ONE: return "CUDNN_ATTN_QUERYMAP_ONE_TO_ONE";
         }
-        return "INVALID cudnnRNNDataLayout: "+n;
+        return "INVALID cudnnAttnQueryMap: "+n;
     }
 }
 

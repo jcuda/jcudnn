@@ -27,25 +27,16 @@
  */
 package jcuda.jcudnn;
 
-public class cudnnRNNDataLayout
+/** Input normalization mode for loss function */
+public class cudnnLossNormalizationMode
 {
-    /**
-     * padded, outer stride from one time-step to the next 
-     */
-    public static final int CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED = 0;
-    /**
-     * sequence length sorted and packed as in basic RNN api 
-     */
-    public static final int CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED = 1;
-    /**
-     * padded, outer stride from one batch to the next 
-     */
-    public static final int CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED = 2;
+    public static final int CUDNN_LOSS_NORMALIZATION_NONE = 0;
+    public static final int CUDNN_LOSS_NORMALIZATION_SOFTMAX = 1;
 
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnRNNDataLayout()
+    private cudnnLossNormalizationMode()
     {
         // Private constructor to prevent instantiation
     }
@@ -59,11 +50,10 @@ public class cudnnRNNDataLayout
     {
         switch (n)
         {
-            case CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED: return "CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED";
-            case CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED: return "CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED";
-            case CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED: return "CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED";
+            case CUDNN_LOSS_NORMALIZATION_NONE: return "CUDNN_LOSS_NORMALIZATION_NONE";
+            case CUDNN_LOSS_NORMALIZATION_SOFTMAX: return "CUDNN_LOSS_NORMALIZATION_SOFTMAX";
         }
-        return "INVALID cudnnRNNDataLayout: "+n;
+        return "INVALID cudnnLossNormalizationMode: "+n;
     }
 }
 

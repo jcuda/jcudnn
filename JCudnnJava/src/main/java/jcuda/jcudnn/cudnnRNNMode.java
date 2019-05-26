@@ -27,15 +27,14 @@
  */
 package jcuda.jcudnn;
 
-/** RNN API */
 public class cudnnRNNMode
 {
     /**
-     * Stock RNN with ReLu activation 
+     * basic RNN cell type with ReLu activation 
      */
     public static final int CUDNN_RNN_RELU = 0;
     /**
-     * Stock RNN with tanh activation 
+     * basic RNN cell type with tanh activation 
      */
     public static final int CUDNN_RNN_TANH = 1;
     /**

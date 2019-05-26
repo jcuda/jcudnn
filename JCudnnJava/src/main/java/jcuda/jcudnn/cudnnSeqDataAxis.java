@@ -27,25 +27,30 @@
  */
 package jcuda.jcudnn;
 
-public class cudnnRNNDataLayout
+/** Sequence data descriptor */
+public class cudnnSeqDataAxis
 {
     /**
-     * padded, outer stride from one time-step to the next 
+     * index in time 
      */
-    public static final int CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED = 0;
+    public static final int CUDNN_SEQDATA_TIME_DIM = 0;
     /**
-     * sequence length sorted and packed as in basic RNN api 
+     * index in batch 
      */
-    public static final int CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED = 1;
+    public static final int CUDNN_SEQDATA_BATCH_DIM = 1;
     /**
-     * padded, outer stride from one batch to the next 
+     * index in beam 
      */
-    public static final int CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED = 2;
+    public static final int CUDNN_SEQDATA_BEAM_DIM = 2;
+    /**
+     * index in vector 
+     */
+    public static final int CUDNN_SEQDATA_VECT_DIM = 3;
 
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnRNNDataLayout()
+    private cudnnSeqDataAxis()
     {
         // Private constructor to prevent instantiation
     }
@@ -59,11 +64,12 @@ public class cudnnRNNDataLayout
     {
         switch (n)
         {
-            case CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED: return "CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED";
-            case CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED: return "CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED";
-            case CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED: return "CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED";
+            case CUDNN_SEQDATA_TIME_DIM: return "CUDNN_SEQDATA_TIME_DIM";
+            case CUDNN_SEQDATA_BATCH_DIM: return "CUDNN_SEQDATA_BATCH_DIM";
+            case CUDNN_SEQDATA_BEAM_DIM: return "CUDNN_SEQDATA_BEAM_DIM";
+            case CUDNN_SEQDATA_VECT_DIM: return "CUDNN_SEQDATA_VECT_DIM";
         }
-        return "INVALID cudnnRNNDataLayout: "+n;
+        return "INVALID cudnnSeqDataAxis: "+n;
     }
 }
 

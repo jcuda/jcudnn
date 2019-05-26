@@ -29,7 +29,13 @@ package jcuda.jcudnn;
 
 public class cudnnRNNInputMode
 {
+    /**
+     * adjustable weight matrix in first layer input GEMM 
+     */
     public static final int CUDNN_LINEAR_INPUT = 0;
+    /**
+     * fixed identity matrix in the first layer input GEMM 
+     */
     public static final int CUDNN_SKIP_INPUT = 1;
 
     /**

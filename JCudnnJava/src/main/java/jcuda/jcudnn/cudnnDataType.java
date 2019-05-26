@@ -40,6 +40,7 @@ public class cudnnDataType
     public static final int CUDNN_DATA_INT8x4 = 5;
     public static final int CUDNN_DATA_UINT8 = 6;
     public static final int CUDNN_DATA_UINT8x4 = 7;
+    public static final int CUDNN_DATA_INT8x32 = 8;
 
     /**
      * Private constructor to prevent instantiation
@@ -66,6 +67,7 @@ public class cudnnDataType
             case CUDNN_DATA_INT8x4: return "CUDNN_DATA_INT8x4";
             case CUDNN_DATA_UINT8: return "CUDNN_DATA_UINT8";
             case CUDNN_DATA_UINT8x4: return "CUDNN_DATA_UINT8x4";
+            case CUDNN_DATA_INT8x32: return "CUDNN_DATA_INT8x32";
         }
         return "INVALID cudnnDataType: "+n;
     }

@@ -27,25 +27,16 @@
  */
 package jcuda.jcudnn;
 
-public class cudnnRNNDataLayout
+public class cudnnFusedOpsPointerPlaceHolder
 {
-    /**
-     * padded, outer stride from one time-step to the next 
-     */
-    public static final int CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED = 0;
-    /**
-     * sequence length sorted and packed as in basic RNN api 
-     */
-    public static final int CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED = 1;
-    /**
-     * padded, outer stride from one batch to the next 
-     */
-    public static final int CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED = 2;
+    public static final int CUDNN_PTR_NULL = 0;
+    public static final int CUDNN_PTR_ELEM_ALIGNED = 1;
+    public static final int CUDNN_PTR_16B_ALIGNED = 2;
 
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnRNNDataLayout()
+    private cudnnFusedOpsPointerPlaceHolder()
     {
         // Private constructor to prevent instantiation
     }
@@ -59,11 +50,11 @@ public class cudnnRNNDataLayout
     {
         switch (n)
         {
-            case CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED: return "CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED";
-            case CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED: return "CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED";
-            case CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED: return "CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED";
+            case CUDNN_PTR_NULL: return "CUDNN_PTR_NULL";
+            case CUDNN_PTR_ELEM_ALIGNED: return "CUDNN_PTR_ELEM_ALIGNED";
+            case CUDNN_PTR_16B_ALIGNED: return "CUDNN_PTR_16B_ALIGNED";
         }
-        return "INVALID cudnnRNNDataLayout: "+n;
+        return "INVALID cudnnFusedOpsPointerPlaceHolder: "+n;
     }
 }
 

@@ -29,9 +29,12 @@ package jcuda.jcudnn;
 
 public class cudnnDirectionMode
 {
+    /**
+     * single direction network 
+     */
     public static final int CUDNN_UNIDIRECTIONAL = 0;
     /**
-     * Using output concatination at each step. Do we also want to support output sum? 
+     * output concatination at each layer 
      */
     public static final int CUDNN_BIDIRECTIONAL = 1;
 

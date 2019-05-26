@@ -27,7 +27,7 @@
  */
 package jcuda.jcudnn;
 
-/** 
+/**
  * CUDNN Determinism
  */
 public class cudnnDeterminism

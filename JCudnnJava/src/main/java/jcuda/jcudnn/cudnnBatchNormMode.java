@@ -35,8 +35,8 @@ public class cudnnBatchNormMode
     public static final int CUDNN_BATCHNORM_SPATIAL = 1;
     /**
      * <pre>
-     * bnScale, bnBias tensor dims are 1xCx1x1 (one value per C-dim normalized over Nx1xHxW subtensors). 
-     * May be faster than CUDNN_BATCHNORM_SPATIAL but imposes some limits on the range of values 
+     * bnScale, bnBias tensor dims are 1xCx1x1 (one value per C-dim normalized over Nx1xHxW subtensors).
+     * May be faster than CUDNN_BATCHNORM_SPATIAL but imposes some limits on the range of values
      * </pre>
      */
     public static final int CUDNN_BATCHNORM_SPATIAL_PERSISTENT = 2;

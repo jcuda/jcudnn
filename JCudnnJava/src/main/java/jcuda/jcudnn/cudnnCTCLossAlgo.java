@@ -27,6 +27,7 @@
  */
 package jcuda.jcudnn;
 
+/** CTC LOSS */
 public class cudnnCTCLossAlgo
 {
     public static final int CUDNN_CTC_LOSS_ALGO_DETERMINISTIC = 0;

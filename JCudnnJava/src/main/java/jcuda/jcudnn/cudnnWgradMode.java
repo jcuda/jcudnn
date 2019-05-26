@@ -27,25 +27,21 @@
  */
 package jcuda.jcudnn;
 
-public class cudnnRNNDataLayout
+public class cudnnWgradMode
 {
     /**
-     * padded, outer stride from one time-step to the next 
+     * add partial gradients to wgrad output buffers 
      */
-    public static final int CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED = 0;
+    public static final int CUDNN_WGRAD_MODE_ADD = 0;
     /**
-     * sequence length sorted and packed as in basic RNN api 
+     * write partial gradients to wgrad output buffers 
      */
-    public static final int CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED = 1;
-    /**
-     * padded, outer stride from one batch to the next 
-     */
-    public static final int CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED = 2;
+    public static final int CUDNN_WGRAD_MODE_SET = 1;
 
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnRNNDataLayout()
+    private cudnnWgradMode()
     {
         // Private constructor to prevent instantiation
     }
@@ -59,11 +55,10 @@ public class cudnnRNNDataLayout
     {
         switch (n)
         {
-            case CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED: return "CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_UNPACKED";
-            case CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED: return "CUDNN_RNN_DATA_LAYOUT_SEQ_MAJOR_PACKED";
-            case CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED: return "CUDNN_RNN_DATA_LAYOUT_BATCH_MAJOR_UNPACKED";
+            case CUDNN_WGRAD_MODE_ADD: return "CUDNN_WGRAD_MODE_ADD";
+            case CUDNN_WGRAD_MODE_SET: return "CUDNN_WGRAD_MODE_SET";
         }
-        return "INVALID cudnnRNNDataLayout: "+n;
+        return "INVALID cudnnWgradMode: "+n;
     }
 }
 
