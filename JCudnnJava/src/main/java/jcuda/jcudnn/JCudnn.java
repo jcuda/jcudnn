@@ -42,7 +42,7 @@ public class JCudnn
 {
     public static final int CUDNN_MAJOR      = 7;
     public static final int CUDNN_MINOR      = 6;
-    public static final int CUDNN_PATCHLEVEL = 0;
+    public static final int CUDNN_PATCHLEVEL = 5;
 
     public static final int CUDNN_VERSION    =
         (CUDNN_MAJOR * 1000 + CUDNN_MINOR * 100 + CUDNN_PATCHLEVEL);
@@ -62,6 +62,35 @@ public class JCudnn
     public static final int CUDNN_SEV_ERROR_EN   = (1 << cudnnSeverity.CUDNN_SEV_ERROR);
     public static final int CUDNN_SEV_WARNING_EN = (1 << cudnnSeverity.CUDNN_SEV_WARNING);
     public static final int CUDNN_SEV_INFO_EN    = (1 << cudnnSeverity.CUDNN_SEV_INFO);
+    
+    /**
+     * Multi-head attention modes set in attention descriptor: 
+     * multiple Q-s map to a single (K,V) set when beam size > 1 
+     */
+    public static final int CUDNN_ATTN_QUERYMAP_ALL_TO_ONE = 0;        
+    
+    /**
+     * Multi-head attention modes set in attention descriptor: 
+     * multiple Q-s map to multiple (K,V) sets when beam size > 1 
+     */
+    public static final int CUDNN_ATTN_QUERYMAP_ONE_TO_ONE = (1 << 0);
+    
+    /**
+     * Multi-head attention modes set in attention descriptor:
+     * no biases in attention input and output projections 
+     */
+    public static final int CUDNN_ATTN_DISABLE_PROJ_BIASES = 0;
+    
+    /**
+     * Multi-head attention modes set in attention descriptor:
+     * use biases in attention input and output projections 
+     */
+    public static final int CUDNN_ATTN_ENABLE_PROJ_BIASES = (1 << 1);  
+    
+    /**
+     * Number of attention weight/bias tensors 
+     */
+    public static final int CUDNN_ATTN_WKIND_COUNT = 8;    
     
     /**
      * The flag that indicates whether the native library has been
@@ -4313,7 +4342,7 @@ public class JCudnn
 
     public static int cudnnSetAttnDescriptor(
         cudnnAttnDescriptor attnDesc, 
-        int queryMap, 
+        int attnMode, 
         int nHeads, 
         double smScaler, 
         int dataType, 
@@ -4333,11 +4362,11 @@ public class JCudnn
         int maxBatchSize, 
         int maxBeamSize)
     {
-        return checkResult(cudnnSetAttnDescriptorNative(attnDesc, queryMap, nHeads, smScaler, dataType, computePrec, mathType, attnDropoutDesc, postDropoutDesc, qSize, kSize, vSize, qProjSize, kProjSize, vProjSize, oProjSize, qoMaxSeqLength, kvMaxSeqLength, maxBatchSize, maxBeamSize));
+        return checkResult(cudnnSetAttnDescriptorNative(attnDesc, attnMode, nHeads, smScaler, dataType, computePrec, mathType, attnDropoutDesc, postDropoutDesc, qSize, kSize, vSize, qProjSize, kProjSize, vProjSize, oProjSize, qoMaxSeqLength, kvMaxSeqLength, maxBatchSize, maxBeamSize));
     }
     private static native int cudnnSetAttnDescriptorNative(
         cudnnAttnDescriptor attnDesc, 
-        int queryMap, 
+        int attnMode, 
         int nHeads, 
         double smScaler, 
         int dataType, 
@@ -4360,7 +4389,7 @@ public class JCudnn
 
     public static int cudnnGetAttnDescriptor(
         cudnnAttnDescriptor attnDesc, 
-        int[] queryMap, 
+        int[] attnMode, 
         int[] nHeads, 
         double[] smScaler, 
         int[] dataType, 
@@ -4380,11 +4409,11 @@ public class JCudnn
         int[] maxBatchSize, 
         int[] maxBeamSize)
     {
-        return checkResult(cudnnGetAttnDescriptorNative(attnDesc, queryMap, nHeads, smScaler, dataType, computePrec, mathType, attnDropoutDesc, postDropoutDesc, qSize, kSize, vSize, qProjSize, kProjSize, vProjSize, oProjSize, qoMaxSeqLength, kvMaxSeqLength, maxBatchSize, maxBeamSize));
+        return checkResult(cudnnGetAttnDescriptorNative(attnDesc, attnMode, nHeads, smScaler, dataType, computePrec, mathType, attnDropoutDesc, postDropoutDesc, qSize, kSize, vSize, qProjSize, kProjSize, vProjSize, oProjSize, qoMaxSeqLength, kvMaxSeqLength, maxBatchSize, maxBeamSize));
     }
     private static native int cudnnGetAttnDescriptorNative(
         cudnnAttnDescriptor attnDesc, 
-        int[] queryMap, 
+        int[] attnMode, 
         int[] nHeads, 
         double[] smScaler, 
         int[] dataType, 
@@ -4427,18 +4456,18 @@ public class JCudnn
         cudnnAttnDescriptor attnDesc, 
         int wKind, 
         long weightSizeInBytes, 
-        Pointer w, 
+        Pointer weights, 
         cudnnTensorDescriptor wDesc, 
         Pointer wAddr)
     {
-        return checkResult(cudnnGetMultiHeadAttnWeightsNative(handle, attnDesc, wKind, weightSizeInBytes, w, wDesc, wAddr));
+        return checkResult(cudnnGetMultiHeadAttnWeightsNative(handle, attnDesc, wKind, weightSizeInBytes, weights, wDesc, wAddr));
     }
     private static native int cudnnGetMultiHeadAttnWeightsNative(
         cudnnHandle handle, 
         cudnnAttnDescriptor attnDesc, 
         int wKind, 
         long weightSizeInBytes, 
-        Pointer w, 
+        Pointer weights, 
         cudnnTensorDescriptor wDesc, 
         Pointer wAddr);
 
@@ -4449,8 +4478,8 @@ public class JCudnn
         int currIdx, 
         int[] loWinIdx, 
         int[] hiWinIdx, 
-        int[] seqLengthArrayQRO, 
-        int[] seqLengthArrayKV, 
+        int[] devSeqLengthsQO, 
+        int[] devSeqLengthsKV, 
         cudnnSeqDataDescriptor qDesc, 
         Pointer queries, 
         Pointer residuals, 
@@ -4461,13 +4490,13 @@ public class JCudnn
         cudnnSeqDataDescriptor oDesc, 
         Pointer out, 
         long weightSizeInBytes, 
-        Pointer w, 
+        Pointer weights, 
         long workSpaceSizeInBytes, 
         Pointer workSpace, 
         long reserveSpaceSizeInBytes, 
         Pointer reserveSpace)
     {
-        return checkResult(cudnnMultiHeadAttnForwardNative(handle, attnDesc, currIdx, loWinIdx, hiWinIdx, seqLengthArrayQRO, seqLengthArrayKV, qDesc, queries, residuals, kDesc, keys, vDesc, values, oDesc, out, weightSizeInBytes, w, workSpaceSizeInBytes, workSpace, reserveSpaceSizeInBytes, reserveSpace));
+        return checkResult(cudnnMultiHeadAttnForwardNative(handle, attnDesc, currIdx, loWinIdx, hiWinIdx, devSeqLengthsQO, devSeqLengthsKV, qDesc, queries, residuals, kDesc, keys, vDesc, values, oDesc, out, weightSizeInBytes, weights, workSpaceSizeInBytes, workSpace, reserveSpaceSizeInBytes, reserveSpace));
     }
     private static native int cudnnMultiHeadAttnForwardNative(
         cudnnHandle handle, 
@@ -4475,8 +4504,8 @@ public class JCudnn
         int currIdx, 
         int[] loWinIdx, 
         int[] hiWinIdx, 
-        int[] seqLengthArrayQRO, 
-        int[] seqLengthArrayKV, 
+        int[] devSeqLengthsQO, 
+        int[] devSeqLengthsKV, 
         cudnnSeqDataDescriptor qDesc, 
         Pointer queries, 
         Pointer residuals, 
@@ -4487,7 +4516,7 @@ public class JCudnn
         cudnnSeqDataDescriptor oDesc, 
         Pointer out, 
         long weightSizeInBytes, 
-        Pointer w, 
+        Pointer weights, 
         long workSpaceSizeInBytes, 
         Pointer workSpace, 
         long reserveSpaceSizeInBytes, 
@@ -4499,8 +4528,8 @@ public class JCudnn
         cudnnAttnDescriptor attnDesc, 
         int[] loWinIdx, 
         int[] hiWinIdx, 
-        int[] seqLengthArrayDQDO, 
-        int[] seqLengthArrayDKDV, 
+        int[] devSeqLengthsDQDO, 
+        int[] devSeqLengthsDKDV, 
         cudnnSeqDataDescriptor doDesc, 
         Pointer dout, 
         cudnnSeqDataDescriptor dqDesc, 
@@ -4513,21 +4542,21 @@ public class JCudnn
         Pointer dvalues, 
         Pointer values, 
         long weightSizeInBytes, 
-        Pointer w, 
+        Pointer weights, 
         long workSpaceSizeInBytes, 
         Pointer workSpace, 
         long reserveSpaceSizeInBytes, 
         Pointer reserveSpace)
     {
-        return checkResult(cudnnMultiHeadAttnBackwardDataNative(handle, attnDesc, loWinIdx, hiWinIdx, seqLengthArrayDQDO, seqLengthArrayDKDV, doDesc, dout, dqDesc, dqueries, queries, dkDesc, dkeys, keys, dvDesc, dvalues, values, weightSizeInBytes, w, workSpaceSizeInBytes, workSpace, reserveSpaceSizeInBytes, reserveSpace));
+        return checkResult(cudnnMultiHeadAttnBackwardDataNative(handle, attnDesc, loWinIdx, hiWinIdx, devSeqLengthsDQDO, devSeqLengthsDKDV, doDesc, dout, dqDesc, dqueries, queries, dkDesc, dkeys, keys, dvDesc, dvalues, values, weightSizeInBytes, weights, workSpaceSizeInBytes, workSpace, reserveSpaceSizeInBytes, reserveSpace));
     }
     private static native int cudnnMultiHeadAttnBackwardDataNative(
         cudnnHandle handle, 
         cudnnAttnDescriptor attnDesc, 
         int[] loWinIdx, 
         int[] hiWinIdx, 
-        int[] seqLengthArrayDQDO, 
-        int[] seqLengthArrayDKDV, 
+        int[] devSeqLengthsDQDO, 
+        int[] devSeqLengthsDKDV, 
         cudnnSeqDataDescriptor doDesc, 
         Pointer dout, 
         cudnnSeqDataDescriptor dqDesc, 
@@ -4540,7 +4569,7 @@ public class JCudnn
         Pointer dvalues, 
         Pointer values, 
         long weightSizeInBytes, 
-        Pointer w, 
+        Pointer weights, 
         long workSpaceSizeInBytes, 
         Pointer workSpace, 
         long reserveSpaceSizeInBytes, 
@@ -4560,14 +4589,14 @@ public class JCudnn
         cudnnSeqDataDescriptor doDesc, 
         Pointer dout, 
         long weightSizeInBytes, 
-        Pointer w, 
-        Pointer dw, 
+        Pointer weights, 
+        Pointer dweights, 
         long workSpaceSizeInBytes, 
         Pointer workSpace, 
         long reserveSpaceSizeInBytes, 
         Pointer reserveSpace)
     {
-        return checkResult(cudnnMultiHeadAttnBackwardWeightsNative(handle, attnDesc, addGrad, qDesc, queries, kDesc, keys, vDesc, values, doDesc, dout, weightSizeInBytes, w, dw, workSpaceSizeInBytes, workSpace, reserveSpaceSizeInBytes, reserveSpace));
+        return checkResult(cudnnMultiHeadAttnBackwardWeightsNative(handle, attnDesc, addGrad, qDesc, queries, kDesc, keys, vDesc, values, doDesc, dout, weightSizeInBytes, weights, dweights, workSpaceSizeInBytes, workSpace, reserveSpaceSizeInBytes, reserveSpace));
     }
     private static native int cudnnMultiHeadAttnBackwardWeightsNative(
         cudnnHandle handle, 
@@ -4582,8 +4611,8 @@ public class JCudnn
         cudnnSeqDataDescriptor doDesc, 
         Pointer dout, 
         long weightSizeInBytes, 
-        Pointer w, 
-        Pointer dw, 
+        Pointer weights, 
+        Pointer dweights, 
         long workSpaceSizeInBytes, 
         Pointer workSpace, 
         long reserveSpaceSizeInBytes, 

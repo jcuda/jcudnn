@@ -45,6 +45,22 @@ public class cudnnMultiHeadAttnWeightKind
      * output projection weights 
      */
     public static final int CUDNN_MH_ATTN_O_WEIGHTS = 3;
+    /**
+     * input projection bias tensor for 'queries' 
+     */
+    public static final int CUDNN_MH_ATTN_Q_BIASES = 4;
+    /**
+     * input projection bias for 'keys' 
+     */
+    public static final int CUDNN_MH_ATTN_K_BIASES = 5;
+    /**
+     * input projection bias for 'values' 
+     */
+    public static final int CUDNN_MH_ATTN_V_BIASES = 6;
+    /**
+     * output projection biases 
+     */
+    public static final int CUDNN_MH_ATTN_O_BIASES = 7;
 
     /**
      * Private constructor to prevent instantiation
@@ -67,6 +83,10 @@ public class cudnnMultiHeadAttnWeightKind
             case CUDNN_MH_ATTN_K_WEIGHTS: return "CUDNN_MH_ATTN_K_WEIGHTS";
             case CUDNN_MH_ATTN_V_WEIGHTS: return "CUDNN_MH_ATTN_V_WEIGHTS";
             case CUDNN_MH_ATTN_O_WEIGHTS: return "CUDNN_MH_ATTN_O_WEIGHTS";
+            case CUDNN_MH_ATTN_Q_BIASES: return "CUDNN_MH_ATTN_Q_BIASES";
+            case CUDNN_MH_ATTN_K_BIASES: return "CUDNN_MH_ATTN_K_BIASES";
+            case CUDNN_MH_ATTN_V_BIASES: return "CUDNN_MH_ATTN_V_BIASES";
+            case CUDNN_MH_ATTN_O_BIASES: return "CUDNN_MH_ATTN_O_BIASES";
         }
         return "INVALID cudnnMultiHeadAttnWeightKind: "+n;
     }

@@ -40,9 +40,9 @@ extern "C" {
 #undef jcuda_jcudnn_JCudnn_CUDNN_MINOR
 #define jcuda_jcudnn_JCudnn_CUDNN_MINOR 6L
 #undef jcuda_jcudnn_JCudnn_CUDNN_PATCHLEVEL
-#define jcuda_jcudnn_JCudnn_CUDNN_PATCHLEVEL 0L
+#define jcuda_jcudnn_JCudnn_CUDNN_PATCHLEVEL 5L
 #undef jcuda_jcudnn_JCudnn_CUDNN_VERSION
-#define jcuda_jcudnn_JCudnn_CUDNN_VERSION 7600L
+#define jcuda_jcudnn_JCudnn_CUDNN_VERSION 7605L
 #undef jcuda_jcudnn_JCudnn_CUDNN_DIM_MAX
 #define jcuda_jcudnn_JCudnn_CUDNN_DIM_MAX 8L
 #undef jcuda_jcudnn_JCudnn_CUDNN_BN_MIN_EPSILON
@@ -53,6 +53,16 @@ extern "C" {
 #define jcuda_jcudnn_JCudnn_CUDNN_SEV_WARNING_EN 4L
 #undef jcuda_jcudnn_JCudnn_CUDNN_SEV_INFO_EN
 #define jcuda_jcudnn_JCudnn_CUDNN_SEV_INFO_EN 8L
+#undef jcuda_jcudnn_JCudnn_CUDNN_ATTN_QUERYMAP_ALL_TO_ONE
+#define jcuda_jcudnn_JCudnn_CUDNN_ATTN_QUERYMAP_ALL_TO_ONE 0L
+#undef jcuda_jcudnn_JCudnn_CUDNN_ATTN_QUERYMAP_ONE_TO_ONE
+#define jcuda_jcudnn_JCudnn_CUDNN_ATTN_QUERYMAP_ONE_TO_ONE 1L
+#undef jcuda_jcudnn_JCudnn_CUDNN_ATTN_DISABLE_PROJ_BIASES
+#define jcuda_jcudnn_JCudnn_CUDNN_ATTN_DISABLE_PROJ_BIASES 0L
+#undef jcuda_jcudnn_JCudnn_CUDNN_ATTN_ENABLE_PROJ_BIASES
+#define jcuda_jcudnn_JCudnn_CUDNN_ATTN_ENABLE_PROJ_BIASES 2L
+#undef jcuda_jcudnn_JCudnn_CUDNN_ATTN_WKIND_COUNT
+#define jcuda_jcudnn_JCudnn_CUDNN_ATTN_WKIND_COUNT 8L
     /*
     * Class:     jcuda_jcudnn_JCudnn
     * Method:    setLogLevelNative

@@ -27,7 +27,13 @@
  */
 package jcuda.jcudnn;
 
-/** Multihead Attention */
+/** 
+ * Multihead Attention
+ * 
+ * @deprecated Declared as a "legacy type" in CUDNN 7.6.5. Seems to be 
+ * replaced by the {@link JCudnn#CUDNN_ATTN_QUERYMAP_ALL_TO_ONE 
+ * CUDNN_ATTN_QUERYMAP constants} 
+ */
 public class cudnnAttnQueryMap
 {
     /**

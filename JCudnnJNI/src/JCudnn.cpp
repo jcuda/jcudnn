@@ -2634,7 +2634,12 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetTensorNative(JNIEnv *env
     handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
     yDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, yDesc);
     y_native = (void *)getPointer(env, y);
-    valuePtr_native = (void *)getPointer(env, valuePtr);
+    PointerData *valuePtr_pointerData = initPointerData(env, valuePtr);
+    if (valuePtr_pointerData == NULL)
+    {
+        return JCUDNN_STATUS_INTERNAL_ERROR;
+    }
+    valuePtr_native = (void *)valuePtr_pointerData->getPointer(env);
 
     // Native function call
     cudnnStatus_t jniResult_native = cudnnSetTensor(handle_native, yDesc_native, y_native, valuePtr_native);
@@ -2643,7 +2648,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetTensorNative(JNIEnv *env
     // handle is read-only
     // yDesc is read-only
     // y is a native pointer
-    // valuePtr is a native pointer
+    if (!releasePointerData(env, valuePtr_pointerData, JNI_ABORT)) return JCUDNN_STATUS_INTERNAL_ERROR;
 
     // Return the result
     jint jniResult = (jint)jniResult_native;
@@ -14466,7 +14471,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroyAttnDescriptorNative
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetAttnDescriptorNative(JNIEnv *env, jclass cls, jobject attnDesc, jint queryMap, jint nHeads, jdouble smScaler, jint dataType, jint computePrec, jint mathType, jobject attnDropoutDesc, jobject postDropoutDesc, jint qSize, jint kSize, jint vSize, jint qProjSize, jint kProjSize, jint vProjSize, jint oProjSize, jint qoMaxSeqLength, jint kvMaxSeqLength, jint maxBatchSize, jint maxBeamSize)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetAttnDescriptorNative(JNIEnv *env, jclass cls, jobject attnDesc, jint attnMode, jint nHeads, jdouble smScaler, jint dataType, jint computePrec, jint mathType, jobject attnDropoutDesc, jobject postDropoutDesc, jint qSize, jint kSize, jint vSize, jint qProjSize, jint kProjSize, jint vProjSize, jint oProjSize, jint qoMaxSeqLength, jint kvMaxSeqLength, jint maxBatchSize, jint maxBeamSize)
 {
     // Null-checks for non-primitive arguments
     if (attnDesc == NULL)
@@ -14474,7 +14479,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetAttnDescriptorNative(JNI
         ThrowByName(env, "java/lang/NullPointerException", "Parameter 'attnDesc' is null for cudnnSetAttnDescriptor");
         return JCUDNN_STATUS_INTERNAL_ERROR;
     }
-    // queryMap is primitive
+    // attnMode is primitive
     // nHeads is primitive
     // smScaler is primitive
     // dataType is primitive
@@ -14503,12 +14508,12 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetAttnDescriptorNative(JNI
     // maxBeamSize is primitive
 
     // Log message
-    Logger::log(LOG_TRACE, "Executing cudnnSetAttnDescriptor(attnDesc=%p, queryMap=%d, nHeads=%d, smScaler=%lf, dataType=%d, computePrec=%d, mathType=%d, attnDropoutDesc=%p, postDropoutDesc=%p, qSize=%d, kSize=%d, vSize=%d, qProjSize=%d, kProjSize=%d, vProjSize=%d, oProjSize=%d, qoMaxSeqLength=%d, kvMaxSeqLength=%d, maxBatchSize=%d, maxBeamSize=%d)\n",
-        attnDesc, queryMap, nHeads, smScaler, dataType, computePrec, mathType, attnDropoutDesc, postDropoutDesc, qSize, kSize, vSize, qProjSize, kProjSize, vProjSize, oProjSize, qoMaxSeqLength, kvMaxSeqLength, maxBatchSize, maxBeamSize);
+    Logger::log(LOG_TRACE, "Executing cudnnSetAttnDescriptor(attnDesc=%p, attnMode=%d, nHeads=%d, smScaler=%lf, dataType=%d, computePrec=%d, mathType=%d, attnDropoutDesc=%p, postDropoutDesc=%p, qSize=%d, kSize=%d, vSize=%d, qProjSize=%d, kProjSize=%d, vProjSize=%d, oProjSize=%d, qoMaxSeqLength=%d, kvMaxSeqLength=%d, maxBatchSize=%d, maxBeamSize=%d)\n",
+        attnDesc, attnMode, nHeads, smScaler, dataType, computePrec, mathType, attnDropoutDesc, postDropoutDesc, qSize, kSize, vSize, qProjSize, kProjSize, vProjSize, oProjSize, qoMaxSeqLength, kvMaxSeqLength, maxBatchSize, maxBeamSize);
 
     // Native variable declarations
     cudnnAttnDescriptor_t attnDesc_native;
-    cudnnAttnQueryMap_t queryMap_native;
+    unsigned int attnMode_native;
     int nHeads_native = 0;
     double smScaler_native = 0.0;
     cudnnDataType_t dataType_native;
@@ -14530,7 +14535,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetAttnDescriptorNative(JNI
 
     // Obtain native variable values
     attnDesc_native = (cudnnAttnDescriptor_t)getNativePointerValue(env, attnDesc);
-    queryMap_native = (cudnnAttnQueryMap_t)queryMap;
+    attnMode_native = (unsigned int)attnMode;
     nHeads_native = (int)nHeads;
     smScaler_native = (double)smScaler;
     dataType_native = (cudnnDataType_t)dataType;
@@ -14551,11 +14556,11 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetAttnDescriptorNative(JNI
     maxBeamSize_native = (int)maxBeamSize;
 
     // Native function call
-    cudnnStatus_t jniResult_native = cudnnSetAttnDescriptor(attnDesc_native, queryMap_native, nHeads_native, smScaler_native, dataType_native, computePrec_native, mathType_native, attnDropoutDesc_native, postDropoutDesc_native, qSize_native, kSize_native, vSize_native, qProjSize_native, kProjSize_native, vProjSize_native, oProjSize_native, qoMaxSeqLength_native, kvMaxSeqLength_native, maxBatchSize_native, maxBeamSize_native);
+    cudnnStatus_t jniResult_native = cudnnSetAttnDescriptor(attnDesc_native, attnMode_native, nHeads_native, smScaler_native, dataType_native, computePrec_native, mathType_native, attnDropoutDesc_native, postDropoutDesc_native, qSize_native, kSize_native, vSize_native, qProjSize_native, kProjSize_native, vProjSize_native, oProjSize_native, qoMaxSeqLength_native, kvMaxSeqLength_native, maxBatchSize_native, maxBeamSize_native);
 
     // Write back native variable values
     // attnDesc is read-only
-    // queryMap is primitive
+    // attnMode is primitive
     // nHeads is primitive
     // smScaler is primitive
     // dataType is primitive
@@ -14580,7 +14585,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetAttnDescriptorNative(JNI
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetAttnDescriptorNative(JNIEnv *env, jclass cls, jobject attnDesc, jintArray queryMap, jintArray nHeads, jdoubleArray smScaler, jintArray dataType, jintArray computePrec, jintArray mathType, jobject attnDropoutDesc, jobject postDropoutDesc, jintArray qSize, jintArray kSize, jintArray vSize, jintArray qProjSize, jintArray kProjSize, jintArray vProjSize, jintArray oProjSize, jintArray qoMaxSeqLength, jintArray kvMaxSeqLength, jintArray maxBatchSize, jintArray maxBeamSize)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetAttnDescriptorNative(JNIEnv *env, jclass cls, jobject attnDesc, jintArray attnMode, jintArray nHeads, jdoubleArray smScaler, jintArray dataType, jintArray computePrec, jintArray mathType, jobject attnDropoutDesc, jobject postDropoutDesc, jintArray qSize, jintArray kSize, jintArray vSize, jintArray qProjSize, jintArray kProjSize, jintArray vProjSize, jintArray oProjSize, jintArray qoMaxSeqLength, jintArray kvMaxSeqLength, jintArray maxBatchSize, jintArray maxBeamSize)
 {
     // Null-checks for non-primitive arguments
     if (attnDesc == NULL)
@@ -14588,9 +14593,9 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetAttnDescriptorNative(JNI
         ThrowByName(env, "java/lang/NullPointerException", "Parameter 'attnDesc' is null for cudnnGetAttnDescriptor");
         return JCUDNN_STATUS_INTERNAL_ERROR;
     }
-    if (queryMap == NULL)
+    if (attnMode == NULL)
     {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'queryMap' is null for cudnnGetAttnDescriptor");
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'attnMode' is null for cudnnGetAttnDescriptor");
         return JCUDNN_STATUS_INTERNAL_ERROR;
     }
     if (nHeads == NULL)
@@ -14685,12 +14690,12 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetAttnDescriptorNative(JNI
     }
 
     // Log message
-    Logger::log(LOG_TRACE, "Executing cudnnGetAttnDescriptor(attnDesc=%p, queryMap=%p, nHeads=%p, smScaler=%p, dataType=%p, computePrec=%p, mathType=%p, attnDropoutDesc=%p, postDropoutDesc=%p, qSize=%p, kSize=%p, vSize=%p, qProjSize=%p, kProjSize=%p, vProjSize=%p, oProjSize=%p, qoMaxSeqLength=%p, kvMaxSeqLength=%p, maxBatchSize=%p, maxBeamSize=%p)\n",
-        attnDesc, queryMap, nHeads, smScaler, dataType, computePrec, mathType, attnDropoutDesc, postDropoutDesc, qSize, kSize, vSize, qProjSize, kProjSize, vProjSize, oProjSize, qoMaxSeqLength, kvMaxSeqLength, maxBatchSize, maxBeamSize);
+    Logger::log(LOG_TRACE, "Executing cudnnGetAttnDescriptor(attnDesc=%p, attnMode=%p, nHeads=%p, smScaler=%p, dataType=%p, computePrec=%p, mathType=%p, attnDropoutDesc=%p, postDropoutDesc=%p, qSize=%p, kSize=%p, vSize=%p, qProjSize=%p, kProjSize=%p, vProjSize=%p, oProjSize=%p, qoMaxSeqLength=%p, kvMaxSeqLength=%p, maxBatchSize=%p, maxBeamSize=%p)\n",
+        attnDesc, attnMode, nHeads, smScaler, dataType, computePrec, mathType, attnDropoutDesc, postDropoutDesc, qSize, kSize, vSize, qProjSize, kProjSize, vProjSize, oProjSize, qoMaxSeqLength, kvMaxSeqLength, maxBatchSize, maxBeamSize);
 
     // Native variable declarations
     cudnnAttnDescriptor_t attnDesc_native;
-    cudnnAttnQueryMap_t queryMap_native;
+    unsigned int attnMode_native;
     int nHeads_native;
     double smScaler_native;
     cudnnDataType_t dataType_native;
@@ -14712,7 +14717,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetAttnDescriptorNative(JNI
 
     // Obtain native variable values
     attnDesc_native = (cudnnAttnDescriptor_t)getNativePointerValue(env, attnDesc);
-    // queryMap is write-only
+    // attnMode is write-only
     // nHeads is write-only
     // smScaler is write-only
     // dataType is write-only
@@ -14733,11 +14738,11 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetAttnDescriptorNative(JNI
     // maxBeamSize is write-only
 
     // Native function call
-    cudnnStatus_t jniResult_native = cudnnGetAttnDescriptor(attnDesc_native, &queryMap_native, &nHeads_native, &smScaler_native, &dataType_native, &computePrec_native, &mathType_native, attnDropoutDesc_native, postDropoutDesc_native, &qSize_native, &kSize_native, &vSize_native, &qProjSize_native, &kProjSize_native, &vProjSize_native, &oProjSize_native, &qoMaxSeqLength_native, &kvMaxSeqLength_native, &maxBatchSize_native, &maxBeamSize_native);
+    cudnnStatus_t jniResult_native = cudnnGetAttnDescriptor(attnDesc_native, &attnMode_native, &nHeads_native, &smScaler_native, &dataType_native, &computePrec_native, &mathType_native, attnDropoutDesc_native, postDropoutDesc_native, &qSize_native, &kSize_native, &vSize_native, &qProjSize_native, &kProjSize_native, &vProjSize_native, &oProjSize_native, &qoMaxSeqLength_native, &kvMaxSeqLength_native, &maxBatchSize_native, &maxBeamSize_native);
 
     // Write back native variable values
     // attnDesc is read-only
-    if (!set(env, queryMap, 0, (jint)queryMap_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!set(env, attnMode, 0, (jint)attnMode_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
     if (!set(env, nHeads, 0, (jint)nHeads_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
     if (!set(env, smScaler, 0, (jdouble)smScaler_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
     if (!set(env, dataType, 0, (jint)dataType_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
@@ -14824,7 +14829,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetMultiHeadAttnBuffersNati
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetMultiHeadAttnWeightsNative(JNIEnv *env, jclass cls, jobject handle, jobject attnDesc, jint wKind, jlong weightSizeInBytes, jobject w, jobject wDesc, jobject wAddr)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetMultiHeadAttnWeightsNative(JNIEnv *env, jclass cls, jobject handle, jobject attnDesc, jint wKind, jlong weightSizeInBytes, jobject weights, jobject wDesc, jobject wAddr)
 {
     // Null-checks for non-primitive arguments
     if (handle == NULL)
@@ -14839,9 +14844,9 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetMultiHeadAttnWeightsNati
     }
     // wKind is primitive
     // weightSizeInBytes is primitive
-    if (w == NULL)
+    if (weights == NULL)
     {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'w' is null for cudnnGetMultiHeadAttnWeights");
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'weights' is null for cudnnGetMultiHeadAttnWeights");
         return JCUDNN_STATUS_INTERNAL_ERROR;
     }
     if (wDesc == NULL)
@@ -14856,15 +14861,15 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetMultiHeadAttnWeightsNati
     }
 
     // Log message
-    Logger::log(LOG_TRACE, "Executing cudnnGetMultiHeadAttnWeights(handle=%p, attnDesc=%p, wKind=%d, weightSizeInBytes=%ld, w=%p, wDesc=%p, wAddr=%p)\n",
-        handle, attnDesc, wKind, weightSizeInBytes, w, wDesc, wAddr);
+    Logger::log(LOG_TRACE, "Executing cudnnGetMultiHeadAttnWeights(handle=%p, attnDesc=%p, wKind=%d, weightSizeInBytes=%ld, weights=%p, wDesc=%p, wAddr=%p)\n",
+        handle, attnDesc, wKind, weightSizeInBytes, weights, wDesc, wAddr);
 
     // Native variable declarations
     cudnnHandle_t handle_native;
     cudnnAttnDescriptor_t attnDesc_native;
     cudnnMultiHeadAttnWeightKind_t wKind_native;
     size_t weightSizeInBytes_native = 0;
-    void * w_native = NULL;
+    void * weights_native = NULL;
     cudnnTensorDescriptor_t wDesc_native;
     void * * wAddr_native = NULL;
 
@@ -14873,19 +14878,19 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetMultiHeadAttnWeightsNati
     attnDesc_native = (cudnnAttnDescriptor_t)getNativePointerValue(env, attnDesc);
     wKind_native = (cudnnMultiHeadAttnWeightKind_t)wKind;
     weightSizeInBytes_native = (size_t)weightSizeInBytes;
-    w_native = (void *)getPointer(env, w);
+    weights_native = (void *)getPointer(env, weights);
     wDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, wDesc);
     wAddr_native = (void * *)getPointer(env, wAddr);
 
     // Native function call
-    cudnnStatus_t jniResult_native = cudnnGetMultiHeadAttnWeights(handle_native, attnDesc_native, wKind_native, weightSizeInBytes_native, w_native, wDesc_native, wAddr_native);
+    cudnnStatus_t jniResult_native = cudnnGetMultiHeadAttnWeights(handle_native, attnDesc_native, wKind_native, weightSizeInBytes_native, weights_native, wDesc_native, wAddr_native);
 
     // Write back native variable values
     // handle is read-only
     // attnDesc is read-only
     // wKind is primitive
     // weightSizeInBytes is primitive
-    // w is a native pointer
+    // weights is a native pointer
     // wDesc is read-only
     // wAddr is a native pointer
 
@@ -14894,7 +14899,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetMultiHeadAttnWeightsNati
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnForwardNative(JNIEnv *env, jclass cls, jobject handle, jobject attnDesc, jint currIdx, jintArray loWinIdx, jintArray hiWinIdx, jintArray seqLengthArrayQRO, jintArray seqLengthArrayKV, jobject qDesc, jobject queries, jobject residuals, jobject kDesc, jobject keys, jobject vDesc, jobject values, jobject oDesc, jobject out, jlong weightSizeInBytes, jobject w, jlong workSpaceSizeInBytes, jobject workSpace, jlong reserveSpaceSizeInBytes, jobject reserveSpace)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnForwardNative(JNIEnv *env, jclass cls, jobject handle, jobject attnDesc, jint currIdx, jintArray loWinIdx, jintArray hiWinIdx, jintArray devSeqLengthsQO, jintArray devSeqLengthsKV, jobject qDesc, jobject queries, jobject residuals, jobject kDesc, jobject keys, jobject vDesc, jobject values, jobject oDesc, jobject out, jlong weightSizeInBytes, jobject weights, jlong workSpaceSizeInBytes, jobject workSpace, jlong reserveSpaceSizeInBytes, jobject reserveSpace)
 {
     // Null-checks for non-primitive arguments
     if (handle == NULL)
@@ -14918,14 +14923,14 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnForwardNative(
         ThrowByName(env, "java/lang/NullPointerException", "Parameter 'hiWinIdx' is null for cudnnMultiHeadAttnForward");
         return JCUDNN_STATUS_INTERNAL_ERROR;
     }
-    if (seqLengthArrayQRO == NULL)
+    if (devSeqLengthsQO == NULL)
     {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'seqLengthArrayQRO' is null for cudnnMultiHeadAttnForward");
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'devSeqLengthsQO' is null for cudnnMultiHeadAttnForward");
         return JCUDNN_STATUS_INTERNAL_ERROR;
     }
-    if (seqLengthArrayKV == NULL)
+    if (devSeqLengthsKV == NULL)
     {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'seqLengthArrayKV' is null for cudnnMultiHeadAttnForward");
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'devSeqLengthsKV' is null for cudnnMultiHeadAttnForward");
         return JCUDNN_STATUS_INTERNAL_ERROR;
     }
     if (qDesc == NULL)
@@ -14974,9 +14979,9 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnForwardNative(
         return JCUDNN_STATUS_INTERNAL_ERROR;
     }
     // weightSizeInBytes is primitive
-    if (w == NULL)
+    if (weights == NULL)
     {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'w' is null for cudnnMultiHeadAttnForward");
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'weights' is null for cudnnMultiHeadAttnForward");
         return JCUDNN_STATUS_INTERNAL_ERROR;
     }
     // workSpaceSizeInBytes is primitive
@@ -14993,17 +14998,17 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnForwardNative(
     }
 
     // Log message
-    Logger::log(LOG_TRACE, "Executing cudnnMultiHeadAttnForward(handle=%p, attnDesc=%p, currIdx=%d, loWinIdx=%p, hiWinIdx=%p, seqLengthArrayQRO=%p, seqLengthArrayKV=%p, qDesc=%p, queries=%p, residuals=%p, kDesc=%p, keys=%p, vDesc=%p, values=%p, oDesc=%p, out=%p, weightSizeInBytes=%ld, w=%p, workSpaceSizeInBytes=%ld, workSpace=%p, reserveSpaceSizeInBytes=%ld, reserveSpace=%p)\n",
-        handle, attnDesc, currIdx, loWinIdx, hiWinIdx, seqLengthArrayQRO, seqLengthArrayKV, qDesc, queries, residuals, kDesc, keys, vDesc, values, oDesc, out, weightSizeInBytes, w, workSpaceSizeInBytes, workSpace, reserveSpaceSizeInBytes, reserveSpace);
+    Logger::log(LOG_TRACE, "Executing cudnnMultiHeadAttnForward(handle=%p, attnDesc=%p, currIdx=%d, loWinIdx=%p, hiWinIdx=%p, devSeqLengthsQO=%p, devSeqLengthsKV=%p, qDesc=%p, queries=%p, residuals=%p, kDesc=%p, keys=%p, vDesc=%p, values=%p, oDesc=%p, out=%p, weightSizeInBytes=%ld, weights=%p, workSpaceSizeInBytes=%ld, workSpace=%p, reserveSpaceSizeInBytes=%ld, reserveSpace=%p)\n",
+        handle, attnDesc, currIdx, loWinIdx, hiWinIdx, devSeqLengthsQO, devSeqLengthsKV, qDesc, queries, residuals, kDesc, keys, vDesc, values, oDesc, out, weightSizeInBytes, weights, workSpaceSizeInBytes, workSpace, reserveSpaceSizeInBytes, reserveSpace);
 
     // Native variable declarations
     cudnnHandle_t handle_native;
     cudnnAttnDescriptor_t attnDesc_native;
     int currIdx_native = 0;
-    int loWinIdx_native;
-    int hiWinIdx_native;
-    int seqLengthArrayQRO_native;
-    int seqLengthArrayKV_native;
+    int * loWinIdx_native = NULL;
+    int * hiWinIdx_native = NULL;
+    int * devSeqLengthsQO_native = NULL;
+    int * devSeqLengthsKV_native = NULL;
     cudnnSeqDataDescriptor_t qDesc_native;
     void * queries_native = NULL;
     void * residuals_native = NULL;
@@ -15014,7 +15019,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnForwardNative(
     cudnnSeqDataDescriptor_t oDesc_native;
     void * out_native = NULL;
     size_t weightSizeInBytes_native = 0;
-    void * w_native = NULL;
+    void * weights_native = NULL;
     size_t workSpaceSizeInBytes_native = 0;
     void * workSpace_native = NULL;
     size_t reserveSpaceSizeInBytes_native = 0;
@@ -15024,10 +15029,10 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnForwardNative(
     handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
     attnDesc_native = (cudnnAttnDescriptor_t)getNativePointerValue(env, attnDesc);
     currIdx_native = (int)currIdx;
-    // loWinIdx is write-only
-    // hiWinIdx is write-only
-    // seqLengthArrayQRO is write-only
-    // seqLengthArrayKV is write-only
+    if (!initNative(env, loWinIdx, loWinIdx_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!initNative(env, hiWinIdx, hiWinIdx_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!initNative(env, devSeqLengthsQO, devSeqLengthsQO_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!initNative(env, devSeqLengthsKV, devSeqLengthsKV_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
     qDesc_native = (cudnnSeqDataDescriptor_t)getNativePointerValue(env, qDesc);
     queries_native = (void *)getPointer(env, queries);
     residuals_native = (void *)getPointer(env, residuals);
@@ -15038,23 +15043,23 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnForwardNative(
     oDesc_native = (cudnnSeqDataDescriptor_t)getNativePointerValue(env, oDesc);
     out_native = (void *)getPointer(env, out);
     weightSizeInBytes_native = (size_t)weightSizeInBytes;
-    w_native = (void *)getPointer(env, w);
+    weights_native = (void *)getPointer(env, weights);
     workSpaceSizeInBytes_native = (size_t)workSpaceSizeInBytes;
     workSpace_native = (void *)getPointer(env, workSpace);
     reserveSpaceSizeInBytes_native = (size_t)reserveSpaceSizeInBytes;
     reserveSpace_native = (void *)getPointer(env, reserveSpace);
 
     // Native function call
-    cudnnStatus_t jniResult_native = cudnnMultiHeadAttnForward(handle_native, attnDesc_native, currIdx_native, &loWinIdx_native, &hiWinIdx_native, &seqLengthArrayQRO_native, &seqLengthArrayKV_native, qDesc_native, queries_native, residuals_native, kDesc_native, keys_native, vDesc_native, values_native, oDesc_native, out_native, weightSizeInBytes_native, w_native, workSpaceSizeInBytes_native, workSpace_native, reserveSpaceSizeInBytes_native, reserveSpace_native);
+    cudnnStatus_t jniResult_native = cudnnMultiHeadAttnForward(handle_native, attnDesc_native, currIdx_native, loWinIdx_native, hiWinIdx_native, devSeqLengthsQO_native, devSeqLengthsKV_native, qDesc_native, queries_native, residuals_native, kDesc_native, keys_native, vDesc_native, values_native, oDesc_native, out_native, weightSizeInBytes_native, weights_native, workSpaceSizeInBytes_native, workSpace_native, reserveSpaceSizeInBytes_native, reserveSpace_native);
 
     // Write back native variable values
     // handle is read-only
     // attnDesc is read-only
     // currIdx is primitive
-    if (!set(env, loWinIdx, 0, (jint)loWinIdx_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
-    if (!set(env, hiWinIdx, 0, (jint)hiWinIdx_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
-    if (!set(env, seqLengthArrayQRO, 0, (jint)seqLengthArrayQRO_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
-    if (!set(env, seqLengthArrayKV, 0, (jint)seqLengthArrayKV_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!releaseNative(env, loWinIdx_native, loWinIdx, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!releaseNative(env, hiWinIdx_native, hiWinIdx, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!releaseNative(env, devSeqLengthsQO_native, devSeqLengthsQO, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!releaseNative(env, devSeqLengthsKV_native, devSeqLengthsKV, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
     // qDesc is read-only
     // queries is a native pointer
     // residuals is a native pointer
@@ -15065,7 +15070,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnForwardNative(
     // oDesc is read-only
     // out is a native pointer
     // weightSizeInBytes is primitive
-    // w is a native pointer
+    // weights is a native pointer
     // workSpaceSizeInBytes is primitive
     // workSpace is a native pointer
     // reserveSpaceSizeInBytes is primitive
@@ -15076,7 +15081,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnForwardNative(
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnBackwardDataNative(JNIEnv *env, jclass cls, jobject handle, jobject attnDesc, jintArray loWinIdx, jintArray hiWinIdx, jintArray seqLengthArrayDQDO, jintArray seqLengthArrayDKDV, jobject doDesc, jobject dout, jobject dqDesc, jobject dqueries, jobject queries, jobject dkDesc, jobject dkeys, jobject keys, jobject dvDesc, jobject dvalues, jobject values, jlong weightSizeInBytes, jobject w, jlong workSpaceSizeInBytes, jobject workSpace, jlong reserveSpaceSizeInBytes, jobject reserveSpace)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnBackwardDataNative(JNIEnv *env, jclass cls, jobject handle, jobject attnDesc, jintArray loWinIdx, jintArray hiWinIdx, jintArray devSeqLengthsDQDO, jintArray devSeqLengthsDKDV, jobject doDesc, jobject dout, jobject dqDesc, jobject dqueries, jobject queries, jobject dkDesc, jobject dkeys, jobject keys, jobject dvDesc, jobject dvalues, jobject values, jlong weightSizeInBytes, jobject weights, jlong workSpaceSizeInBytes, jobject workSpace, jlong reserveSpaceSizeInBytes, jobject reserveSpace)
 {
     // Null-checks for non-primitive arguments
     if (handle == NULL)
@@ -15099,14 +15104,14 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnBackwardDataNa
         ThrowByName(env, "java/lang/NullPointerException", "Parameter 'hiWinIdx' is null for cudnnMultiHeadAttnBackwardData");
         return JCUDNN_STATUS_INTERNAL_ERROR;
     }
-    if (seqLengthArrayDQDO == NULL)
+    if (devSeqLengthsDQDO == NULL)
     {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'seqLengthArrayDQDO' is null for cudnnMultiHeadAttnBackwardData");
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'devSeqLengthsDQDO' is null for cudnnMultiHeadAttnBackwardData");
         return JCUDNN_STATUS_INTERNAL_ERROR;
     }
-    if (seqLengthArrayDKDV == NULL)
+    if (devSeqLengthsDKDV == NULL)
     {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'seqLengthArrayDKDV' is null for cudnnMultiHeadAttnBackwardData");
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'devSeqLengthsDKDV' is null for cudnnMultiHeadAttnBackwardData");
         return JCUDNN_STATUS_INTERNAL_ERROR;
     }
     if (doDesc == NULL)
@@ -15165,9 +15170,9 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnBackwardDataNa
         return JCUDNN_STATUS_INTERNAL_ERROR;
     }
     // weightSizeInBytes is primitive
-    if (w == NULL)
+    if (weights == NULL)
     {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'w' is null for cudnnMultiHeadAttnBackwardData");
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'weights' is null for cudnnMultiHeadAttnBackwardData");
         return JCUDNN_STATUS_INTERNAL_ERROR;
     }
     // workSpaceSizeInBytes is primitive
@@ -15184,16 +15189,16 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnBackwardDataNa
     }
 
     // Log message
-    Logger::log(LOG_TRACE, "Executing cudnnMultiHeadAttnBackwardData(handle=%p, attnDesc=%p, loWinIdx=%p, hiWinIdx=%p, seqLengthArrayDQDO=%p, seqLengthArrayDKDV=%p, doDesc=%p, dout=%p, dqDesc=%p, dqueries=%p, queries=%p, dkDesc=%p, dkeys=%p, keys=%p, dvDesc=%p, dvalues=%p, values=%p, weightSizeInBytes=%ld, w=%p, workSpaceSizeInBytes=%ld, workSpace=%p, reserveSpaceSizeInBytes=%ld, reserveSpace=%p)\n",
-        handle, attnDesc, loWinIdx, hiWinIdx, seqLengthArrayDQDO, seqLengthArrayDKDV, doDesc, dout, dqDesc, dqueries, queries, dkDesc, dkeys, keys, dvDesc, dvalues, values, weightSizeInBytes, w, workSpaceSizeInBytes, workSpace, reserveSpaceSizeInBytes, reserveSpace);
+    Logger::log(LOG_TRACE, "Executing cudnnMultiHeadAttnBackwardData(handle=%p, attnDesc=%p, loWinIdx=%p, hiWinIdx=%p, devSeqLengthsDQDO=%p, devSeqLengthsDKDV=%p, doDesc=%p, dout=%p, dqDesc=%p, dqueries=%p, queries=%p, dkDesc=%p, dkeys=%p, keys=%p, dvDesc=%p, dvalues=%p, values=%p, weightSizeInBytes=%ld, weights=%p, workSpaceSizeInBytes=%ld, workSpace=%p, reserveSpaceSizeInBytes=%ld, reserveSpace=%p)\n",
+        handle, attnDesc, loWinIdx, hiWinIdx, devSeqLengthsDQDO, devSeqLengthsDKDV, doDesc, dout, dqDesc, dqueries, queries, dkDesc, dkeys, keys, dvDesc, dvalues, values, weightSizeInBytes, weights, workSpaceSizeInBytes, workSpace, reserveSpaceSizeInBytes, reserveSpace);
 
     // Native variable declarations
     cudnnHandle_t handle_native;
     cudnnAttnDescriptor_t attnDesc_native;
-    int loWinIdx_native;
-    int hiWinIdx_native;
-    int seqLengthArrayDQDO_native;
-    int seqLengthArrayDKDV_native;
+    int * loWinIdx_native = NULL;
+    int * hiWinIdx_native = NULL;
+    int * devSeqLengthsDQDO_native = NULL;
+    int * devSeqLengthsDKDV_native = NULL;
     cudnnSeqDataDescriptor_t doDesc_native;
     void * dout_native = NULL;
     cudnnSeqDataDescriptor_t dqDesc_native;
@@ -15206,7 +15211,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnBackwardDataNa
     void * dvalues_native = NULL;
     void * values_native = NULL;
     size_t weightSizeInBytes_native = 0;
-    void * w_native = NULL;
+    void * weights_native = NULL;
     size_t workSpaceSizeInBytes_native = 0;
     void * workSpace_native = NULL;
     size_t reserveSpaceSizeInBytes_native = 0;
@@ -15215,10 +15220,10 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnBackwardDataNa
     // Obtain native variable values
     handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
     attnDesc_native = (cudnnAttnDescriptor_t)getNativePointerValue(env, attnDesc);
-    // loWinIdx is write-only
-    // hiWinIdx is write-only
-    // seqLengthArrayDQDO is write-only
-    // seqLengthArrayDKDV is write-only
+    if (!initNative(env, loWinIdx, loWinIdx_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!initNative(env, hiWinIdx, hiWinIdx_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!initNative(env, devSeqLengthsDQDO, devSeqLengthsDQDO_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!initNative(env, devSeqLengthsDKDV, devSeqLengthsDKDV_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
     doDesc_native = (cudnnSeqDataDescriptor_t)getNativePointerValue(env, doDesc);
     dout_native = (void *)getPointer(env, dout);
     dqDesc_native = (cudnnSeqDataDescriptor_t)getNativePointerValue(env, dqDesc);
@@ -15231,22 +15236,22 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnBackwardDataNa
     dvalues_native = (void *)getPointer(env, dvalues);
     values_native = (void *)getPointer(env, values);
     weightSizeInBytes_native = (size_t)weightSizeInBytes;
-    w_native = (void *)getPointer(env, w);
+    weights_native = (void *)getPointer(env, weights);
     workSpaceSizeInBytes_native = (size_t)workSpaceSizeInBytes;
     workSpace_native = (void *)getPointer(env, workSpace);
     reserveSpaceSizeInBytes_native = (size_t)reserveSpaceSizeInBytes;
     reserveSpace_native = (void *)getPointer(env, reserveSpace);
 
     // Native function call
-    cudnnStatus_t jniResult_native = cudnnMultiHeadAttnBackwardData(handle_native, attnDesc_native, &loWinIdx_native, &hiWinIdx_native, &seqLengthArrayDQDO_native, &seqLengthArrayDKDV_native, doDesc_native, dout_native, dqDesc_native, dqueries_native, queries_native, dkDesc_native, dkeys_native, keys_native, dvDesc_native, dvalues_native, values_native, weightSizeInBytes_native, w_native, workSpaceSizeInBytes_native, workSpace_native, reserveSpaceSizeInBytes_native, reserveSpace_native);
+    cudnnStatus_t jniResult_native = cudnnMultiHeadAttnBackwardData(handle_native, attnDesc_native, loWinIdx_native, hiWinIdx_native, devSeqLengthsDQDO_native, devSeqLengthsDKDV_native, doDesc_native, dout_native, dqDesc_native, dqueries_native, queries_native, dkDesc_native, dkeys_native, keys_native, dvDesc_native, dvalues_native, values_native, weightSizeInBytes_native, weights_native, workSpaceSizeInBytes_native, workSpace_native, reserveSpaceSizeInBytes_native, reserveSpace_native);
 
     // Write back native variable values
     // handle is read-only
     // attnDesc is read-only
-    if (!set(env, loWinIdx, 0, (jint)loWinIdx_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
-    if (!set(env, hiWinIdx, 0, (jint)hiWinIdx_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
-    if (!set(env, seqLengthArrayDQDO, 0, (jint)seqLengthArrayDQDO_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
-    if (!set(env, seqLengthArrayDKDV, 0, (jint)seqLengthArrayDKDV_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!releaseNative(env, loWinIdx_native, loWinIdx, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!releaseNative(env, hiWinIdx_native, hiWinIdx, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!releaseNative(env, devSeqLengthsDQDO_native, devSeqLengthsDQDO, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    if (!releaseNative(env, devSeqLengthsDKDV_native, devSeqLengthsDKDV, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
     // doDesc is read-only
     // dout is a native pointer
     // dqDesc is read-only
@@ -15259,7 +15264,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnBackwardDataNa
     // dvalues is a native pointer
     // values is a native pointer
     // weightSizeInBytes is primitive
-    // w is a native pointer
+    // weights is a native pointer
     // workSpaceSizeInBytes is primitive
     // workSpace is a native pointer
     // reserveSpaceSizeInBytes is primitive
@@ -15270,7 +15275,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnBackwardDataNa
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnBackwardWeightsNative(JNIEnv *env, jclass cls, jobject handle, jobject attnDesc, jint addGrad, jobject qDesc, jobject queries, jobject kDesc, jobject keys, jobject vDesc, jobject values, jobject doDesc, jobject dout, jlong weightSizeInBytes, jobject w, jobject dw, jlong workSpaceSizeInBytes, jobject workSpace, jlong reserveSpaceSizeInBytes, jobject reserveSpace)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnBackwardWeightsNative(JNIEnv *env, jclass cls, jobject handle, jobject attnDesc, jint addGrad, jobject qDesc, jobject queries, jobject kDesc, jobject keys, jobject vDesc, jobject values, jobject doDesc, jobject dout, jlong weightSizeInBytes, jobject weights, jobject dweights, jlong workSpaceSizeInBytes, jobject workSpace, jlong reserveSpaceSizeInBytes, jobject reserveSpace)
 {
     // Null-checks for non-primitive arguments
     if (handle == NULL)
@@ -15325,14 +15330,14 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnBackwardWeight
         return JCUDNN_STATUS_INTERNAL_ERROR;
     }
     // weightSizeInBytes is primitive
-    if (w == NULL)
+    if (weights == NULL)
     {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'w' is null for cudnnMultiHeadAttnBackwardWeights");
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'weights' is null for cudnnMultiHeadAttnBackwardWeights");
         return JCUDNN_STATUS_INTERNAL_ERROR;
     }
-    if (dw == NULL)
+    if (dweights == NULL)
     {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dw' is null for cudnnMultiHeadAttnBackwardWeights");
+        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'dweights' is null for cudnnMultiHeadAttnBackwardWeights");
         return JCUDNN_STATUS_INTERNAL_ERROR;
     }
     // workSpaceSizeInBytes is primitive
@@ -15349,8 +15354,8 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnBackwardWeight
     }
 
     // Log message
-    Logger::log(LOG_TRACE, "Executing cudnnMultiHeadAttnBackwardWeights(handle=%p, attnDesc=%p, addGrad=%d, qDesc=%p, queries=%p, kDesc=%p, keys=%p, vDesc=%p, values=%p, doDesc=%p, dout=%p, weightSizeInBytes=%ld, w=%p, dw=%p, workSpaceSizeInBytes=%ld, workSpace=%p, reserveSpaceSizeInBytes=%ld, reserveSpace=%p)\n",
-        handle, attnDesc, addGrad, qDesc, queries, kDesc, keys, vDesc, values, doDesc, dout, weightSizeInBytes, w, dw, workSpaceSizeInBytes, workSpace, reserveSpaceSizeInBytes, reserveSpace);
+    Logger::log(LOG_TRACE, "Executing cudnnMultiHeadAttnBackwardWeights(handle=%p, attnDesc=%p, addGrad=%d, qDesc=%p, queries=%p, kDesc=%p, keys=%p, vDesc=%p, values=%p, doDesc=%p, dout=%p, weightSizeInBytes=%ld, weights=%p, dweights=%p, workSpaceSizeInBytes=%ld, workSpace=%p, reserveSpaceSizeInBytes=%ld, reserveSpace=%p)\n",
+        handle, attnDesc, addGrad, qDesc, queries, kDesc, keys, vDesc, values, doDesc, dout, weightSizeInBytes, weights, dweights, workSpaceSizeInBytes, workSpace, reserveSpaceSizeInBytes, reserveSpace);
 
     // Native variable declarations
     cudnnHandle_t handle_native;
@@ -15365,8 +15370,8 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnBackwardWeight
     cudnnSeqDataDescriptor_t doDesc_native;
     void * dout_native = NULL;
     size_t weightSizeInBytes_native = 0;
-    void * w_native = NULL;
-    void * dw_native = NULL;
+    void * weights_native = NULL;
+    void * dweights_native = NULL;
     size_t workSpaceSizeInBytes_native = 0;
     void * workSpace_native = NULL;
     size_t reserveSpaceSizeInBytes_native = 0;
@@ -15385,15 +15390,15 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnBackwardWeight
     doDesc_native = (cudnnSeqDataDescriptor_t)getNativePointerValue(env, doDesc);
     dout_native = (void *)getPointer(env, dout);
     weightSizeInBytes_native = (size_t)weightSizeInBytes;
-    w_native = (void *)getPointer(env, w);
-    dw_native = (void *)getPointer(env, dw);
+    weights_native = (void *)getPointer(env, weights);
+    dweights_native = (void *)getPointer(env, dweights);
     workSpaceSizeInBytes_native = (size_t)workSpaceSizeInBytes;
     workSpace_native = (void *)getPointer(env, workSpace);
     reserveSpaceSizeInBytes_native = (size_t)reserveSpaceSizeInBytes;
     reserveSpace_native = (void *)getPointer(env, reserveSpace);
 
     // Native function call
-    cudnnStatus_t jniResult_native = cudnnMultiHeadAttnBackwardWeights(handle_native, attnDesc_native, addGrad_native, qDesc_native, queries_native, kDesc_native, keys_native, vDesc_native, values_native, doDesc_native, dout_native, weightSizeInBytes_native, w_native, dw_native, workSpaceSizeInBytes_native, workSpace_native, reserveSpaceSizeInBytes_native, reserveSpace_native);
+    cudnnStatus_t jniResult_native = cudnnMultiHeadAttnBackwardWeights(handle_native, attnDesc_native, addGrad_native, qDesc_native, queries_native, kDesc_native, keys_native, vDesc_native, values_native, doDesc_native, dout_native, weightSizeInBytes_native, weights_native, dweights_native, workSpaceSizeInBytes_native, workSpace_native, reserveSpaceSizeInBytes_native, reserveSpace_native);
 
     // Write back native variable values
     // handle is read-only
@@ -15408,8 +15413,8 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnBackwardWeight
     // doDesc is read-only
     // dout is a native pointer
     // weightSizeInBytes is primitive
-    // w is a native pointer
-    // dw is a native pointer
+    // weights is a native pointer
+    // dweights is a native pointer
     // workSpaceSizeInBytes is primitive
     // workSpace is a native pointer
     // reserveSpaceSizeInBytes is primitive
@@ -16357,7 +16362,6 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRestoreAlgorithmNative(JNIE
     return jniResult;
 }
 
-
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetCallbackNative(JNIEnv *env, jclass cls, jint mask, jobject udata, jobject fptr)
 {
     // XXX Callbacks are not supported yet
@@ -16982,5 +16986,4 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetRNNDescriptor_1v5Native(
     jint jniResult = (jint)jniResult_native;
     return jniResult;
 }
-
 
