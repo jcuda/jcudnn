@@ -35,6 +35,7 @@ public class cudnnMathType
     public static final int CUDNN_DEFAULT_MATH = 0;
     public static final int CUDNN_TENSOR_OP_MATH = 1;
     public static final int CUDNN_TENSOR_OP_MATH_ALLOW_CONVERSION = 2;
+    public static final int CUDNN_FMA_MATH = 3;
 
     /**
      * Private constructor to prevent instantiation
@@ -56,6 +57,7 @@ public class cudnnMathType
             case CUDNN_DEFAULT_MATH: return "CUDNN_DEFAULT_MATH";
             case CUDNN_TENSOR_OP_MATH: return "CUDNN_TENSOR_OP_MATH";
             case CUDNN_TENSOR_OP_MATH_ALLOW_CONVERSION: return "CUDNN_TENSOR_OP_MATH_ALLOW_CONVERSION";
+            case CUDNN_FMA_MATH: return "CUDNN_FMA_MATH";
         }
         return "INVALID cudnnMathType: "+n;
     }

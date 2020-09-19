@@ -29,9 +29,6 @@ package jcuda.jcudnn;
 
 public class cudnnConvolutionBwdDataAlgo
 {
-    /**
-     * non-deterministic 
-     */
     public static final int CUDNN_CONVOLUTION_BWD_DATA_ALGO_0 = 0;
     public static final int CUDNN_CONVOLUTION_BWD_DATA_ALGO_1 = 1;
     public static final int CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT = 2;

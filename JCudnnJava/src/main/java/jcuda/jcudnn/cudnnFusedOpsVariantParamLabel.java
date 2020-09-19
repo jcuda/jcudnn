@@ -29,8 +29,6 @@ package jcuda.jcudnn;
 
 public class cudnnFusedOpsVariantParamLabel
 {
-    /** set: pass void* pointing to dev memory */
-    /** get: pass void** pointing to host memory */
     public static final int CUDNN_PTR_XDATA = 0;
     public static final int CUDNN_PTR_BN_EQSCALE = 1;
     public static final int CUDNN_PTR_BN_EQBIAS = 2;
@@ -55,13 +53,9 @@ public class cudnnFusedOpsVariantParamLabel
     public static final int CUDNN_PTR_DZDATA = 21;
     public static final int CUDNN_PTR_BN_DSCALE = 22;
     public static final int CUDNN_PTR_BN_DBIAS = 23;
-    /** set/get: pass size_t* pointing to host memory */
     public static final int CUDNN_SCALAR_SIZE_T_WORKSPACE_SIZE_IN_BYTES = 100;
-    /** set/get: pass int64_t* pointing to host memory */
     public static final int CUDNN_SCALAR_INT64_T_BN_ACCUMULATION_COUNT = 101;
-    /** set/get: pass double* pointing to host memory */
     public static final int CUDNN_SCALAR_DOUBLE_BN_EXP_AVG_FACTOR = 102;
-    /** set/get: pass double* pointing to host memory */
     public static final int CUDNN_SCALAR_DOUBLE_BN_EPSILON = 103;
 
     /**

@@ -27,17 +27,15 @@
  */
 package jcuda.jcudnn;
 
-/** helper function to provide the convolution algo that fit best the requirement */
-public class cudnnConvolutionBwdFilterPreference
+public class cudnnBackendHeurMode
 {
-    public static final int CUDNN_CONVOLUTION_BWD_FILTER_NO_WORKSPACE = 0;
-    public static final int CUDNN_CONVOLUTION_BWD_FILTER_PREFER_FASTEST = 1;
-    public static final int CUDNN_CONVOLUTION_BWD_FILTER_SPECIFY_WORKSPACE_LIMIT = 2;
+    public static final int CUDNN_HEUR_MODE_INSTANT = 0;
+    public static final int CUDNN_HEUR_MODES_COUNT = 1;
 
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnConvolutionBwdFilterPreference()
+    private cudnnBackendHeurMode()
     {
         // Private constructor to prevent instantiation
     }
@@ -51,11 +49,10 @@ public class cudnnConvolutionBwdFilterPreference
     {
         switch (n)
         {
-            case CUDNN_CONVOLUTION_BWD_FILTER_NO_WORKSPACE: return "CUDNN_CONVOLUTION_BWD_FILTER_NO_WORKSPACE";
-            case CUDNN_CONVOLUTION_BWD_FILTER_PREFER_FASTEST: return "CUDNN_CONVOLUTION_BWD_FILTER_PREFER_FASTEST";
-            case CUDNN_CONVOLUTION_BWD_FILTER_SPECIFY_WORKSPACE_LIMIT: return "CUDNN_CONVOLUTION_BWD_FILTER_SPECIFY_WORKSPACE_LIMIT";
+            case CUDNN_HEUR_MODE_INSTANT: return "CUDNN_HEUR_MODE_INSTANT";
+            case CUDNN_HEUR_MODES_COUNT: return "CUDNN_HEUR_MODES_COUNT";
         }
-        return "INVALID cudnnConvolutionBwdFilterPreference: "+n;
+        return "INVALID cudnnBackendHeurMode: "+n;
     }
 }
 

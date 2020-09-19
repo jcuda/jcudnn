@@ -29,7 +29,9 @@ package jcuda.jcudnn;
 
 import jcuda.NativePointerObject;
 
-/** RNN FIND API */
+/**
+ * Java port of a cudnnAlgorithmDescriptor
+ */
 public class cudnnAlgorithmDescriptor extends NativePointerObject
 {
     /**

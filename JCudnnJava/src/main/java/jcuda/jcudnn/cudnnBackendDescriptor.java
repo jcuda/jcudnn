@@ -30,14 +30,14 @@ package jcuda.jcudnn;
 import jcuda.NativePointerObject;
 
 /**
- * Java port of a cudnnLRNDescriptor
+ * Java port of a cudnnBackendDescriptor
  */
-public class cudnnLRNDescriptor extends NativePointerObject
+public class cudnnBackendDescriptor extends NativePointerObject
 {
     /**
-     * Creates a new, uninitialized cudnnLRNDescriptor
+     * Creates a new, uninitialized cudnnBackendDescriptor
      */
-    public cudnnLRNDescriptor()
+    public cudnnBackendDescriptor()
     {
         // Default constructor
     }
@@ -50,7 +50,7 @@ public class cudnnLRNDescriptor extends NativePointerObject
     @Override
     public String toString()
     {
-        return "cudnnLRNDescriptor["+
+        return "cudnnBackendDescriptor["+
             "nativePointer=0x"+Long.toHexString(getNativePointer())+"]";
     }
 }

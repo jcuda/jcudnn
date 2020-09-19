@@ -29,23 +29,12 @@ package jcuda.jcudnn;
 
 public class cudnnFusedOps
 {
-    /** each op in [ ] can be disabled by passing NULL ptr */
-    /** [per channel scale], [per channel bias], [activation], convolution, [generate BN stats] */
     public static final int CUDNN_FUSED_SCALE_BIAS_ACTIVATION_CONV_BNSTATS = 0;
-    /** [per channel scale], [per channel bias], [activation], convolutionBackwardWeights */
     public static final int CUDNN_FUSED_SCALE_BIAS_ACTIVATION_WGRAD = 1;
-    /** utility for BN training in BN-conv fusion */
-    /** computes the equivalent scale and bias from ySum ySqSum and learned scale, bias */
-    /** optionally update running stats and generate saved stats */
     public static final int CUDNN_FUSED_BN_FINALIZE_STATISTICS_TRAINING = 2;
-    /** utility for BN inference in BN-conv fusion */
-    /** computes the equivalent scale and bias from learned running stats and learned scale, bias */
     public static final int CUDNN_FUSED_BN_FINALIZE_STATISTICS_INFERENCE = 3;
-    /** reserved for future use: convolution, [per channel scale], [per channel bias], [residual add], [activation] */
     public static final int CUDNN_FUSED_CONV_SCALE_BIAS_ADD_ACTIVATION = 4;
-    /** reserved for future use: [per channel scale], [per channel bias], [residual add],  activation, bitmask */
     public static final int CUDNN_FUSED_SCALE_BIAS_ADD_ACTIVATION_GEN_BITMASK = 5;
-    /** reserved for future use */
     public static final int CUDNN_FUSED_DACTIVATION_FORK_DBATCHNORM = 6;
 
     /**

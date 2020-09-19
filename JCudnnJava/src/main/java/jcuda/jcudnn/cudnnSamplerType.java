@@ -27,7 +27,6 @@
  */
 package jcuda.jcudnn;
 
-/** APIs for spatial transformer network*/
 public class cudnnSamplerType
 {
     public static final int CUDNN_SAMPLER_BILINEAR = 0;

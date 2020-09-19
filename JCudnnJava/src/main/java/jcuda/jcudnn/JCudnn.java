@@ -40,9 +40,9 @@ import jcuda.runtime.cudaStream_t;
  */
 public class JCudnn
 {
-    public static final int CUDNN_MAJOR      = 7;
-    public static final int CUDNN_MINOR      = 6;
-    public static final int CUDNN_PATCHLEVEL = 5;
+    public static final int CUDNN_MAJOR      = 8;
+    public static final int CUDNN_MINOR      = 0;
+    public static final int CUDNN_PATCHLEVEL = 3;
 
     public static final int CUDNN_VERSION    =
         (CUDNN_MAJOR * 1000 + CUDNN_MINOR * 100 + CUDNN_PATCHLEVEL);
@@ -596,42 +596,6 @@ public class JCudnn
         Pointer destData);
 
 
-    /** Helper function to calculate folding descriptors  for dgrad */
-    public static int cudnnGetFoldedConvBackwardDataDescriptors(
-        cudnnHandle handle, 
-        cudnnFilterDescriptor filterDesc, 
-        cudnnTensorDescriptor diffDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor gradDesc, 
-        int transformFormat, 
-        cudnnFilterDescriptor foldedFilterDesc, 
-        cudnnTensorDescriptor paddedDiffDesc, 
-        cudnnConvolutionDescriptor foldedConvDesc, 
-        cudnnTensorDescriptor foldedGradDesc, 
-        cudnnTensorTransformDescriptor filterFoldTransDesc, 
-        cudnnTensorTransformDescriptor diffPadTransDesc, 
-        cudnnTensorTransformDescriptor gradFoldTransDesc, 
-        cudnnTensorTransformDescriptor gradUnfoldTransDesc)
-    {
-        return checkResult(cudnnGetFoldedConvBackwardDataDescriptorsNative(handle, filterDesc, diffDesc, convDesc, gradDesc, transformFormat, foldedFilterDesc, paddedDiffDesc, foldedConvDesc, foldedGradDesc, filterFoldTransDesc, diffPadTransDesc, gradFoldTransDesc, gradUnfoldTransDesc));
-    }
-    private static native int cudnnGetFoldedConvBackwardDataDescriptorsNative(
-        cudnnHandle handle, 
-        cudnnFilterDescriptor filterDesc, 
-        cudnnTensorDescriptor diffDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor gradDesc, 
-        int transformFormat, 
-        cudnnFilterDescriptor foldedFilterDesc, 
-        cudnnTensorDescriptor paddedDiffDesc, 
-        cudnnConvolutionDescriptor foldedConvDesc, 
-        cudnnTensorDescriptor foldedGradDesc, 
-        cudnnTensorTransformDescriptor filterFoldTransDesc, 
-        cudnnTensorTransformDescriptor diffPadTransDesc, 
-        cudnnTensorTransformDescriptor gradFoldTransDesc, 
-        cudnnTensorTransformDescriptor gradUnfoldTransDesc);
-
-
     /** Tensor Bias addition : C = alpha * A + beta * C  */
     public static int cudnnAddTensor(
         cudnnHandle handle, 
@@ -1024,846 +988,6 @@ public class JCudnn
         cudnnFilterDescriptor filterDesc);
 
 
-    public static int cudnnReorderFilterAndBias(
-        cudnnHandle handle, 
-        cudnnFilterDescriptor filterDesc, 
-        int reorderType, 
-        Pointer filterData, 
-        Pointer reorderedFilterData, 
-        int reorderBias, 
-        Pointer biasData, 
-        Pointer reorderedBiasData)
-    {
-        return checkResult(cudnnReorderFilterAndBiasNative(handle, filterDesc, reorderType, filterData, reorderedFilterData, reorderBias, biasData, reorderedBiasData));
-    }
-    private static native int cudnnReorderFilterAndBiasNative(
-        cudnnHandle handle, 
-        cudnnFilterDescriptor filterDesc, 
-        int reorderType, 
-        Pointer filterData, 
-        Pointer reorderedFilterData, 
-        int reorderBias, 
-        Pointer biasData, 
-        Pointer reorderedBiasData);
-
-
-    /** Create an instance of convolution descriptor */
-    public static int cudnnCreateConvolutionDescriptor(
-        cudnnConvolutionDescriptor convDesc)
-    {
-        return checkResult(cudnnCreateConvolutionDescriptorNative(convDesc));
-    }
-    private static native int cudnnCreateConvolutionDescriptorNative(
-        cudnnConvolutionDescriptor convDesc);
-
-
-    public static int cudnnSetConvolutionMathType(
-        cudnnConvolutionDescriptor convDesc, 
-        int mathType)
-    {
-        return checkResult(cudnnSetConvolutionMathTypeNative(convDesc, mathType));
-    }
-    private static native int cudnnSetConvolutionMathTypeNative(
-        cudnnConvolutionDescriptor convDesc, 
-        int mathType);
-
-
-    public static int cudnnGetConvolutionMathType(
-        cudnnConvolutionDescriptor convDesc, 
-        int[] mathType)
-    {
-        return checkResult(cudnnGetConvolutionMathTypeNative(convDesc, mathType));
-    }
-    private static native int cudnnGetConvolutionMathTypeNative(
-        cudnnConvolutionDescriptor convDesc, 
-        int[] mathType);
-
-
-    public static int cudnnSetConvolutionGroupCount(
-        cudnnConvolutionDescriptor convDesc, 
-        int groupCount)
-    {
-        return checkResult(cudnnSetConvolutionGroupCountNative(convDesc, groupCount));
-    }
-    private static native int cudnnSetConvolutionGroupCountNative(
-        cudnnConvolutionDescriptor convDesc, 
-        int groupCount);
-
-
-    public static int cudnnGetConvolutionGroupCount(
-        cudnnConvolutionDescriptor convDesc, 
-        int[] groupCount)
-    {
-        return checkResult(cudnnGetConvolutionGroupCountNative(convDesc, groupCount));
-    }
-    private static native int cudnnGetConvolutionGroupCountNative(
-        cudnnConvolutionDescriptor convDesc, 
-        int[] groupCount);
-
-
-    public static int cudnnSetConvolutionReorderType(
-        cudnnConvolutionDescriptor convDesc, 
-        int reorderType)
-    {
-        return checkResult(cudnnSetConvolutionReorderTypeNative(convDesc, reorderType));
-    }
-    private static native int cudnnSetConvolutionReorderTypeNative(
-        cudnnConvolutionDescriptor convDesc, 
-        int reorderType);
-
-
-    public static int cudnnGetConvolutionReorderType(
-        cudnnConvolutionDescriptor convDesc, 
-        int[] reorderType)
-    {
-        return checkResult(cudnnGetConvolutionReorderTypeNative(convDesc, reorderType));
-    }
-    private static native int cudnnGetConvolutionReorderTypeNative(
-        cudnnConvolutionDescriptor convDesc, 
-        int[] reorderType);
-
-
-    public static int cudnnSetConvolution2dDescriptor(
-        cudnnConvolutionDescriptor convDesc, 
-        int pad_h, /** zero-padding height */
-        int pad_w, /** zero-padding width */
-        int u, /** vertical filter stride */
-        int v, /** horizontal filter stride */
-        int dilation_h, /** filter dilation in the vertical dimension */
-        int dilation_w, /** filter dilation in the horizontal dimension */
-        int mode, 
-        int computeType)
-    {
-        return checkResult(cudnnSetConvolution2dDescriptorNative(convDesc, pad_h, pad_w, u, v, dilation_h, dilation_w, mode, computeType));
-    }
-    private static native int cudnnSetConvolution2dDescriptorNative(
-        cudnnConvolutionDescriptor convDesc, 
-        int pad_h, /** zero-padding height */
-        int pad_w, /** zero-padding width */
-        int u, /** vertical filter stride */
-        int v, /** horizontal filter stride */
-        int dilation_h, /** filter dilation in the vertical dimension */
-        int dilation_w, /** filter dilation in the horizontal dimension */
-        int mode, 
-        int computeType);
-
-
-    public static int cudnnGetConvolution2dDescriptor(
-        cudnnConvolutionDescriptor convDesc, 
-        int[] pad_h, /** zero-padding height */
-        int[] pad_w, /** zero-padding width */
-        int[] u, /** vertical filter stride */
-        int[] v, /** horizontal filter stride */
-        int[] dilation_h, /** filter dilation in the vertical dimension */
-        int[] dilation_w, /** filter dilation in the horizontal dimension */
-        int[] mode, 
-        int[] computeType)
-    {
-        return checkResult(cudnnGetConvolution2dDescriptorNative(convDesc, pad_h, pad_w, u, v, dilation_h, dilation_w, mode, computeType));
-    }
-    private static native int cudnnGetConvolution2dDescriptorNative(
-        cudnnConvolutionDescriptor convDesc, 
-        int[] pad_h, /** zero-padding height */
-        int[] pad_w, /** zero-padding width */
-        int[] u, /** vertical filter stride */
-        int[] v, /** horizontal filter stride */
-        int[] dilation_h, /** filter dilation in the vertical dimension */
-        int[] dilation_w, /** filter dilation in the horizontal dimension */
-        int[] mode, 
-        int[] computeType);
-
-
-    /** Helper function to return the dimensions of the output tensor given a convolution descriptor */
-    public static int cudnnGetConvolution2dForwardOutputDim(
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor inputTensorDesc, 
-        cudnnFilterDescriptor filterDesc, 
-        int[] n, 
-        int[] c, 
-        int[] h, 
-        int[] w)
-    {
-        return checkResult(cudnnGetConvolution2dForwardOutputDimNative(convDesc, inputTensorDesc, filterDesc, n, c, h, w));
-    }
-    private static native int cudnnGetConvolution2dForwardOutputDimNative(
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor inputTensorDesc, 
-        cudnnFilterDescriptor filterDesc, 
-        int[] n, 
-        int[] c, 
-        int[] h, 
-        int[] w);
-
-
-    public static int cudnnSetConvolutionNdDescriptor(
-        cudnnConvolutionDescriptor convDesc, 
-        int arrayLength, /** nbDims-2 size */
-        int[] padA, 
-        int[] filterStrideA, 
-        int[] dilationA, 
-        int mode, 
-        int computeType)/** convolution data type */
-    {
-        return checkResult(cudnnSetConvolutionNdDescriptorNative(convDesc, arrayLength, padA, filterStrideA, dilationA, mode, computeType));
-    }
-    private static native int cudnnSetConvolutionNdDescriptorNative(
-        cudnnConvolutionDescriptor convDesc, 
-        int arrayLength, /** nbDims-2 size */
-        int[] padA, 
-        int[] filterStrideA, 
-        int[] dilationA, 
-        int mode, 
-        int computeType);/** convolution data type */
-
-
-    public static int cudnnGetConvolutionNdDescriptor(
-        cudnnConvolutionDescriptor convDesc, 
-        int arrayLengthRequested, 
-        int[] arrayLength, 
-        int[] padA, 
-        int[] strideA, 
-        int[] dilationA, 
-        int[] mode, 
-        int[] computeType)/** convolution data type */
-    {
-        return checkResult(cudnnGetConvolutionNdDescriptorNative(convDesc, arrayLengthRequested, arrayLength, padA, strideA, dilationA, mode, computeType));
-    }
-    private static native int cudnnGetConvolutionNdDescriptorNative(
-        cudnnConvolutionDescriptor convDesc, 
-        int arrayLengthRequested, 
-        int[] arrayLength, 
-        int[] padA, 
-        int[] strideA, 
-        int[] dilationA, 
-        int[] mode, 
-        int[] computeType);/** convolution data type */
-
-
-    /** Helper function to return the dimensions of the output tensor given a convolution descriptor */
-    public static int cudnnGetConvolutionNdForwardOutputDim(
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor inputTensorDesc, 
-        cudnnFilterDescriptor filterDesc, 
-        int nbDims, 
-        int[] tensorOuputDimA)
-    {
-        return checkResult(cudnnGetConvolutionNdForwardOutputDimNative(convDesc, inputTensorDesc, filterDesc, nbDims, tensorOuputDimA));
-    }
-    private static native int cudnnGetConvolutionNdForwardOutputDimNative(
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor inputTensorDesc, 
-        cudnnFilterDescriptor filterDesc, 
-        int nbDims, 
-        int[] tensorOuputDimA);
-
-
-    /** Destroy an instance of convolution descriptor */
-    public static int cudnnDestroyConvolutionDescriptor(
-        cudnnConvolutionDescriptor convDesc)
-    {
-        return checkResult(cudnnDestroyConvolutionDescriptorNative(convDesc));
-    }
-    private static native int cudnnDestroyConvolutionDescriptorNative(
-        cudnnConvolutionDescriptor convDesc);
-
-
-    public static int cudnnGetConvolutionForwardAlgorithmMaxCount(
-        cudnnHandle handle, 
-        int[] count)
-    {
-        return checkResult(cudnnGetConvolutionForwardAlgorithmMaxCountNative(handle, count));
-    }
-    private static native int cudnnGetConvolutionForwardAlgorithmMaxCountNative(
-        cudnnHandle handle, 
-        int[] count);
-
-
-    public static int cudnnFindConvolutionForwardAlgorithm(
-        cudnnHandle handle, 
-        cudnnTensorDescriptor xDesc, 
-        cudnnFilterDescriptor wDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor yDesc, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnConvolutionFwdAlgoPerf[] perfResults)
-    {
-        return checkResult(cudnnFindConvolutionForwardAlgorithmNative(handle, xDesc, wDesc, convDesc, yDesc, requestedAlgoCount, returnedAlgoCount, perfResults));
-    }
-    private static native int cudnnFindConvolutionForwardAlgorithmNative(
-        cudnnHandle handle, 
-        cudnnTensorDescriptor xDesc, 
-        cudnnFilterDescriptor wDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor yDesc, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnConvolutionFwdAlgoPerf[] perfResults);
-
-
-    public static int cudnnFindConvolutionForwardAlgorithmEx(
-        cudnnHandle handle, 
-        cudnnTensorDescriptor xDesc, 
-        Pointer x, 
-        cudnnFilterDescriptor wDesc, 
-        Pointer w, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor yDesc, 
-        Pointer y, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnConvolutionFwdAlgoPerf[] perfResults, 
-        Pointer workSpace, 
-        long workSpaceSizeInBytes)
-    {
-        return checkResult(cudnnFindConvolutionForwardAlgorithmExNative(handle, xDesc, x, wDesc, w, convDesc, yDesc, y, requestedAlgoCount, returnedAlgoCount, perfResults, workSpace, workSpaceSizeInBytes));
-    }
-    private static native int cudnnFindConvolutionForwardAlgorithmExNative(
-        cudnnHandle handle, 
-        cudnnTensorDescriptor xDesc, 
-        Pointer x, 
-        cudnnFilterDescriptor wDesc, 
-        Pointer w, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor yDesc, 
-        Pointer y, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnConvolutionFwdAlgoPerf[] perfResults, 
-        Pointer workSpace, 
-        long workSpaceSizeInBytes);
-
-
-    public static int cudnnGetConvolutionForwardAlgorithm(
-        cudnnHandle handle, 
-        cudnnTensorDescriptor xDesc, 
-        cudnnFilterDescriptor wDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor yDesc, 
-        int preference, 
-        long memoryLimitInBytes, 
-        int[] algo)
-    {
-        return checkResult(cudnnGetConvolutionForwardAlgorithmNative(handle, xDesc, wDesc, convDesc, yDesc, preference, memoryLimitInBytes, algo));
-    }
-    private static native int cudnnGetConvolutionForwardAlgorithmNative(
-        cudnnHandle handle, 
-        cudnnTensorDescriptor xDesc, 
-        cudnnFilterDescriptor wDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor yDesc, 
-        int preference, 
-        long memoryLimitInBytes, 
-        int[] algo);
-
-
-    public static int cudnnGetConvolutionForwardAlgorithm_v7(
-        cudnnHandle handle, 
-        cudnnTensorDescriptor srcDesc, 
-        cudnnFilterDescriptor filterDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor destDesc, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnConvolutionFwdAlgoPerf[] perfResults)
-    {
-        return checkResult(cudnnGetConvolutionForwardAlgorithm_v7Native(handle, srcDesc, filterDesc, convDesc, destDesc, requestedAlgoCount, returnedAlgoCount, perfResults));
-    }
-    private static native int cudnnGetConvolutionForwardAlgorithm_v7Native(
-        cudnnHandle handle, 
-        cudnnTensorDescriptor srcDesc, 
-        cudnnFilterDescriptor filterDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor destDesc, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnConvolutionFwdAlgoPerf[] perfResults);
-
-
-    /**
-     *  convolution algorithm (which requires potentially some workspace)
-     */
-    /** Helper function to return the minimum size of the workspace to be passed to the convolution given an algo*/
-    public static int cudnnGetConvolutionForwardWorkspaceSize(
-        cudnnHandle handle, 
-        cudnnTensorDescriptor xDesc, 
-        cudnnFilterDescriptor wDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor yDesc, 
-        int algo, 
-        long[] sizeInBytes)
-    {
-        return checkResult(cudnnGetConvolutionForwardWorkspaceSizeNative(handle, xDesc, wDesc, convDesc, yDesc, algo, sizeInBytes));
-    }
-    private static native int cudnnGetConvolutionForwardWorkspaceSizeNative(
-        cudnnHandle handle, 
-        cudnnTensorDescriptor xDesc, 
-        cudnnFilterDescriptor wDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor yDesc, 
-        int algo, 
-        long[] sizeInBytes);
-
-
-    /** Convolution functions: All of the form "output = alpha * Op(inputs) + beta * output" */
-    /** Function to perform the forward pass for batch convolution */
-    public static int cudnnConvolutionForward(
-        cudnnHandle handle, 
-        Pointer alpha, 
-        cudnnTensorDescriptor xDesc, 
-        Pointer x, 
-        cudnnFilterDescriptor wDesc, 
-        Pointer w, 
-        cudnnConvolutionDescriptor convDesc, 
-        int algo, 
-        Pointer workSpace, 
-        long workSpaceSizeInBytes, 
-        Pointer beta, 
-        cudnnTensorDescriptor yDesc, 
-        Pointer y)
-    {
-        return checkResult(cudnnConvolutionForwardNative(handle, alpha, xDesc, x, wDesc, w, convDesc, algo, workSpace, workSpaceSizeInBytes, beta, yDesc, y));
-    }
-    private static native int cudnnConvolutionForwardNative(
-        cudnnHandle handle, 
-        Pointer alpha, 
-        cudnnTensorDescriptor xDesc, 
-        Pointer x, 
-        cudnnFilterDescriptor wDesc, 
-        Pointer w, 
-        cudnnConvolutionDescriptor convDesc, 
-        int algo, 
-        Pointer workSpace, 
-        long workSpaceSizeInBytes, 
-        Pointer beta, 
-        cudnnTensorDescriptor yDesc, 
-        Pointer y);
-
-
-    /** Fused conv/bias/activation operation : y = Act( alpha1 * conv(x) + alpha2 * z + bias ) */
-    public static int cudnnConvolutionBiasActivationForward(
-        cudnnHandle handle, 
-        Pointer alpha1, 
-        cudnnTensorDescriptor xDesc, 
-        Pointer x, 
-        cudnnFilterDescriptor wDesc, 
-        Pointer w, 
-        cudnnConvolutionDescriptor convDesc, 
-        int algo, 
-        Pointer workSpace, 
-        long workSpaceSizeInBytes, 
-        Pointer alpha2, 
-        cudnnTensorDescriptor zDesc, 
-        Pointer z, 
-        cudnnTensorDescriptor biasDesc, 
-        Pointer bias, 
-        cudnnActivationDescriptor activationDesc, 
-        cudnnTensorDescriptor yDesc, 
-        Pointer y)
-    {
-        return checkResult(cudnnConvolutionBiasActivationForwardNative(handle, alpha1, xDesc, x, wDesc, w, convDesc, algo, workSpace, workSpaceSizeInBytes, alpha2, zDesc, z, biasDesc, bias, activationDesc, yDesc, y));
-    }
-    private static native int cudnnConvolutionBiasActivationForwardNative(
-        cudnnHandle handle, 
-        Pointer alpha1, 
-        cudnnTensorDescriptor xDesc, 
-        Pointer x, 
-        cudnnFilterDescriptor wDesc, 
-        Pointer w, 
-        cudnnConvolutionDescriptor convDesc, 
-        int algo, 
-        Pointer workSpace, 
-        long workSpaceSizeInBytes, 
-        Pointer alpha2, 
-        cudnnTensorDescriptor zDesc, 
-        Pointer z, 
-        cudnnTensorDescriptor biasDesc, 
-        Pointer bias, 
-        cudnnActivationDescriptor activationDesc, 
-        cudnnTensorDescriptor yDesc, 
-        Pointer y);
-
-
-    /** Function to compute the bias gradient for batch convolution */
-    public static int cudnnConvolutionBackwardBias(
-        cudnnHandle handle, 
-        Pointer alpha, 
-        cudnnTensorDescriptor dyDesc, 
-        Pointer dy, 
-        Pointer beta, 
-        cudnnTensorDescriptor dbDesc, 
-        Pointer db)
-    {
-        return checkResult(cudnnConvolutionBackwardBiasNative(handle, alpha, dyDesc, dy, beta, dbDesc, db));
-    }
-    private static native int cudnnConvolutionBackwardBiasNative(
-        cudnnHandle handle, 
-        Pointer alpha, 
-        cudnnTensorDescriptor dyDesc, 
-        Pointer dy, 
-        Pointer beta, 
-        cudnnTensorDescriptor dbDesc, 
-        Pointer db);
-
-
-    public static int cudnnGetConvolutionBackwardFilterAlgorithmMaxCount(
-        cudnnHandle handle, 
-        int[] count)
-    {
-        return checkResult(cudnnGetConvolutionBackwardFilterAlgorithmMaxCountNative(handle, count));
-    }
-    private static native int cudnnGetConvolutionBackwardFilterAlgorithmMaxCountNative(
-        cudnnHandle handle, 
-        int[] count);
-
-
-    public static int cudnnFindConvolutionBackwardFilterAlgorithm(
-        cudnnHandle handle, 
-        cudnnTensorDescriptor xDesc, 
-        cudnnTensorDescriptor dyDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnFilterDescriptor dwDesc, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnConvolutionBwdFilterAlgoPerf[] perfResults)
-    {
-        return checkResult(cudnnFindConvolutionBackwardFilterAlgorithmNative(handle, xDesc, dyDesc, convDesc, dwDesc, requestedAlgoCount, returnedAlgoCount, perfResults));
-    }
-    private static native int cudnnFindConvolutionBackwardFilterAlgorithmNative(
-        cudnnHandle handle, 
-        cudnnTensorDescriptor xDesc, 
-        cudnnTensorDescriptor dyDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnFilterDescriptor dwDesc, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnConvolutionBwdFilterAlgoPerf[] perfResults);
-
-
-    public static int cudnnFindConvolutionBackwardFilterAlgorithmEx(
-        cudnnHandle handle, 
-        cudnnTensorDescriptor xDesc, 
-        Pointer x, 
-        cudnnTensorDescriptor dyDesc, 
-        Pointer y, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnFilterDescriptor dwDesc, 
-        Pointer dw, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnConvolutionBwdFilterAlgoPerf[] perfResults, 
-        Pointer workSpace, 
-        long workSpaceSizeInBytes)
-    {
-        return checkResult(cudnnFindConvolutionBackwardFilterAlgorithmExNative(handle, xDesc, x, dyDesc, y, convDesc, dwDesc, dw, requestedAlgoCount, returnedAlgoCount, perfResults, workSpace, workSpaceSizeInBytes));
-    }
-    private static native int cudnnFindConvolutionBackwardFilterAlgorithmExNative(
-        cudnnHandle handle, 
-        cudnnTensorDescriptor xDesc, 
-        Pointer x, 
-        cudnnTensorDescriptor dyDesc, 
-        Pointer y, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnFilterDescriptor dwDesc, 
-        Pointer dw, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnConvolutionBwdFilterAlgoPerf[] perfResults, 
-        Pointer workSpace, 
-        long workSpaceSizeInBytes);
-
-
-    public static int cudnnGetConvolutionBackwardFilterAlgorithm(
-        cudnnHandle handle, 
-        cudnnTensorDescriptor xDesc, 
-        cudnnTensorDescriptor dyDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnFilterDescriptor dwDesc, 
-        int preference, 
-        long memoryLimitInBytes, 
-        int[] algo)
-    {
-        return checkResult(cudnnGetConvolutionBackwardFilterAlgorithmNative(handle, xDesc, dyDesc, convDesc, dwDesc, preference, memoryLimitInBytes, algo));
-    }
-    private static native int cudnnGetConvolutionBackwardFilterAlgorithmNative(
-        cudnnHandle handle, 
-        cudnnTensorDescriptor xDesc, 
-        cudnnTensorDescriptor dyDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnFilterDescriptor dwDesc, 
-        int preference, 
-        long memoryLimitInBytes, 
-        int[] algo);
-
-
-    public static int cudnnGetConvolutionBackwardFilterAlgorithm_v7(
-        cudnnHandle handle, 
-        cudnnTensorDescriptor srcDesc, 
-        cudnnTensorDescriptor diffDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnFilterDescriptor gradDesc, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnConvolutionBwdFilterAlgoPerf[] perfResults)
-    {
-        return checkResult(cudnnGetConvolutionBackwardFilterAlgorithm_v7Native(handle, srcDesc, diffDesc, convDesc, gradDesc, requestedAlgoCount, returnedAlgoCount, perfResults));
-    }
-    private static native int cudnnGetConvolutionBackwardFilterAlgorithm_v7Native(
-        cudnnHandle handle, 
-        cudnnTensorDescriptor srcDesc, 
-        cudnnTensorDescriptor diffDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnFilterDescriptor gradDesc, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnConvolutionBwdFilterAlgoPerf[] perfResults);
-
-
-    /**
-     *  convolution algorithm (which requires potentially some workspace)
-     */
-    /** Helper function to return the minimum size of the workspace to be passed to the convolution given an algo*/
-    public static int cudnnGetConvolutionBackwardFilterWorkspaceSize(
-        cudnnHandle handle, 
-        cudnnTensorDescriptor xDesc, 
-        cudnnTensorDescriptor dyDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnFilterDescriptor gradDesc, 
-        int algo, 
-        long[] sizeInBytes)
-    {
-        return checkResult(cudnnGetConvolutionBackwardFilterWorkspaceSizeNative(handle, xDesc, dyDesc, convDesc, gradDesc, algo, sizeInBytes));
-    }
-    private static native int cudnnGetConvolutionBackwardFilterWorkspaceSizeNative(
-        cudnnHandle handle, 
-        cudnnTensorDescriptor xDesc, 
-        cudnnTensorDescriptor dyDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnFilterDescriptor gradDesc, 
-        int algo, 
-        long[] sizeInBytes);
-
-
-    public static int cudnnConvolutionBackwardFilter(
-        cudnnHandle handle, 
-        Pointer alpha, 
-        cudnnTensorDescriptor xDesc, 
-        Pointer x, 
-        cudnnTensorDescriptor dyDesc, 
-        Pointer dy, 
-        cudnnConvolutionDescriptor convDesc, 
-        int algo, 
-        Pointer workSpace, 
-        long workSpaceSizeInBytes, 
-        Pointer beta, 
-        cudnnFilterDescriptor dwDesc, 
-        Pointer dw)
-    {
-        return checkResult(cudnnConvolutionBackwardFilterNative(handle, alpha, xDesc, x, dyDesc, dy, convDesc, algo, workSpace, workSpaceSizeInBytes, beta, dwDesc, dw));
-    }
-    private static native int cudnnConvolutionBackwardFilterNative(
-        cudnnHandle handle, 
-        Pointer alpha, 
-        cudnnTensorDescriptor xDesc, 
-        Pointer x, 
-        cudnnTensorDescriptor dyDesc, 
-        Pointer dy, 
-        cudnnConvolutionDescriptor convDesc, 
-        int algo, 
-        Pointer workSpace, 
-        long workSpaceSizeInBytes, 
-        Pointer beta, 
-        cudnnFilterDescriptor dwDesc, 
-        Pointer dw);
-
-
-    public static int cudnnGetConvolutionBackwardDataAlgorithmMaxCount(
-        cudnnHandle handle, 
-        int[] count)
-    {
-        return checkResult(cudnnGetConvolutionBackwardDataAlgorithmMaxCountNative(handle, count));
-    }
-    private static native int cudnnGetConvolutionBackwardDataAlgorithmMaxCountNative(
-        cudnnHandle handle, 
-        int[] count);
-
-
-    public static int cudnnFindConvolutionBackwardDataAlgorithm(
-        cudnnHandle handle, 
-        cudnnFilterDescriptor wDesc, 
-        cudnnTensorDescriptor dyDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor dxDesc, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnConvolutionBwdDataAlgoPerf[] perfResults)
-    {
-        return checkResult(cudnnFindConvolutionBackwardDataAlgorithmNative(handle, wDesc, dyDesc, convDesc, dxDesc, requestedAlgoCount, returnedAlgoCount, perfResults));
-    }
-    private static native int cudnnFindConvolutionBackwardDataAlgorithmNative(
-        cudnnHandle handle, 
-        cudnnFilterDescriptor wDesc, 
-        cudnnTensorDescriptor dyDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor dxDesc, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnConvolutionBwdDataAlgoPerf[] perfResults);
-
-
-    public static int cudnnFindConvolutionBackwardDataAlgorithmEx(
-        cudnnHandle handle, 
-        cudnnFilterDescriptor wDesc, 
-        Pointer w, 
-        cudnnTensorDescriptor dyDesc, 
-        Pointer dy, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor dxDesc, 
-        Pointer dx, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnConvolutionBwdDataAlgoPerf[] perfResults, 
-        Pointer workSpace, 
-        long workSpaceSizeInBytes)
-    {
-        return checkResult(cudnnFindConvolutionBackwardDataAlgorithmExNative(handle, wDesc, w, dyDesc, dy, convDesc, dxDesc, dx, requestedAlgoCount, returnedAlgoCount, perfResults, workSpace, workSpaceSizeInBytes));
-    }
-    private static native int cudnnFindConvolutionBackwardDataAlgorithmExNative(
-        cudnnHandle handle, 
-        cudnnFilterDescriptor wDesc, 
-        Pointer w, 
-        cudnnTensorDescriptor dyDesc, 
-        Pointer dy, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor dxDesc, 
-        Pointer dx, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnConvolutionBwdDataAlgoPerf[] perfResults, 
-        Pointer workSpace, 
-        long workSpaceSizeInBytes);
-
-
-    public static int cudnnGetConvolutionBackwardDataAlgorithm(
-        cudnnHandle handle, 
-        cudnnFilterDescriptor wDesc, 
-        cudnnTensorDescriptor dyDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor dxDesc, 
-        int preference, 
-        long memoryLimitInBytes, 
-        int[] algo)
-    {
-        return checkResult(cudnnGetConvolutionBackwardDataAlgorithmNative(handle, wDesc, dyDesc, convDesc, dxDesc, preference, memoryLimitInBytes, algo));
-    }
-    private static native int cudnnGetConvolutionBackwardDataAlgorithmNative(
-        cudnnHandle handle, 
-        cudnnFilterDescriptor wDesc, 
-        cudnnTensorDescriptor dyDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor dxDesc, 
-        int preference, 
-        long memoryLimitInBytes, 
-        int[] algo);
-
-
-    public static int cudnnGetConvolutionBackwardDataAlgorithm_v7(
-        cudnnHandle handle, 
-        cudnnFilterDescriptor filterDesc, 
-        cudnnTensorDescriptor diffDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor gradDesc, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnConvolutionBwdDataAlgoPerf[] perfResults)
-    {
-        return checkResult(cudnnGetConvolutionBackwardDataAlgorithm_v7Native(handle, filterDesc, diffDesc, convDesc, gradDesc, requestedAlgoCount, returnedAlgoCount, perfResults));
-    }
-    private static native int cudnnGetConvolutionBackwardDataAlgorithm_v7Native(
-        cudnnHandle handle, 
-        cudnnFilterDescriptor filterDesc, 
-        cudnnTensorDescriptor diffDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor gradDesc, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnConvolutionBwdDataAlgoPerf[] perfResults);
-
-
-    /** Helper function to return the minimum size of the workspace to be passed to the convolution given an algo*/
-    public static int cudnnGetConvolutionBackwardDataWorkspaceSize(
-        cudnnHandle handle, 
-        cudnnFilterDescriptor wDesc, 
-        cudnnTensorDescriptor dyDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor dxDesc, 
-        int algo, 
-        long[] sizeInBytes)
-    {
-        return checkResult(cudnnGetConvolutionBackwardDataWorkspaceSizeNative(handle, wDesc, dyDesc, convDesc, dxDesc, algo, sizeInBytes));
-    }
-    private static native int cudnnGetConvolutionBackwardDataWorkspaceSizeNative(
-        cudnnHandle handle, 
-        cudnnFilterDescriptor wDesc, 
-        cudnnTensorDescriptor dyDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        cudnnTensorDescriptor dxDesc, 
-        int algo, 
-        long[] sizeInBytes);
-
-
-    public static int cudnnConvolutionBackwardData(
-        cudnnHandle handle, 
-        Pointer alpha, 
-        cudnnFilterDescriptor wDesc, 
-        Pointer w, 
-        cudnnTensorDescriptor dyDesc, 
-        Pointer dy, 
-        cudnnConvolutionDescriptor convDesc, 
-        int algo, 
-        Pointer workSpace, 
-        long workSpaceSizeInBytes, 
-        Pointer beta, 
-        cudnnTensorDescriptor dxDesc, 
-        Pointer dx)
-    {
-        return checkResult(cudnnConvolutionBackwardDataNative(handle, alpha, wDesc, w, dyDesc, dy, convDesc, algo, workSpace, workSpaceSizeInBytes, beta, dxDesc, dx));
-    }
-    private static native int cudnnConvolutionBackwardDataNative(
-        cudnnHandle handle, 
-        Pointer alpha, 
-        cudnnFilterDescriptor wDesc, 
-        Pointer w, 
-        cudnnTensorDescriptor dyDesc, 
-        Pointer dy, 
-        cudnnConvolutionDescriptor convDesc, 
-        int algo, 
-        Pointer workSpace, 
-        long workSpaceSizeInBytes, 
-        Pointer beta, 
-        cudnnTensorDescriptor dxDesc, 
-        Pointer dx);
-
-
-    public static int cudnnIm2Col(
-        cudnnHandle handle, 
-        cudnnTensorDescriptor xDesc, 
-        Pointer x, 
-        cudnnFilterDescriptor wDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        Pointer colBuffer)
-    {
-        return checkResult(cudnnIm2ColNative(handle, xDesc, x, wDesc, convDesc, colBuffer));
-    }
-    private static native int cudnnIm2ColNative(
-        cudnnHandle handle, 
-        cudnnTensorDescriptor xDesc, 
-        Pointer x, 
-        cudnnFilterDescriptor wDesc, 
-        cudnnConvolutionDescriptor convDesc, 
-        Pointer colBuffer);
-
-
     /** Softmax functions: All of the form "output = alpha * Op(inputs) + beta * output" */
     /** Function to perform forward softmax */
     public static int cudnnSoftmaxForward(
@@ -1889,36 +1013,6 @@ public class JCudnn
         Pointer beta, 
         cudnnTensorDescriptor yDesc, 
         Pointer y);
-
-
-    /** Function to perform backward softmax */
-    public static int cudnnSoftmaxBackward(
-        cudnnHandle handle, 
-        int algo, 
-        int mode, 
-        Pointer alpha, 
-        cudnnTensorDescriptor yDesc, 
-        Pointer y, 
-        cudnnTensorDescriptor dyDesc, 
-        Pointer dy, 
-        Pointer beta, 
-        cudnnTensorDescriptor dxDesc, 
-        Pointer dx)
-    {
-        return checkResult(cudnnSoftmaxBackwardNative(handle, algo, mode, alpha, yDesc, y, dyDesc, dy, beta, dxDesc, dx));
-    }
-    private static native int cudnnSoftmaxBackwardNative(
-        cudnnHandle handle, 
-        int algo, 
-        int mode, 
-        Pointer alpha, 
-        cudnnTensorDescriptor yDesc, 
-        Pointer y, 
-        cudnnTensorDescriptor dyDesc, 
-        Pointer dy, 
-        Pointer beta, 
-        cudnnTensorDescriptor dxDesc, 
-        Pointer dx);
 
 
     /** Create an instance of pooling descriptor */
@@ -2094,38 +1188,6 @@ public class JCudnn
         Pointer y);
 
 
-    /** Function to perform backward pooling */
-    public static int cudnnPoolingBackward(
-        cudnnHandle handle, 
-        cudnnPoolingDescriptor poolingDesc, 
-        Pointer alpha, 
-        cudnnTensorDescriptor yDesc, 
-        Pointer y, 
-        cudnnTensorDescriptor dyDesc, 
-        Pointer dy, 
-        cudnnTensorDescriptor xDesc, 
-        Pointer x, 
-        Pointer beta, 
-        cudnnTensorDescriptor dxDesc, 
-        Pointer dx)
-    {
-        return checkResult(cudnnPoolingBackwardNative(handle, poolingDesc, alpha, yDesc, y, dyDesc, dy, xDesc, x, beta, dxDesc, dx));
-    }
-    private static native int cudnnPoolingBackwardNative(
-        cudnnHandle handle, 
-        cudnnPoolingDescriptor poolingDesc, 
-        Pointer alpha, 
-        cudnnTensorDescriptor yDesc, 
-        Pointer y, 
-        cudnnTensorDescriptor dyDesc, 
-        Pointer dy, 
-        cudnnTensorDescriptor xDesc, 
-        Pointer x, 
-        Pointer beta, 
-        cudnnTensorDescriptor dxDesc, 
-        Pointer dx);
-
-
     /** Activation functions: All of the form "output = alpha * Op(inputs) + beta * output" */
     public static int cudnnCreateActivationDescriptor(
         cudnnActivationDescriptor activationDesc)
@@ -2199,42 +1261,10 @@ public class JCudnn
         Pointer y);
 
 
-    /** Function to perform backward activation  */
-    public static int cudnnActivationBackward(
-        cudnnHandle handle, 
-        cudnnActivationDescriptor activationDesc, 
-        Pointer alpha, 
-        cudnnTensorDescriptor yDesc, 
-        Pointer y, 
-        cudnnTensorDescriptor dyDesc, 
-        Pointer dy, 
-        cudnnTensorDescriptor xDesc, 
-        Pointer x, 
-        Pointer beta, 
-        cudnnTensorDescriptor dxDesc, 
-        Pointer dx)
-    {
-        return checkResult(cudnnActivationBackwardNative(handle, activationDesc, alpha, yDesc, y, dyDesc, dy, xDesc, x, beta, dxDesc, dx));
-    }
-    private static native int cudnnActivationBackwardNative(
-        cudnnHandle handle, 
-        cudnnActivationDescriptor activationDesc, 
-        Pointer alpha, 
-        cudnnTensorDescriptor yDesc, 
-        Pointer y, 
-        cudnnTensorDescriptor dyDesc, 
-        Pointer dy, 
-        cudnnTensorDescriptor xDesc, 
-        Pointer x, 
-        Pointer beta, 
-        cudnnTensorDescriptor dxDesc, 
-        Pointer dx);
-
-
     /**
      * <pre>
-    * Create an instance of LRN (Local Response Normalization) descriptor
-    * Uses lrnN=5, lrnAlpha=1e-4, lrnBeta=0.75, lrnK=2.0 as defaults from Krizhevsky'12 ImageNet paper
+     * Create an instance of LRN (Local Response Normalization) descriptor
+     * Uses lrnN=5, lrnAlpha=1e-4, lrnBeta=0.75, lrnK=2.0 as defaults from Krizhevsky'12 ImageNet paper
      * </pre>
      */
     public static int cudnnCreateLRNDescriptor(
@@ -2248,9 +1278,9 @@ public class JCudnn
 
     /**
      * <pre>
-    * Uses a window [center-lookBehind, center+lookAhead], where
-    * lookBehind = floor( (lrnN-1)/2 ), lookAhead = lrnN-lookBehind-1.
-    * Values of double parameters cast to tensor data type.
+     * Uses a window [center-lookBehind, center+lookAhead], where
+     * lookBehind = floor( (lrnN-1)/2 ), lookAhead = lrnN-lookBehind-1.
+     * Values of double parameters cast to tensor data type.
      * </pre>
      */
     public static int cudnnSetLRNDescriptor(
@@ -2272,8 +1302,8 @@ public class JCudnn
 
     /**
      * <pre>
-    * Retrieve the settings currently stored in an LRN layer descriptor
-    * Any of the provided pointers can be NULL (no corresponding value will be returned)
+     * Retrieve the settings currently stored in an LRN layer descriptor
+     * Any of the provided pointers can be NULL (no corresponding value will be returned)
      * </pre>
      */
     public static int cudnnGetLRNDescriptor(
@@ -2330,6 +1360,678 @@ public class JCudnn
         Pointer y);
 
 
+    /** LCN/divisive normalization functions: y = alpha * normalize(x) + beta * y */
+    public static int cudnnDivisiveNormalizationForward(
+        cudnnHandle handle, 
+        cudnnLRNDescriptor normDesc, 
+        int mode, 
+        Pointer alpha, 
+        cudnnTensorDescriptor xDesc, /** same desc for means, temp, temp2 */
+        Pointer x, 
+        Pointer means, /** if NULL, means are assumed to be zero */
+        Pointer temp, 
+        Pointer temp2, 
+        Pointer beta, 
+        cudnnTensorDescriptor yDesc, 
+        Pointer y)
+    {
+        return checkResult(cudnnDivisiveNormalizationForwardNative(handle, normDesc, mode, alpha, xDesc, x, means, temp, temp2, beta, yDesc, y));
+    }
+    private static native int cudnnDivisiveNormalizationForwardNative(
+        cudnnHandle handle, 
+        cudnnLRNDescriptor normDesc, 
+        int mode, 
+        Pointer alpha, 
+        cudnnTensorDescriptor xDesc, /** same desc for means, temp, temp2 */
+        Pointer x, 
+        Pointer means, /** if NULL, means are assumed to be zero */
+        Pointer temp, 
+        Pointer temp2, 
+        Pointer beta, 
+        cudnnTensorDescriptor yDesc, 
+        Pointer y);
+
+
+    /**
+     * <pre>
+     * Derives a tensor descriptor from layer data descriptor for BatchNormalization
+     * scale, invVariance, bnBias, bnScale tensors. Use this tensor desc for
+     * bnScaleBiasMeanVarDesc and bnScaleBiasDiffDesc in Batch Normalization forward and backward functions.
+     * </pre>
+     */
+    public static int cudnnDeriveBNTensorDescriptor(
+        cudnnTensorDescriptor derivedBnDesc, 
+        cudnnTensorDescriptor xDesc, 
+        int mode)
+    {
+        return checkResult(cudnnDeriveBNTensorDescriptorNative(derivedBnDesc, xDesc, mode));
+    }
+    private static native int cudnnDeriveBNTensorDescriptorNative(
+        cudnnTensorDescriptor derivedBnDesc, 
+        cudnnTensorDescriptor xDesc, 
+        int mode);
+
+
+    /**
+     * <pre>
+     * Performs Batch Normalization during Inference:
+     * y[i] = bnScale[k]*(x[i]-estimatedMean[k])/sqrt(epsilon+estimatedVariance[k]) + bnBias[k]
+     * with bnScale, bnBias, runningMean, runningInvVariance tensors indexed
+     * according to spatial or per-activation mode. Refer to cudnnBatchNormalizationForwardTraining
+     * above for notes on function arguments.
+     * </pre>
+     */
+    public static int cudnnBatchNormalizationForwardInference(
+        cudnnHandle handle, 
+        int mode, 
+        Pointer alpha, /** alpha[0] = result blend factor */
+        Pointer beta, /** beta[0] = dest layer blend factor */
+        cudnnTensorDescriptor xDesc, 
+        Pointer x, /** NxCxHxW */
+        cudnnTensorDescriptor yDesc, 
+        Pointer y, /** NxCxHxW */
+        cudnnTensorDescriptor bnScaleBiasMeanVarDesc, 
+        Pointer bnScale, 
+        Pointer bnBias, 
+        Pointer estimatedMean, 
+        Pointer estimatedVariance, 
+        double epsilon)
+    {
+        return checkResult(cudnnBatchNormalizationForwardInferenceNative(handle, mode, alpha, beta, xDesc, x, yDesc, y, bnScaleBiasMeanVarDesc, bnScale, bnBias, estimatedMean, estimatedVariance, epsilon));
+    }
+    private static native int cudnnBatchNormalizationForwardInferenceNative(
+        cudnnHandle handle, 
+        int mode, 
+        Pointer alpha, /** alpha[0] = result blend factor */
+        Pointer beta, /** beta[0] = dest layer blend factor */
+        cudnnTensorDescriptor xDesc, 
+        Pointer x, /** NxCxHxW */
+        cudnnTensorDescriptor yDesc, 
+        Pointer y, /** NxCxHxW */
+        cudnnTensorDescriptor bnScaleBiasMeanVarDesc, 
+        Pointer bnScale, 
+        Pointer bnBias, 
+        Pointer estimatedMean, 
+        Pointer estimatedVariance, 
+        double epsilon);
+
+
+    /**
+     * <pre>
+     * Derives a tensor descriptor from layer data descriptor for Normalization
+     * scale, invVariance, bnBias, bnScale tensors. Use this tensor desc for
+     * normScaleBiasMeanVarDesc and normScaleBiasDiffDesc in Normalization forward and backward functions.
+     * </pre>
+     */
+    public static int cudnnDeriveNormTensorDescriptor(
+        cudnnTensorDescriptor derivedNormScaleBiasDesc, 
+        cudnnTensorDescriptor derivedNormMeanVarDesc, 
+        cudnnTensorDescriptor xDesc, 
+        int mode, 
+        int groupCnt)/** Place hold for future work, should be set to 1 now*/
+    {
+        return checkResult(cudnnDeriveNormTensorDescriptorNative(derivedNormScaleBiasDesc, derivedNormMeanVarDesc, xDesc, mode, groupCnt));
+    }
+    private static native int cudnnDeriveNormTensorDescriptorNative(
+        cudnnTensorDescriptor derivedNormScaleBiasDesc, 
+        cudnnTensorDescriptor derivedNormMeanVarDesc, 
+        cudnnTensorDescriptor xDesc, 
+        int mode, 
+        int groupCnt);/** Place hold for future work, should be set to 1 now*/
+
+
+    /**
+     * <pre>
+     * Performs Normalization during Inference:
+     * y[i] = normScale[k]*(x[i]-estimatedMean[k])/sqrt(epsilon+estimatedVariance[k]) + normBias[k]
+     * with normScale, normBias, runningMean, runningInvVariance tensors indexed
+     * according to per-channel or per-activation mode. Refer to cudnnNormalizationForwardTraining
+     * above for notes on function arguments.
+     * </pre>
+     */
+    public static int cudnnNormalizationForwardInference(
+        cudnnHandle handle, 
+        int mode, 
+        int normOps, 
+        int algo, 
+        Pointer alpha, /** alpha[0] = result blend factor */
+        Pointer beta, /** beta[0] = dest layer blend factor */
+        cudnnTensorDescriptor xDesc, 
+        Pointer x, /** NxCxHxW */
+        cudnnTensorDescriptor normScaleBiasDesc, 
+        Pointer normScale, 
+        Pointer normBias, 
+        cudnnTensorDescriptor normMeanVarDesc, 
+        Pointer estimatedMean, 
+        Pointer estimatedVariance, 
+        cudnnTensorDescriptor zDesc, 
+        Pointer z, 
+        cudnnActivationDescriptor activationDesc, 
+        cudnnTensorDescriptor yDesc, 
+        Pointer y, /** NxCxHxW */
+        double epsilon, 
+        int groupCnt)/** Place hold for future work*/
+    {
+        return checkResult(cudnnNormalizationForwardInferenceNative(handle, mode, normOps, algo, alpha, beta, xDesc, x, normScaleBiasDesc, normScale, normBias, normMeanVarDesc, estimatedMean, estimatedVariance, zDesc, z, activationDesc, yDesc, y, epsilon, groupCnt));
+    }
+    private static native int cudnnNormalizationForwardInferenceNative(
+        cudnnHandle handle, 
+        int mode, 
+        int normOps, 
+        int algo, 
+        Pointer alpha, /** alpha[0] = result blend factor */
+        Pointer beta, /** beta[0] = dest layer blend factor */
+        cudnnTensorDescriptor xDesc, 
+        Pointer x, /** NxCxHxW */
+        cudnnTensorDescriptor normScaleBiasDesc, 
+        Pointer normScale, 
+        Pointer normBias, 
+        cudnnTensorDescriptor normMeanVarDesc, 
+        Pointer estimatedMean, 
+        Pointer estimatedVariance, 
+        cudnnTensorDescriptor zDesc, 
+        Pointer z, 
+        cudnnActivationDescriptor activationDesc, 
+        cudnnTensorDescriptor yDesc, 
+        Pointer y, /** NxCxHxW */
+        double epsilon, 
+        int groupCnt);/** Place hold for future work*/
+
+
+    public static int cudnnCreateSpatialTransformerDescriptor(
+        cudnnSpatialTransformerDescriptor stDesc)
+    {
+        return checkResult(cudnnCreateSpatialTransformerDescriptorNative(stDesc));
+    }
+    private static native int cudnnCreateSpatialTransformerDescriptorNative(
+        cudnnSpatialTransformerDescriptor stDesc);
+
+
+    public static int cudnnSetSpatialTransformerNdDescriptor(
+        cudnnSpatialTransformerDescriptor stDesc, 
+        int samplerType, 
+        int dataType, 
+        int nbDims, 
+        int[] dimA)
+    {
+        return checkResult(cudnnSetSpatialTransformerNdDescriptorNative(stDesc, samplerType, dataType, nbDims, dimA));
+    }
+    private static native int cudnnSetSpatialTransformerNdDescriptorNative(
+        cudnnSpatialTransformerDescriptor stDesc, 
+        int samplerType, 
+        int dataType, 
+        int nbDims, 
+        int[] dimA);
+
+
+    public static int cudnnDestroySpatialTransformerDescriptor(
+        cudnnSpatialTransformerDescriptor stDesc)
+    {
+        return checkResult(cudnnDestroySpatialTransformerDescriptorNative(stDesc));
+    }
+    private static native int cudnnDestroySpatialTransformerDescriptorNative(
+        cudnnSpatialTransformerDescriptor stDesc);
+
+
+    public static int cudnnSpatialTfGridGeneratorForward(
+        cudnnHandle handle, 
+        cudnnSpatialTransformerDescriptor stDesc, 
+        Pointer theta, 
+        Pointer grid)
+    {
+        return checkResult(cudnnSpatialTfGridGeneratorForwardNative(handle, stDesc, theta, grid));
+    }
+    private static native int cudnnSpatialTfGridGeneratorForwardNative(
+        cudnnHandle handle, 
+        cudnnSpatialTransformerDescriptor stDesc, 
+        Pointer theta, 
+        Pointer grid);
+
+
+    public static int cudnnSpatialTfSamplerForward(
+        cudnnHandle handle, 
+        cudnnSpatialTransformerDescriptor stDesc, 
+        Pointer alpha, 
+        cudnnTensorDescriptor xDesc, 
+        Pointer x, 
+        Pointer grid, 
+        Pointer beta, 
+        cudnnTensorDescriptor yDesc, 
+        Pointer y)
+    {
+        return checkResult(cudnnSpatialTfSamplerForwardNative(handle, stDesc, alpha, xDesc, x, grid, beta, yDesc, y));
+    }
+    private static native int cudnnSpatialTfSamplerForwardNative(
+        cudnnHandle handle, 
+        cudnnSpatialTransformerDescriptor stDesc, 
+        Pointer alpha, 
+        cudnnTensorDescriptor xDesc, 
+        Pointer x, 
+        Pointer grid, 
+        Pointer beta, 
+        cudnnTensorDescriptor yDesc, 
+        Pointer y);
+
+
+    public static int cudnnCreateDropoutDescriptor(
+        cudnnDropoutDescriptor dropoutDesc)
+    {
+        return checkResult(cudnnCreateDropoutDescriptorNative(dropoutDesc));
+    }
+    private static native int cudnnCreateDropoutDescriptorNative(
+        cudnnDropoutDescriptor dropoutDesc);
+
+
+    public static int cudnnDestroyDropoutDescriptor(
+        cudnnDropoutDescriptor dropoutDesc)
+    {
+        return checkResult(cudnnDestroyDropoutDescriptorNative(dropoutDesc));
+    }
+    private static native int cudnnDestroyDropoutDescriptorNative(
+        cudnnDropoutDescriptor dropoutDesc);
+
+
+    /**helper function to determine size of the states to be passed to cudnnSetDropoutDescriptor */
+    public static int cudnnDropoutGetStatesSize(
+        cudnnHandle handle, 
+        long[] sizeInBytes)
+    {
+        return checkResult(cudnnDropoutGetStatesSizeNative(handle, sizeInBytes));
+    }
+    private static native int cudnnDropoutGetStatesSizeNative(
+        cudnnHandle handle, 
+        long[] sizeInBytes);
+
+
+    /**helper function to determine size of the reserve space to be passed to dropout forward/backward calls */
+    public static int cudnnDropoutGetReserveSpaceSize(
+        cudnnTensorDescriptor xdesc, 
+        long[] sizeInBytes)
+    {
+        return checkResult(cudnnDropoutGetReserveSpaceSizeNative(xdesc, sizeInBytes));
+    }
+    private static native int cudnnDropoutGetReserveSpaceSizeNative(
+        cudnnTensorDescriptor xdesc, 
+        long[] sizeInBytes);
+
+
+    public static int cudnnSetDropoutDescriptor(
+        cudnnDropoutDescriptor dropoutDesc, 
+        cudnnHandle handle, 
+        float dropout, 
+        Pointer states, 
+        long stateSizeInBytes, 
+        long seed)
+    {
+        return checkResult(cudnnSetDropoutDescriptorNative(dropoutDesc, handle, dropout, states, stateSizeInBytes, seed));
+    }
+    private static native int cudnnSetDropoutDescriptorNative(
+        cudnnDropoutDescriptor dropoutDesc, 
+        cudnnHandle handle, 
+        float dropout, 
+        Pointer states, 
+        long stateSizeInBytes, 
+        long seed);
+
+
+    /** Restores the dropout descriptor to a previously saved-off state */
+    public static int cudnnRestoreDropoutDescriptor(
+        cudnnDropoutDescriptor dropoutDesc, 
+        cudnnHandle handle, 
+        float dropout, 
+        Pointer states, 
+        long stateSizeInBytes, 
+        long seed)
+    {
+        return checkResult(cudnnRestoreDropoutDescriptorNative(dropoutDesc, handle, dropout, states, stateSizeInBytes, seed));
+    }
+    private static native int cudnnRestoreDropoutDescriptorNative(
+        cudnnDropoutDescriptor dropoutDesc, 
+        cudnnHandle handle, 
+        float dropout, 
+        Pointer states, 
+        long stateSizeInBytes, 
+        long seed);
+
+
+    public static int cudnnGetDropoutDescriptor(
+        cudnnDropoutDescriptor dropoutDesc, 
+        cudnnHandle handle, 
+        float[] dropout, 
+        Pointer states, 
+        long[] seed)
+    {
+        return checkResult(cudnnGetDropoutDescriptorNative(dropoutDesc, handle, dropout, states, seed));
+    }
+    private static native int cudnnGetDropoutDescriptorNative(
+        cudnnDropoutDescriptor dropoutDesc, 
+        cudnnHandle handle, 
+        float[] dropout, 
+        Pointer states, 
+        long[] seed);
+
+
+    public static int cudnnDropoutForward(
+        cudnnHandle handle, 
+        cudnnDropoutDescriptor dropoutDesc, 
+        cudnnTensorDescriptor xdesc, 
+        Pointer x, 
+        cudnnTensorDescriptor ydesc, 
+        Pointer y, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes)
+    {
+        return checkResult(cudnnDropoutForwardNative(handle, dropoutDesc, xdesc, x, ydesc, y, reserveSpace, reserveSpaceSizeInBytes));
+    }
+    private static native int cudnnDropoutForwardNative(
+        cudnnHandle handle, 
+        cudnnDropoutDescriptor dropoutDesc, 
+        cudnnTensorDescriptor xdesc, 
+        Pointer x, 
+        cudnnTensorDescriptor ydesc, 
+        Pointer y, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes);
+
+
+    @Deprecated
+    public static int cudnnCreateAlgorithmDescriptor(
+        cudnnAlgorithmDescriptor algoDesc)
+    {
+        return checkResult(cudnnCreateAlgorithmDescriptorNative(algoDesc));
+    }
+    private static native int cudnnCreateAlgorithmDescriptorNative(
+        cudnnAlgorithmDescriptor algoDesc);
+
+
+    @Deprecated
+    public static int cudnnSetAlgorithmDescriptor(
+        cudnnAlgorithmDescriptor algoDesc, 
+        int algorithm)
+    {
+        return checkResult(cudnnSetAlgorithmDescriptorNative(algoDesc, algorithm));
+    }
+    private static native int cudnnSetAlgorithmDescriptorNative(
+        cudnnAlgorithmDescriptor algoDesc, 
+        int algorithm);
+
+
+    @Deprecated
+    public static int cudnnGetAlgorithmDescriptor(
+        cudnnAlgorithmDescriptor algoDesc, 
+        int[] algorithm)
+    {
+        return checkResult(cudnnGetAlgorithmDescriptorNative(algoDesc, algorithm));
+    }
+    private static native int cudnnGetAlgorithmDescriptorNative(
+        cudnnAlgorithmDescriptor algoDesc, 
+        int[] algorithm);
+
+
+    @Deprecated
+    public static int cudnnCopyAlgorithmDescriptor(
+        cudnnAlgorithmDescriptor src, 
+        cudnnAlgorithmDescriptor dest)
+    {
+        return checkResult(cudnnCopyAlgorithmDescriptorNative(src, dest));
+    }
+    private static native int cudnnCopyAlgorithmDescriptorNative(
+        cudnnAlgorithmDescriptor src, 
+        cudnnAlgorithmDescriptor dest);
+
+
+    @Deprecated
+    public static int cudnnDestroyAlgorithmDescriptor(
+        cudnnAlgorithmDescriptor algoDesc)
+    {
+        return checkResult(cudnnDestroyAlgorithmDescriptorNative(algoDesc));
+    }
+    private static native int cudnnDestroyAlgorithmDescriptorNative(
+        cudnnAlgorithmDescriptor algoDesc);
+
+
+    @Deprecated
+    public static int cudnnCreateAlgorithmPerformance(
+        cudnnAlgorithmPerformance[] algoPerf, 
+        int numberToCreate)
+    {
+        return checkResult(cudnnCreateAlgorithmPerformanceNative(algoPerf, numberToCreate));
+    }
+    private static native int cudnnCreateAlgorithmPerformanceNative(
+        cudnnAlgorithmPerformance[] algoPerf, 
+        int numberToCreate);
+
+
+    @Deprecated
+    public static int cudnnSetAlgorithmPerformance(
+        cudnnAlgorithmPerformance algoPerf, 
+        cudnnAlgorithmDescriptor algoDesc, 
+        int status, 
+        float time, 
+        long memory)
+    {
+        return checkResult(cudnnSetAlgorithmPerformanceNative(algoPerf, algoDesc, status, time, memory));
+    }
+    private static native int cudnnSetAlgorithmPerformanceNative(
+        cudnnAlgorithmPerformance algoPerf, 
+        cudnnAlgorithmDescriptor algoDesc, 
+        int status, 
+        float time, 
+        long memory);
+
+
+    @Deprecated
+    public static int cudnnGetAlgorithmPerformance(
+        cudnnAlgorithmPerformance algoPerf, 
+        cudnnAlgorithmDescriptor algoDesc, 
+        int[] status, 
+        float[] time, 
+        long[] memory)
+    {
+        return checkResult(cudnnGetAlgorithmPerformanceNative(algoPerf, algoDesc, status, time, memory));
+    }
+    private static native int cudnnGetAlgorithmPerformanceNative(
+        cudnnAlgorithmPerformance algoPerf, 
+        cudnnAlgorithmDescriptor algoDesc, 
+        int[] status, 
+        float[] time, 
+        long[] memory);
+
+
+    @Deprecated
+    public static int cudnnDestroyAlgorithmPerformance(
+        cudnnAlgorithmPerformance[] algoPerf, 
+        int numberToDestroy)
+    {
+        return checkResult(cudnnDestroyAlgorithmPerformanceNative(algoPerf, numberToDestroy));
+    }
+    private static native int cudnnDestroyAlgorithmPerformanceNative(
+        cudnnAlgorithmPerformance[] algoPerf, 
+        int numberToDestroy);
+
+
+    @Deprecated
+    public static int cudnnGetAlgorithmSpaceSize(
+        cudnnHandle handle, 
+        cudnnAlgorithmDescriptor algoDesc, 
+        long[] algoSpaceSizeInBytes)
+    {
+        return checkResult(cudnnGetAlgorithmSpaceSizeNative(handle, algoDesc, algoSpaceSizeInBytes));
+    }
+    private static native int cudnnGetAlgorithmSpaceSizeNative(
+        cudnnHandle handle, 
+        cudnnAlgorithmDescriptor algoDesc, 
+        long[] algoSpaceSizeInBytes);
+
+
+    @Deprecated
+    public static int cudnnSaveAlgorithm(
+        cudnnHandle handle, 
+        cudnnAlgorithmDescriptor algoDesc, 
+        Pointer algoSpace, 
+        long algoSpaceSizeInBytes)
+    {
+        return checkResult(cudnnSaveAlgorithmNative(handle, algoDesc, algoSpace, algoSpaceSizeInBytes));
+    }
+    private static native int cudnnSaveAlgorithmNative(
+        cudnnHandle handle, 
+        cudnnAlgorithmDescriptor algoDesc, 
+        Pointer algoSpace, 
+        long algoSpaceSizeInBytes);
+
+
+    @Deprecated
+    public static int cudnnRestoreAlgorithm(
+        cudnnHandle handle, 
+        Pointer algoSpace, 
+        long algoSpaceSizeInBytes, 
+        cudnnAlgorithmDescriptor algoDesc)
+    {
+        return checkResult(cudnnRestoreAlgorithmNative(handle, algoSpace, algoSpaceSizeInBytes, algoDesc));
+    }
+    private static native int cudnnRestoreAlgorithmNative(
+        cudnnHandle handle, 
+        Pointer algoSpace, 
+        long algoSpaceSizeInBytes, 
+        cudnnAlgorithmDescriptor algoDesc);
+
+
+    public static int cudnnSetCallback(
+        int mask, 
+        Object udata, 
+        cudnnCallback fptr)
+    {
+        return checkResult(cudnnSetCallbackNative(mask, udata, fptr));
+    }
+    private static native int cudnnSetCallbackNative(
+        int mask, 
+        Object udata, 
+        cudnnCallback fptr);
+
+
+    public static int cudnnGetCallback(
+        int[] mask, 
+        Object udata, 
+        cudnnCallback[] fptr)
+    {
+        return checkResult(cudnnGetCallbackNative(mask, udata, fptr));
+    }
+    private static native int cudnnGetCallbackNative(
+        int[] mask, 
+        Object udata, 
+        cudnnCallback[] fptr);
+
+
+    /**
+     * <pre>
+     * Cross-library version checker..
+     * This function is implemented differently in each sub-library. Each sublib
+     * checks whether its own version matches that of its dependencies.
+     * @return CUDNN_STATUS_SUCCESS if the version check passes,
+     *          CUDNN_STATUS_VERSION_MISMATCH if the versions are inconsistent.
+     * </pre>
+     */
+    public static int cudnnOpsInferVersionCheck()
+    {
+        return checkResult(cudnnOpsInferVersionCheckNative());
+    }
+    private static native int cudnnOpsInferVersionCheckNative();
+
+
+    /** Function to perform backward softmax */
+    public static int cudnnSoftmaxBackward(
+        cudnnHandle handle, 
+        int algo, 
+        int mode, 
+        Pointer alpha, 
+        cudnnTensorDescriptor yDesc, 
+        Pointer y, 
+        cudnnTensorDescriptor dyDesc, 
+        Pointer dy, 
+        Pointer beta, 
+        cudnnTensorDescriptor dxDesc, 
+        Pointer dx)
+    {
+        return checkResult(cudnnSoftmaxBackwardNative(handle, algo, mode, alpha, yDesc, y, dyDesc, dy, beta, dxDesc, dx));
+    }
+    private static native int cudnnSoftmaxBackwardNative(
+        cudnnHandle handle, 
+        int algo, 
+        int mode, 
+        Pointer alpha, 
+        cudnnTensorDescriptor yDesc, 
+        Pointer y, 
+        cudnnTensorDescriptor dyDesc, 
+        Pointer dy, 
+        Pointer beta, 
+        cudnnTensorDescriptor dxDesc, 
+        Pointer dx);
+
+
+    /** Function to perform backward pooling */
+    public static int cudnnPoolingBackward(
+        cudnnHandle handle, 
+        cudnnPoolingDescriptor poolingDesc, 
+        Pointer alpha, 
+        cudnnTensorDescriptor yDesc, 
+        Pointer y, 
+        cudnnTensorDescriptor dyDesc, 
+        Pointer dy, 
+        cudnnTensorDescriptor xDesc, 
+        Pointer x, 
+        Pointer beta, 
+        cudnnTensorDescriptor dxDesc, 
+        Pointer dx)
+    {
+        return checkResult(cudnnPoolingBackwardNative(handle, poolingDesc, alpha, yDesc, y, dyDesc, dy, xDesc, x, beta, dxDesc, dx));
+    }
+    private static native int cudnnPoolingBackwardNative(
+        cudnnHandle handle, 
+        cudnnPoolingDescriptor poolingDesc, 
+        Pointer alpha, 
+        cudnnTensorDescriptor yDesc, 
+        Pointer y, 
+        cudnnTensorDescriptor dyDesc, 
+        Pointer dy, 
+        cudnnTensorDescriptor xDesc, 
+        Pointer x, 
+        Pointer beta, 
+        cudnnTensorDescriptor dxDesc, 
+        Pointer dx);
+
+
+    /** Function to perform backward activation  */
+    public static int cudnnActivationBackward(
+        cudnnHandle handle, 
+        cudnnActivationDescriptor activationDesc, 
+        Pointer alpha, 
+        cudnnTensorDescriptor yDesc, 
+        Pointer y, 
+        cudnnTensorDescriptor dyDesc, 
+        Pointer dy, 
+        cudnnTensorDescriptor xDesc, 
+        Pointer x, 
+        Pointer beta, 
+        cudnnTensorDescriptor dxDesc, 
+        Pointer dx)
+    {
+        return checkResult(cudnnActivationBackwardNative(handle, activationDesc, alpha, yDesc, y, dyDesc, dy, xDesc, x, beta, dxDesc, dx));
+    }
+    private static native int cudnnActivationBackwardNative(
+        cudnnHandle handle, 
+        cudnnActivationDescriptor activationDesc, 
+        Pointer alpha, 
+        cudnnTensorDescriptor yDesc, 
+        Pointer y, 
+        cudnnTensorDescriptor dyDesc, 
+        Pointer dy, 
+        cudnnTensorDescriptor xDesc, 
+        Pointer x, 
+        Pointer beta, 
+        cudnnTensorDescriptor dxDesc, 
+        Pointer dx);
+
+
     /** LRN cross-channel backward computation. Double parameters cast to tensor data type */
     public static int cudnnLRNCrossChannelBackward(
         cudnnHandle handle, 
@@ -2362,38 +2064,6 @@ public class JCudnn
         Pointer beta, 
         cudnnTensorDescriptor dxDesc, 
         Pointer dx);
-
-
-    /** LCN/divisive normalization functions: y = alpha * normalize(x) + beta * y */
-    public static int cudnnDivisiveNormalizationForward(
-        cudnnHandle handle, 
-        cudnnLRNDescriptor normDesc, 
-        int mode, 
-        Pointer alpha, 
-        cudnnTensorDescriptor xDesc, /** same desc for means, temp, temp2 */
-        Pointer x, 
-        Pointer means, /** if NULL, means are assumed to be zero */
-        Pointer temp, 
-        Pointer temp2, 
-        Pointer beta, 
-        cudnnTensorDescriptor yDesc, 
-        Pointer y)
-    {
-        return checkResult(cudnnDivisiveNormalizationForwardNative(handle, normDesc, mode, alpha, xDesc, x, means, temp, temp2, beta, yDesc, y));
-    }
-    private static native int cudnnDivisiveNormalizationForwardNative(
-        cudnnHandle handle, 
-        cudnnLRNDescriptor normDesc, 
-        int mode, 
-        Pointer alpha, 
-        cudnnTensorDescriptor xDesc, /** same desc for means, temp, temp2 */
-        Pointer x, 
-        Pointer means, /** if NULL, means are assumed to be zero */
-        Pointer temp, 
-        Pointer temp2, 
-        Pointer beta, 
-        cudnnTensorDescriptor yDesc, 
-        Pointer y);
 
 
     public static int cudnnDivisiveNormalizationBackward(
@@ -2429,26 +2099,6 @@ public class JCudnn
         cudnnTensorDescriptor dXdMeansDesc, /** same desc for dx, dMeans */
         Pointer dx, /** output x differential */
         Pointer dMeans);/** output means differential, can be NULL */
-
-
-    /**
-     * <pre>
-    * Derives a tensor descriptor from layer data descriptor for BatchNormalization
-    * scale, invVariance, bnBias, bnScale tensors. Use this tensor desc for
-    * bnScaleBiasMeanVarDesc and bnScaleBiasDiffDesc in Batch Normalization forward and backward functions.
-     * </pre>
-     */
-    public static int cudnnDeriveBNTensorDescriptor(
-        cudnnTensorDescriptor derivedBnDesc, 
-        cudnnTensorDescriptor xDesc, 
-        int mode)
-    {
-        return checkResult(cudnnDeriveBNTensorDescriptorNative(derivedBnDesc, xDesc, mode));
-    }
-    private static native int cudnnDeriveBNTensorDescriptorNative(
-        cudnnTensorDescriptor derivedBnDesc, 
-        cudnnTensorDescriptor xDesc, 
-        int mode);
 
 
     public static int cudnnGetBatchNormalizationForwardTrainingExWorkspaceSize(
@@ -2692,50 +2342,6 @@ public class JCudnn
         long reserveSpaceSizeInBytes);
 
 
-    /**
-     * <pre>
-    * Performs Batch Normalization during Inference:
-    * y[i] = bnScale[k]*(x[i]-estimatedMean[k])/sqrt(epsilon+estimatedVariance[k]) + bnBias[k]
-    * with bnScale, bnBias, runningMean, runningInvVariance tensors indexed
-    * according to spatial or per-activation mode. Refer to cudnnBatchNormalizationForwardTraining
-    * above for notes on function arguments.
-     * </pre>
-     */
-    public static int cudnnBatchNormalizationForwardInference(
-        cudnnHandle handle, 
-        int mode, 
-        Pointer alpha, /** alpha[0] = result blend factor */
-        Pointer beta, /** beta[0] = dest layer blend factor */
-        cudnnTensorDescriptor xDesc, 
-        Pointer x, /** NxCxHxW */
-        cudnnTensorDescriptor yDesc, 
-        Pointer y, /** NxCxHxW */
-        cudnnTensorDescriptor bnScaleBiasMeanVarDesc, 
-        Pointer bnScale, 
-        Pointer bnBias, 
-        Pointer estimatedMean, 
-        Pointer estimatedVariance, 
-        double epsilon)
-    {
-        return checkResult(cudnnBatchNormalizationForwardInferenceNative(handle, mode, alpha, beta, xDesc, x, yDesc, y, bnScaleBiasMeanVarDesc, bnScale, bnBias, estimatedMean, estimatedVariance, epsilon));
-    }
-    private static native int cudnnBatchNormalizationForwardInferenceNative(
-        cudnnHandle handle, 
-        int mode, 
-        Pointer alpha, /** alpha[0] = result blend factor */
-        Pointer beta, /** beta[0] = dest layer blend factor */
-        cudnnTensorDescriptor xDesc, 
-        Pointer x, /** NxCxHxW */
-        cudnnTensorDescriptor yDesc, 
-        Pointer y, /** NxCxHxW */
-        cudnnTensorDescriptor bnScaleBiasMeanVarDesc, 
-        Pointer bnScale, 
-        Pointer bnBias, 
-        Pointer estimatedMean, 
-        Pointer estimatedVariance, 
-        double epsilon);
-
-
     /** Performs backward pass of Batch Normalization layer. Returns x gradient,
     * bnScale gradient and bnBias gradient */
     public static int cudnnBatchNormalizationBackward(
@@ -2866,54 +2472,242 @@ public class JCudnn
         long reserveSpaceSizeInBytes);
 
 
-    public static int cudnnCreateSpatialTransformerDescriptor(
-        cudnnSpatialTransformerDescriptor stDesc)
-    {
-        return checkResult(cudnnCreateSpatialTransformerDescriptorNative(stDesc));
-    }
-    private static native int cudnnCreateSpatialTransformerDescriptorNative(
-        cudnnSpatialTransformerDescriptor stDesc);
-
-
-    public static int cudnnSetSpatialTransformerNdDescriptor(
-        cudnnSpatialTransformerDescriptor stDesc, 
-        int samplerType, 
-        int dataType, 
-        int nbDims, 
-        int[] dimA)
-    {
-        return checkResult(cudnnSetSpatialTransformerNdDescriptorNative(stDesc, samplerType, dataType, nbDims, dimA));
-    }
-    private static native int cudnnSetSpatialTransformerNdDescriptorNative(
-        cudnnSpatialTransformerDescriptor stDesc, 
-        int samplerType, 
-        int dataType, 
-        int nbDims, 
-        int[] dimA);
-
-
-    public static int cudnnDestroySpatialTransformerDescriptor(
-        cudnnSpatialTransformerDescriptor stDesc)
-    {
-        return checkResult(cudnnDestroySpatialTransformerDescriptorNative(stDesc));
-    }
-    private static native int cudnnDestroySpatialTransformerDescriptorNative(
-        cudnnSpatialTransformerDescriptor stDesc);
-
-
-    public static int cudnnSpatialTfGridGeneratorForward(
+    public static int cudnnGetNormalizationForwardTrainingWorkspaceSize(
         cudnnHandle handle, 
-        cudnnSpatialTransformerDescriptor stDesc, 
-        Pointer theta, 
-        Pointer grid)
+        int mode, 
+        int normOps, 
+        int algo, 
+        cudnnTensorDescriptor xDesc, 
+        cudnnTensorDescriptor zDesc, 
+        cudnnTensorDescriptor yDesc, 
+        cudnnTensorDescriptor normScaleBiasDesc, 
+        cudnnActivationDescriptor activationDesc, 
+        cudnnTensorDescriptor normMeanVarDesc, 
+        long[] sizeInBytes, 
+        int groupCnt)/** Place hold for future work, should be set to 1 now*/
     {
-        return checkResult(cudnnSpatialTfGridGeneratorForwardNative(handle, stDesc, theta, grid));
+        return checkResult(cudnnGetNormalizationForwardTrainingWorkspaceSizeNative(handle, mode, normOps, algo, xDesc, zDesc, yDesc, normScaleBiasDesc, activationDesc, normMeanVarDesc, sizeInBytes, groupCnt));
     }
-    private static native int cudnnSpatialTfGridGeneratorForwardNative(
+    private static native int cudnnGetNormalizationForwardTrainingWorkspaceSizeNative(
         cudnnHandle handle, 
-        cudnnSpatialTransformerDescriptor stDesc, 
-        Pointer theta, 
-        Pointer grid);
+        int mode, 
+        int normOps, 
+        int algo, 
+        cudnnTensorDescriptor xDesc, 
+        cudnnTensorDescriptor zDesc, 
+        cudnnTensorDescriptor yDesc, 
+        cudnnTensorDescriptor normScaleBiasDesc, 
+        cudnnActivationDescriptor activationDesc, 
+        cudnnTensorDescriptor normMeanVarDesc, 
+        long[] sizeInBytes, 
+        int groupCnt);/** Place hold for future work, should be set to 1 now*/
+
+
+    public static int cudnnGetNormalizationBackwardWorkspaceSize(
+        cudnnHandle handle, 
+        int mode, 
+        int normOps, 
+        int algo, 
+        cudnnTensorDescriptor xDesc, 
+        cudnnTensorDescriptor yDesc, 
+        cudnnTensorDescriptor dyDesc, 
+        cudnnTensorDescriptor dzDesc, 
+        cudnnTensorDescriptor dxDesc, 
+        cudnnTensorDescriptor dNormScaleBiasDesc, 
+        cudnnActivationDescriptor activationDesc, 
+        cudnnTensorDescriptor normMeanVarDesc, 
+        long[] sizeInBytes, 
+        int groupCnt)/** Place hold for future work, should be set to 1 now*/
+    {
+        return checkResult(cudnnGetNormalizationBackwardWorkspaceSizeNative(handle, mode, normOps, algo, xDesc, yDesc, dyDesc, dzDesc, dxDesc, dNormScaleBiasDesc, activationDesc, normMeanVarDesc, sizeInBytes, groupCnt));
+    }
+    private static native int cudnnGetNormalizationBackwardWorkspaceSizeNative(
+        cudnnHandle handle, 
+        int mode, 
+        int normOps, 
+        int algo, 
+        cudnnTensorDescriptor xDesc, 
+        cudnnTensorDescriptor yDesc, 
+        cudnnTensorDescriptor dyDesc, 
+        cudnnTensorDescriptor dzDesc, 
+        cudnnTensorDescriptor dxDesc, 
+        cudnnTensorDescriptor dNormScaleBiasDesc, 
+        cudnnActivationDescriptor activationDesc, 
+        cudnnTensorDescriptor normMeanVarDesc, 
+        long[] sizeInBytes, 
+        int groupCnt);/** Place hold for future work, should be set to 1 now*/
+
+
+    public static int cudnnGetNormalizationTrainingReserveSpaceSize(
+        cudnnHandle handle, 
+        int mode, 
+        int normOps, 
+        int algo, 
+        cudnnActivationDescriptor activationDesc, 
+        cudnnTensorDescriptor xDesc, 
+        long[] sizeInBytes, 
+        int groupCnt)/** Place hold for future work, should be set to 1 now*/
+    {
+        return checkResult(cudnnGetNormalizationTrainingReserveSpaceSizeNative(handle, mode, normOps, algo, activationDesc, xDesc, sizeInBytes, groupCnt));
+    }
+    private static native int cudnnGetNormalizationTrainingReserveSpaceSizeNative(
+        cudnnHandle handle, 
+        int mode, 
+        int normOps, 
+        int algo, 
+        cudnnActivationDescriptor activationDesc, 
+        cudnnTensorDescriptor xDesc, 
+        long[] sizeInBytes, 
+        int groupCnt);/** Place hold for future work, should be set to 1 now*/
+
+
+    /** Computes y = relu(Norm(x) + z). Also accumulates moving averages of mean and inverse variances */
+    public static int cudnnNormalizationForwardTraining(
+        cudnnHandle handle, 
+        int mode, 
+        int normOps, 
+        int algo, 
+        Pointer alpha, /** alpha[0] = result blend factor */
+        Pointer beta, /** beta[0] = dest layer blend factor */
+        cudnnTensorDescriptor xDesc, 
+        Pointer xData, 
+        cudnnTensorDescriptor normScaleBiasDesc, 
+        Pointer normScale, 
+        Pointer normBias, 
+        double exponentialAverageFactor, 
+        cudnnTensorDescriptor normMeanVarDesc, 
+        Pointer resultRunningMean, 
+        Pointer resultRunningVariance, 
+        /** Has to be >= 0. Should be the same in forward and backward functions. */
+        double epsilon, 
+        /** Optionally save intermediate results from the forward pass here
+                                             - can be reused to speed up backward pass. NULL if unused */
+        Pointer resultSaveMean, 
+        Pointer resultSaveInvVariance, 
+        cudnnActivationDescriptor activationDesc, 
+        cudnnTensorDescriptor zDesc, 
+        Pointer zData, 
+        cudnnTensorDescriptor yDesc, 
+        Pointer yData, 
+        Pointer workspace, 
+        long workSpaceSizeInBytes, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes, 
+        int groupCnt)/** Place hold for future work, should be set to 1 now*/
+    {
+        return checkResult(cudnnNormalizationForwardTrainingNative(handle, mode, normOps, algo, alpha, beta, xDesc, xData, normScaleBiasDesc, normScale, normBias, exponentialAverageFactor, normMeanVarDesc, resultRunningMean, resultRunningVariance, epsilon, resultSaveMean, resultSaveInvVariance, activationDesc, zDesc, zData, yDesc, yData, workspace, workSpaceSizeInBytes, reserveSpace, reserveSpaceSizeInBytes, groupCnt));
+    }
+    private static native int cudnnNormalizationForwardTrainingNative(
+        cudnnHandle handle, 
+        int mode, 
+        int normOps, 
+        int algo, 
+        Pointer alpha, /** alpha[0] = result blend factor */
+        Pointer beta, /** beta[0] = dest layer blend factor */
+        cudnnTensorDescriptor xDesc, 
+        Pointer xData, 
+        cudnnTensorDescriptor normScaleBiasDesc, 
+        Pointer normScale, 
+        Pointer normBias, 
+        double exponentialAverageFactor, 
+        cudnnTensorDescriptor normMeanVarDesc, 
+        Pointer resultRunningMean, 
+        Pointer resultRunningVariance, 
+        /** Has to be >= 0. Should be the same in forward and backward functions. */
+        double epsilon, 
+        /** Optionally save intermediate results from the forward pass here
+                                             - can be reused to speed up backward pass. NULL if unused */
+        Pointer resultSaveMean, 
+        Pointer resultSaveInvVariance, 
+        cudnnActivationDescriptor activationDesc, 
+        cudnnTensorDescriptor zDesc, 
+        Pointer zData, 
+        cudnnTensorDescriptor yDesc, 
+        Pointer yData, 
+        Pointer workspace, 
+        long workSpaceSizeInBytes, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes, 
+        int groupCnt);/** Place hold for future work, should be set to 1 now*/
+
+
+    public static int cudnnNormalizationBackward(
+        cudnnHandle handle, 
+        int mode, 
+        int normOps, 
+        int algo, 
+        Pointer alphaDataDiff, 
+        Pointer betaDataDiff, 
+        Pointer alphaParamDiff, 
+        Pointer betaParamDiff, 
+        cudnnTensorDescriptor xDesc, 
+        Pointer xData, 
+        cudnnTensorDescriptor yDesc, 
+        Pointer yData, 
+        cudnnTensorDescriptor dyDesc, 
+        Pointer dyData, 
+        cudnnTensorDescriptor dzDesc, 
+        Pointer dzData, 
+        cudnnTensorDescriptor dxDesc, 
+        Pointer dxData, 
+        /** Shared tensor desc for the 4 tensors below */
+        cudnnTensorDescriptor dNormScaleBiasDesc, 
+        Pointer normScaleData, 
+        Pointer normBiasData, /** needed if there is activation */
+        Pointer dNormScaleData, 
+        Pointer dNormBiasData, 
+        double epsilon, /** Same epsilon as forward pass */
+        cudnnTensorDescriptor normMeanVarDesc, 
+        /** Optionally cached intermediate results from
+                                      forward pass */
+        Pointer savedMean, 
+        Pointer savedInvVariance, 
+        cudnnActivationDescriptor activationDesc, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes, 
+        int groupCnt)/** Place hold for future work, should be set to 1 now*/
+    {
+        return checkResult(cudnnNormalizationBackwardNative(handle, mode, normOps, algo, alphaDataDiff, betaDataDiff, alphaParamDiff, betaParamDiff, xDesc, xData, yDesc, yData, dyDesc, dyData, dzDesc, dzData, dxDesc, dxData, dNormScaleBiasDesc, normScaleData, normBiasData, dNormScaleData, dNormBiasData, epsilon, normMeanVarDesc, savedMean, savedInvVariance, activationDesc, workSpace, workSpaceSizeInBytes, reserveSpace, reserveSpaceSizeInBytes, groupCnt));
+    }
+    private static native int cudnnNormalizationBackwardNative(
+        cudnnHandle handle, 
+        int mode, 
+        int normOps, 
+        int algo, 
+        Pointer alphaDataDiff, 
+        Pointer betaDataDiff, 
+        Pointer alphaParamDiff, 
+        Pointer betaParamDiff, 
+        cudnnTensorDescriptor xDesc, 
+        Pointer xData, 
+        cudnnTensorDescriptor yDesc, 
+        Pointer yData, 
+        cudnnTensorDescriptor dyDesc, 
+        Pointer dyData, 
+        cudnnTensorDescriptor dzDesc, 
+        Pointer dzData, 
+        cudnnTensorDescriptor dxDesc, 
+        Pointer dxData, 
+        /** Shared tensor desc for the 4 tensors below */
+        cudnnTensorDescriptor dNormScaleBiasDesc, 
+        Pointer normScaleData, 
+        Pointer normBiasData, /** needed if there is activation */
+        Pointer dNormScaleData, 
+        Pointer dNormBiasData, 
+        double epsilon, /** Same epsilon as forward pass */
+        cudnnTensorDescriptor normMeanVarDesc, 
+        /** Optionally cached intermediate results from
+                                      forward pass */
+        Pointer savedMean, 
+        Pointer savedInvVariance, 
+        cudnnActivationDescriptor activationDesc, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes, 
+        int groupCnt);/** Place hold for future work, should be set to 1 now*/
 
 
     public static int cudnnSpatialTfGridGeneratorBackward(
@@ -2929,31 +2723,6 @@ public class JCudnn
         cudnnSpatialTransformerDescriptor stDesc, 
         Pointer dgrid, 
         Pointer dtheta);
-
-
-    public static int cudnnSpatialTfSamplerForward(
-        cudnnHandle handle, 
-        cudnnSpatialTransformerDescriptor stDesc, 
-        Pointer alpha, 
-        cudnnTensorDescriptor xDesc, 
-        Pointer x, 
-        Pointer grid, 
-        Pointer beta, 
-        cudnnTensorDescriptor yDesc, 
-        Pointer y)
-    {
-        return checkResult(cudnnSpatialTfSamplerForwardNative(handle, stDesc, alpha, xDesc, x, grid, beta, yDesc, y));
-    }
-    private static native int cudnnSpatialTfSamplerForwardNative(
-        cudnnHandle handle, 
-        cudnnSpatialTransformerDescriptor stDesc, 
-        Pointer alpha, 
-        cudnnTensorDescriptor xDesc, 
-        Pointer x, 
-        Pointer grid, 
-        Pointer beta, 
-        cudnnTensorDescriptor yDesc, 
-        Pointer y);
 
 
     public static int cudnnSpatialTfSamplerBackward(
@@ -2991,127 +2760,6 @@ public class JCudnn
         Pointer dgrid);
 
 
-    public static int cudnnCreateDropoutDescriptor(
-        cudnnDropoutDescriptor dropoutDesc)
-    {
-        return checkResult(cudnnCreateDropoutDescriptorNative(dropoutDesc));
-    }
-    private static native int cudnnCreateDropoutDescriptorNative(
-        cudnnDropoutDescriptor dropoutDesc);
-
-
-    public static int cudnnDestroyDropoutDescriptor(
-        cudnnDropoutDescriptor dropoutDesc)
-    {
-        return checkResult(cudnnDestroyDropoutDescriptorNative(dropoutDesc));
-    }
-    private static native int cudnnDestroyDropoutDescriptorNative(
-        cudnnDropoutDescriptor dropoutDesc);
-
-
-    /**helper function to determine size of the states to be passed to cudnnSetDropoutDescriptor */
-    public static int cudnnDropoutGetStatesSize(
-        cudnnHandle handle, 
-        long[] sizeInBytes)
-    {
-        return checkResult(cudnnDropoutGetStatesSizeNative(handle, sizeInBytes));
-    }
-    private static native int cudnnDropoutGetStatesSizeNative(
-        cudnnHandle handle, 
-        long[] sizeInBytes);
-
-
-    /**helper function to determine size of the reserve space to be passed to dropout forward/backward calls */
-    public static int cudnnDropoutGetReserveSpaceSize(
-        cudnnTensorDescriptor xdesc, 
-        long[] sizeInBytes)
-    {
-        return checkResult(cudnnDropoutGetReserveSpaceSizeNative(xdesc, sizeInBytes));
-    }
-    private static native int cudnnDropoutGetReserveSpaceSizeNative(
-        cudnnTensorDescriptor xdesc, 
-        long[] sizeInBytes);
-
-
-    public static int cudnnSetDropoutDescriptor(
-        cudnnDropoutDescriptor dropoutDesc, 
-        cudnnHandle handle, 
-        float dropout, 
-        Pointer states, 
-        long stateSizeInBytes, 
-        long seed)
-    {
-        return checkResult(cudnnSetDropoutDescriptorNative(dropoutDesc, handle, dropout, states, stateSizeInBytes, seed));
-    }
-    private static native int cudnnSetDropoutDescriptorNative(
-        cudnnDropoutDescriptor dropoutDesc, 
-        cudnnHandle handle, 
-        float dropout, 
-        Pointer states, 
-        long stateSizeInBytes, 
-        long seed);
-
-
-    /** Restores the dropout descriptor to a previously saved-off state */
-    public static int cudnnRestoreDropoutDescriptor(
-        cudnnDropoutDescriptor dropoutDesc, 
-        cudnnHandle handle, 
-        float dropout, 
-        Pointer states, 
-        long stateSizeInBytes, 
-        long seed)
-    {
-        return checkResult(cudnnRestoreDropoutDescriptorNative(dropoutDesc, handle, dropout, states, stateSizeInBytes, seed));
-    }
-    private static native int cudnnRestoreDropoutDescriptorNative(
-        cudnnDropoutDescriptor dropoutDesc, 
-        cudnnHandle handle, 
-        float dropout, 
-        Pointer states, 
-        long stateSizeInBytes, 
-        long seed);
-
-
-    public static int cudnnGetDropoutDescriptor(
-        cudnnDropoutDescriptor dropoutDesc, 
-        cudnnHandle handle, 
-        float[] dropout, 
-        Pointer states, 
-        long[] seed)
-    {
-        return checkResult(cudnnGetDropoutDescriptorNative(dropoutDesc, handle, dropout, states, seed));
-    }
-    private static native int cudnnGetDropoutDescriptorNative(
-        cudnnDropoutDescriptor dropoutDesc, 
-        cudnnHandle handle, 
-        float[] dropout, 
-        Pointer states, 
-        long[] seed);
-
-
-    public static int cudnnDropoutForward(
-        cudnnHandle handle, 
-        cudnnDropoutDescriptor dropoutDesc, 
-        cudnnTensorDescriptor xdesc, 
-        Pointer x, 
-        cudnnTensorDescriptor ydesc, 
-        Pointer y, 
-        Pointer reserveSpace, 
-        long reserveSpaceSizeInBytes)
-    {
-        return checkResult(cudnnDropoutForwardNative(handle, dropoutDesc, xdesc, x, ydesc, y, reserveSpace, reserveSpaceSizeInBytes));
-    }
-    private static native int cudnnDropoutForwardNative(
-        cudnnHandle handle, 
-        cudnnDropoutDescriptor dropoutDesc, 
-        cudnnTensorDescriptor xdesc, 
-        Pointer x, 
-        cudnnTensorDescriptor ydesc, 
-        Pointer y, 
-        Pointer reserveSpace, 
-        long reserveSpaceSizeInBytes);
-
-
     public static int cudnnDropoutBackward(
         cudnnHandle handle, 
         cudnnDropoutDescriptor dropoutDesc, 
@@ -3135,6 +2783,22 @@ public class JCudnn
         long reserveSpaceSizeInBytes);
 
 
+    /**
+     * <pre>
+     * Cross-library version checker..
+     * This function is implemented differently in each sub-library. Each sublib
+     * checks whether its own version matches that of its dependencies.
+     * @return CUDNN_STATUS_SUCCESS if the version check passes,
+     *          CUDNN_STATUS_VERSION_MISMATCH if the versions are inconsistent.
+     * </pre>
+     */
+    public static int cudnnOpsTrainVersionCheck()
+    {
+        return checkResult(cudnnOpsTrainVersionCheckNative());
+    }
+    private static native int cudnnOpsTrainVersionCheckNative();
+
+
     public static int cudnnCreateRNNDescriptor(
         cudnnRNNDescriptor rnnDesc)
     {
@@ -3153,10 +2817,90 @@ public class JCudnn
         cudnnRNNDescriptor rnnDesc);
 
 
-    /** mathPrec in the RNN descriptor is determines compute math precision, modified by cudnnMathType_t */
-    /** dataType in weight descriptors and input descriptors is used to describe data/parameter storage */
-    /** dropout is between RNN layers, not between recurrent steps */
-    public static int cudnnSetRNNDescriptor(
+    public static int cudnnSetRNNDescriptor_v8(
+        cudnnRNNDescriptor rnnDesc, 
+        int algo, 
+        int cellMode, 
+        int biasMode, 
+        int dirMode, 
+        int inputMode, 
+        int dataType, 
+        int mathPrec, 
+        int mathType, 
+        int inputSize, 
+        int hiddenSize, 
+        int projSize, 
+        int numLayers, 
+        cudnnDropoutDescriptor dropoutDesc, 
+        int auxFlags)
+    {
+        return checkResult(cudnnSetRNNDescriptor_v8Native(rnnDesc, algo, cellMode, biasMode, dirMode, inputMode, dataType, mathPrec, mathType, inputSize, hiddenSize, projSize, numLayers, dropoutDesc, auxFlags));
+    }
+    private static native int cudnnSetRNNDescriptor_v8Native(
+        cudnnRNNDescriptor rnnDesc, 
+        int algo, 
+        int cellMode, 
+        int biasMode, 
+        int dirMode, 
+        int inputMode, 
+        int dataType, 
+        int mathPrec, 
+        int mathType, 
+        int inputSize, 
+        int hiddenSize, 
+        int projSize, 
+        int numLayers, 
+        cudnnDropoutDescriptor dropoutDesc, 
+        int auxFlags);
+
+
+    public static int cudnnGetRNNDescriptor_v8(
+        cudnnRNNDescriptor rnnDesc, 
+        int[] algo, 
+        int[] cellMode, 
+        int[] biasMode, 
+        int[] dirMode, 
+        int[] inputMode, 
+        int[] dataType, 
+        int[] mathPrec, 
+        int[] mathType, 
+        int[] inputSize, 
+        int[] hiddenSize, 
+        int[] projSize, 
+        int[] numLayers, 
+        cudnnDropoutDescriptor dropoutDesc, 
+        int[] auxFlags)
+    {
+        return checkResult(cudnnGetRNNDescriptor_v8Native(rnnDesc, algo, cellMode, biasMode, dirMode, inputMode, dataType, mathPrec, mathType, inputSize, hiddenSize, projSize, numLayers, dropoutDesc, auxFlags));
+    }
+    private static native int cudnnGetRNNDescriptor_v8Native(
+        cudnnRNNDescriptor rnnDesc, 
+        int[] algo, 
+        int[] cellMode, 
+        int[] biasMode, 
+        int[] dirMode, 
+        int[] inputMode, 
+        int[] dataType, 
+        int[] mathPrec, 
+        int[] mathType, 
+        int[] inputSize, 
+        int[] hiddenSize, 
+        int[] projSize, 
+        int[] numLayers, 
+        cudnnDropoutDescriptor dropoutDesc, 
+        int[] auxFlags);
+
+
+    /**
+     * <pre>
+     * mathPrec in cudnnSetRNNDescriptor_v6() specifies compute precision
+     * compute precision is further modified by cudnnSetRNNMatrixMathType()
+     * dataType in cudnnGetRNNParamsSize() and wDesc specify weight storage
+     * dropout is between RNN layers, not between recurrent steps
+     * </pre>
+     */
+    @Deprecated
+    public static int cudnnSetRNNDescriptor_v6(
         cudnnHandle handle, 
         cudnnRNNDescriptor rnnDesc, 
         int hiddenSize, 
@@ -3164,13 +2908,13 @@ public class JCudnn
         cudnnDropoutDescriptor dropoutDesc, 
         int inputMode, 
         int direction, 
-        int mode, 
+        int cellMode, 
         int algo, 
         int mathPrec)
     {
-        return checkResult(cudnnSetRNNDescriptorNative(handle, rnnDesc, hiddenSize, numLayers, dropoutDesc, inputMode, direction, mode, algo, mathPrec));
+        return checkResult(cudnnSetRNNDescriptor_v6Native(handle, rnnDesc, hiddenSize, numLayers, dropoutDesc, inputMode, direction, cellMode, algo, mathPrec));
     }
-    private static native int cudnnSetRNNDescriptorNative(
+    private static native int cudnnSetRNNDescriptor_v6Native(
         cudnnHandle handle, 
         cudnnRNNDescriptor rnnDesc, 
         int hiddenSize, 
@@ -3178,12 +2922,13 @@ public class JCudnn
         cudnnDropoutDescriptor dropoutDesc, 
         int inputMode, 
         int direction, 
-        int mode, 
+        int cellMode, 
         int algo, 
         int mathPrec);
 
 
-    public static int cudnnGetRNNDescriptor(
+    @Deprecated
+    public static int cudnnGetRNNDescriptor_v6(
         cudnnHandle handle, 
         cudnnRNNDescriptor rnnDesc, 
         int[] hiddenSize, 
@@ -3191,13 +2936,13 @@ public class JCudnn
         cudnnDropoutDescriptor dropoutDesc, 
         int[] inputMode, 
         int[] direction, 
-        int[] mode, 
+        int[] cellMode, 
         int[] algo, 
         int[] mathPrec)
     {
-        return checkResult(cudnnGetRNNDescriptorNative(handle, rnnDesc, hiddenSize, numLayers, dropoutDesc, inputMode, direction, mode, algo, mathPrec));
+        return checkResult(cudnnGetRNNDescriptor_v6Native(handle, rnnDesc, hiddenSize, numLayers, dropoutDesc, inputMode, direction, cellMode, algo, mathPrec));
     }
-    private static native int cudnnGetRNNDescriptorNative(
+    private static native int cudnnGetRNNDescriptor_v6Native(
         cudnnHandle handle, 
         cudnnRNNDescriptor rnnDesc, 
         int[] hiddenSize, 
@@ -3205,11 +2950,12 @@ public class JCudnn
         cudnnDropoutDescriptor dropoutDesc, 
         int[] inputMode, 
         int[] direction, 
-        int[] mode, 
+        int[] cellMode, 
         int[] algo, 
         int[] mathPrec);
 
 
+    @Deprecated
     public static int cudnnSetRNNMatrixMathType(
         cudnnRNNDescriptor rnnDesc, 
         int mType)
@@ -3221,6 +2967,7 @@ public class JCudnn
         int mType);
 
 
+    @Deprecated
     public static int cudnnGetRNNMatrixMathType(
         cudnnRNNDescriptor rnnDesc, 
         int[] mType)
@@ -3232,6 +2979,7 @@ public class JCudnn
         int[] mType);
 
 
+    @Deprecated
     public static int cudnnSetRNNBiasMode(
         cudnnRNNDescriptor rnnDesc, 
         int biasMode)
@@ -3243,6 +2991,7 @@ public class JCudnn
         int biasMode);
 
 
+    @Deprecated
     public static int cudnnGetRNNBiasMode(
         cudnnRNNDescriptor rnnDesc, 
         int[] biasMode)
@@ -3254,6 +3003,41 @@ public class JCudnn
         int[] biasMode);
 
 
+    public static int cudnnRNNSetClip_v8(
+        cudnnRNNDescriptor rnnDesc, 
+        int clipMode, 
+        int clipNanOpt, 
+        double lclip, 
+        double rclip)
+    {
+        return checkResult(cudnnRNNSetClip_v8Native(rnnDesc, clipMode, clipNanOpt, lclip, rclip));
+    }
+    private static native int cudnnRNNSetClip_v8Native(
+        cudnnRNNDescriptor rnnDesc, 
+        int clipMode, 
+        int clipNanOpt, 
+        double lclip, 
+        double rclip);
+
+
+    public static int cudnnRNNGetClip_v8(
+        cudnnRNNDescriptor rnnDesc, 
+        int[] clipMode, 
+        int[] clipNanOpt, 
+        double[] lclip, 
+        double[] rclip)
+    {
+        return checkResult(cudnnRNNGetClip_v8Native(rnnDesc, clipMode, clipNanOpt, lclip, rclip));
+    }
+    private static native int cudnnRNNGetClip_v8Native(
+        cudnnRNNDescriptor rnnDesc, 
+        int[] clipMode, 
+        int[] clipNanOpt, 
+        double[] lclip, 
+        double[] rclip);
+
+
+    @Deprecated
     public static int cudnnRNNSetClip(
         cudnnHandle handle, 
         cudnnRNNDescriptor rnnDesc, 
@@ -3273,6 +3057,7 @@ public class JCudnn
         double rclip);
 
 
+    @Deprecated
     public static int cudnnRNNGetClip(
         cudnnHandle handle, 
         cudnnRNNDescriptor rnnDesc, 
@@ -3292,6 +3077,7 @@ public class JCudnn
         double[] rclip);
 
 
+    @Deprecated
     public static int cudnnSetRNNProjectionLayers(
         cudnnHandle handle, 
         cudnnRNNDescriptor rnnDesc, 
@@ -3307,6 +3093,7 @@ public class JCudnn
         int outProjSize);
 
 
+    @Deprecated
     public static int cudnnGetRNNProjectionLayers(
         cudnnHandle handle, 
         cudnnRNNDescriptor rnnDesc, 
@@ -3323,6 +3110,7 @@ public class JCudnn
 
 
     /** Expensive. Creates the plan for the specific settings. */
+    @Deprecated
     public static int cudnnCreatePersistentRNNPlan(
         cudnnRNNDescriptor rnnDesc, 
         int minibatch, 
@@ -3338,6 +3126,7 @@ public class JCudnn
         cudnnPersistentRNNPlan plan);
 
 
+    @Deprecated
     public static int cudnnDestroyPersistentRNNPlan(
         cudnnPersistentRNNPlan plan)
     {
@@ -3347,6 +3136,7 @@ public class JCudnn
         cudnnPersistentRNNPlan plan);
 
 
+    @Deprecated
     public static int cudnnSetPersistentRNNPlan(
         cudnnRNNDescriptor rnnDesc, 
         cudnnPersistentRNNPlan plan)
@@ -3358,7 +3148,21 @@ public class JCudnn
         cudnnPersistentRNNPlan plan);
 
 
+    public static int cudnnBuildRNNDynamic(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int miniBatch)
+    {
+        return checkResult(cudnnBuildRNNDynamicNative(handle, rnnDesc, miniBatch));
+    }
+    private static native int cudnnBuildRNNDynamicNative(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int miniBatch);
+
+
     /** dataType in weight descriptors and input descriptors is used to describe storage */
+    @Deprecated
     public static int cudnnGetRNNWorkspaceSize(
         cudnnHandle handle, 
         cudnnRNNDescriptor rnnDesc, 
@@ -3376,6 +3180,7 @@ public class JCudnn
         long[] sizeInBytes);
 
 
+    @Deprecated
     public static int cudnnGetRNNTrainingReserveSize(
         cudnnHandle handle, 
         cudnnRNNDescriptor rnnDesc, 
@@ -3393,6 +3198,26 @@ public class JCudnn
         long[] sizeInBytes);
 
 
+    public static int cudnnGetRNNTempSpaceSizes(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int fMode, 
+        cudnnRNNDataDescriptor xDesc, 
+        long[] workSpaceSize, 
+        long[] reserveSpaceSize)
+    {
+        return checkResult(cudnnGetRNNTempSpaceSizesNative(handle, rnnDesc, fMode, xDesc, workSpaceSize, reserveSpaceSize));
+    }
+    private static native int cudnnGetRNNTempSpaceSizesNative(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int fMode, 
+        cudnnRNNDataDescriptor xDesc, 
+        long[] workSpaceSize, 
+        long[] reserveSpaceSize);
+
+
+    @Deprecated
     public static int cudnnGetRNNParamsSize(
         cudnnHandle handle, 
         cudnnRNNDescriptor rnnDesc, 
@@ -3410,6 +3235,20 @@ public class JCudnn
         int dataType);
 
 
+    public static int cudnnGetRNNWeightSpaceSize(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        long[] weightSpaceSize)
+    {
+        return checkResult(cudnnGetRNNWeightSpaceSizeNative(handle, rnnDesc, weightSpaceSize));
+    }
+    private static native int cudnnGetRNNWeightSpaceSizeNative(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        long[] weightSpaceSize);
+
+
+    @Deprecated
     public static int cudnnGetRNNLinLayerMatrixParams(
         cudnnHandle handle, 
         cudnnRNNDescriptor rnnDesc, 
@@ -3435,6 +3274,7 @@ public class JCudnn
         Pointer linLayerMat);
 
 
+    @Deprecated
     public static int cudnnGetRNNLinLayerBiasParams(
         cudnnHandle handle, 
         cudnnRNNDescriptor rnnDesc, 
@@ -3460,6 +3300,34 @@ public class JCudnn
         Pointer linLayerBias);
 
 
+    public static int cudnnGetRNNWeightParams(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int pseudoLayer, 
+        long weightSpaceSize, 
+        Pointer weightSpace, 
+        int linLayerID, 
+        cudnnTensorDescriptor mDesc, 
+        Pointer mAddr, 
+        cudnnTensorDescriptor bDesc, 
+        Pointer bAddr)
+    {
+        return checkResult(cudnnGetRNNWeightParamsNative(handle, rnnDesc, pseudoLayer, weightSpaceSize, weightSpace, linLayerID, mDesc, mAddr, bDesc, bAddr));
+    }
+    private static native int cudnnGetRNNWeightParamsNative(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int pseudoLayer, 
+        long weightSpaceSize, 
+        Pointer weightSpace, 
+        int linLayerID, 
+        cudnnTensorDescriptor mDesc, 
+        Pointer mAddr, 
+        cudnnTensorDescriptor bDesc, 
+        Pointer bAddr);
+
+
+    @Deprecated
     public static int cudnnRNNForwardInference(
         cudnnHandle handle, 
         cudnnRNNDescriptor rnnDesc, 
@@ -3478,10 +3346,10 @@ public class JCudnn
         Pointer hy, 
         cudnnTensorDescriptor cyDesc, 
         Pointer cy, 
-        Pointer workspace, 
+        Pointer workSpace, 
         long workSpaceSizeInBytes)
     {
-        return checkResult(cudnnRNNForwardInferenceNative(handle, rnnDesc, seqLength, xDesc, x, hxDesc, hx, cxDesc, cx, wDesc, w, yDesc, y, hyDesc, hy, cyDesc, cy, workspace, workSpaceSizeInBytes));
+        return checkResult(cudnnRNNForwardInferenceNative(handle, rnnDesc, seqLength, xDesc, x, hxDesc, hx, cxDesc, cx, wDesc, w, yDesc, y, hyDesc, hy, cyDesc, cy, workSpace, workSpaceSizeInBytes));
     }
     private static native int cudnnRNNForwardInferenceNative(
         cudnnHandle handle, 
@@ -3501,158 +3369,12 @@ public class JCudnn
         Pointer hy, 
         cudnnTensorDescriptor cyDesc, 
         Pointer cy, 
-        Pointer workspace, 
+        Pointer workSpace, 
         long workSpaceSizeInBytes);
 
 
-    public static int cudnnRNNForwardTraining(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
-        int seqLength, 
-        cudnnTensorDescriptor[] xDesc, 
-        Pointer x, 
-        cudnnTensorDescriptor hxDesc, 
-        Pointer hx, 
-        cudnnTensorDescriptor cxDesc, 
-        Pointer cx, 
-        cudnnFilterDescriptor wDesc, 
-        Pointer w, 
-        cudnnTensorDescriptor[] yDesc, 
-        Pointer y, 
-        cudnnTensorDescriptor hyDesc, 
-        Pointer hy, 
-        cudnnTensorDescriptor cyDesc, 
-        Pointer cy, 
-        Pointer workspace, 
-        long workSpaceSizeInBytes, 
-        Pointer reserveSpace, 
-        long reserveSpaceSizeInBytes)
-    {
-        return checkResult(cudnnRNNForwardTrainingNative(handle, rnnDesc, seqLength, xDesc, x, hxDesc, hx, cxDesc, cx, wDesc, w, yDesc, y, hyDesc, hy, cyDesc, cy, workspace, workSpaceSizeInBytes, reserveSpace, reserveSpaceSizeInBytes));
-    }
-    private static native int cudnnRNNForwardTrainingNative(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
-        int seqLength, 
-        cudnnTensorDescriptor[] xDesc, 
-        Pointer x, 
-        cudnnTensorDescriptor hxDesc, 
-        Pointer hx, 
-        cudnnTensorDescriptor cxDesc, 
-        Pointer cx, 
-        cudnnFilterDescriptor wDesc, 
-        Pointer w, 
-        cudnnTensorDescriptor[] yDesc, 
-        Pointer y, 
-        cudnnTensorDescriptor hyDesc, 
-        Pointer hy, 
-        cudnnTensorDescriptor cyDesc, 
-        Pointer cy, 
-        Pointer workspace, 
-        long workSpaceSizeInBytes, 
-        Pointer reserveSpace, 
-        long reserveSpaceSizeInBytes);
-
-
-    public static int cudnnRNNBackwardData(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
-        int seqLength, 
-        cudnnTensorDescriptor[] yDesc, 
-        Pointer y, 
-        cudnnTensorDescriptor[] dyDesc, 
-        Pointer dy, 
-        cudnnTensorDescriptor dhyDesc, 
-        Pointer dhy, 
-        cudnnTensorDescriptor dcyDesc, 
-        Pointer dcy, 
-        cudnnFilterDescriptor wDesc, 
-        Pointer w, 
-        cudnnTensorDescriptor hxDesc, 
-        Pointer hx, 
-        cudnnTensorDescriptor cxDesc, 
-        Pointer cx, 
-        cudnnTensorDescriptor[] dxDesc, 
-        Pointer dx, 
-        cudnnTensorDescriptor dhxDesc, 
-        Pointer dhx, 
-        cudnnTensorDescriptor dcxDesc, 
-        Pointer dcx, 
-        Pointer workspace, 
-        long workSpaceSizeInBytes, 
-        Pointer reserveSpace, 
-        long reserveSpaceSizeInBytes)
-    {
-        return checkResult(cudnnRNNBackwardDataNative(handle, rnnDesc, seqLength, yDesc, y, dyDesc, dy, dhyDesc, dhy, dcyDesc, dcy, wDesc, w, hxDesc, hx, cxDesc, cx, dxDesc, dx, dhxDesc, dhx, dcxDesc, dcx, workspace, workSpaceSizeInBytes, reserveSpace, reserveSpaceSizeInBytes));
-    }
-    private static native int cudnnRNNBackwardDataNative(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
-        int seqLength, 
-        cudnnTensorDescriptor[] yDesc, 
-        Pointer y, 
-        cudnnTensorDescriptor[] dyDesc, 
-        Pointer dy, 
-        cudnnTensorDescriptor dhyDesc, 
-        Pointer dhy, 
-        cudnnTensorDescriptor dcyDesc, 
-        Pointer dcy, 
-        cudnnFilterDescriptor wDesc, 
-        Pointer w, 
-        cudnnTensorDescriptor hxDesc, 
-        Pointer hx, 
-        cudnnTensorDescriptor cxDesc, 
-        Pointer cx, 
-        cudnnTensorDescriptor[] dxDesc, 
-        Pointer dx, 
-        cudnnTensorDescriptor dhxDesc, 
-        Pointer dhx, 
-        cudnnTensorDescriptor dcxDesc, 
-        Pointer dcx, 
-        Pointer workspace, 
-        long workSpaceSizeInBytes, 
-        Pointer reserveSpace, 
-        long reserveSpaceSizeInBytes);
-
-
-    public static int cudnnRNNBackwardWeights(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
-        int seqLength, 
-        cudnnTensorDescriptor[] xDesc, 
-        Pointer x, 
-        cudnnTensorDescriptor hxDesc, 
-        Pointer hx, 
-        cudnnTensorDescriptor[] yDesc, 
-        Pointer y, 
-        Pointer workspace, 
-        long workSpaceSizeInBytes, 
-        cudnnFilterDescriptor dwDesc, 
-        Pointer dw, 
-        Pointer reserveSpace, 
-        long reserveSpaceSizeInBytes)
-    {
-        return checkResult(cudnnRNNBackwardWeightsNative(handle, rnnDesc, seqLength, xDesc, x, hxDesc, hx, yDesc, y, workspace, workSpaceSizeInBytes, dwDesc, dw, reserveSpace, reserveSpaceSizeInBytes));
-    }
-    private static native int cudnnRNNBackwardWeightsNative(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
-        int seqLength, 
-        cudnnTensorDescriptor[] xDesc, 
-        Pointer x, 
-        cudnnTensorDescriptor hxDesc, 
-        Pointer hx, 
-        cudnnTensorDescriptor[] yDesc, 
-        Pointer y, 
-        Pointer workspace, 
-        long workSpaceSizeInBytes, 
-        cudnnFilterDescriptor dwDesc, 
-        Pointer dw, 
-        Pointer reserveSpace, 
-        long reserveSpaceSizeInBytes);
-
-
     /** RNN EX API */
+    @Deprecated
     public static int cudnnSetRNNPaddingMode(
         cudnnRNNDescriptor rnnDesc, 
         int paddingMode)
@@ -3664,6 +3386,7 @@ public class JCudnn
         int paddingMode);
 
 
+    @Deprecated
     public static int cudnnGetRNNPaddingMode(
         cudnnRNNDescriptor rnnDesc, 
         int[] paddingMode)
@@ -3741,69 +3464,7 @@ public class JCudnn
         Pointer paddingFill);
 
 
-    public static int cudnnRNNForwardTrainingEx(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
-        cudnnRNNDataDescriptor xDesc, 
-        Pointer x, 
-        cudnnTensorDescriptor hxDesc, 
-        Pointer hx, 
-        cudnnTensorDescriptor cxDesc, 
-        Pointer cx, 
-        cudnnFilterDescriptor wDesc, 
-        Pointer w, 
-        cudnnRNNDataDescriptor yDesc, 
-        Pointer y, 
-        cudnnTensorDescriptor hyDesc, 
-        Pointer hy, 
-        cudnnTensorDescriptor cyDesc, 
-        Pointer cy, 
-        cudnnRNNDataDescriptor kDesc, /** reserved, should pass NULL */
-        Pointer keys, /** reserved, should pass NULL */
-        cudnnRNNDataDescriptor cDesc, /** reserved, should pass NULL */
-        Pointer cAttn, /** reserved, should pass NULL */
-        cudnnRNNDataDescriptor iDesc, /** reserved, should pass NULL */
-        Pointer iAttn, /** reserved, should pass NULL */
-        cudnnRNNDataDescriptor qDesc, /** reserved, should pass NULL */
-        Pointer queries, /** reserved, should pass NULL */
-        Pointer workSpace, 
-        long workSpaceSizeInBytes, 
-        Pointer reserveSpace, 
-        long reserveSpaceSizeInBytes)
-    {
-        return checkResult(cudnnRNNForwardTrainingExNative(handle, rnnDesc, xDesc, x, hxDesc, hx, cxDesc, cx, wDesc, w, yDesc, y, hyDesc, hy, cyDesc, cy, kDesc, keys, cDesc, cAttn, iDesc, iAttn, qDesc, queries, workSpace, workSpaceSizeInBytes, reserveSpace, reserveSpaceSizeInBytes));
-    }
-    private static native int cudnnRNNForwardTrainingExNative(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
-        cudnnRNNDataDescriptor xDesc, 
-        Pointer x, 
-        cudnnTensorDescriptor hxDesc, 
-        Pointer hx, 
-        cudnnTensorDescriptor cxDesc, 
-        Pointer cx, 
-        cudnnFilterDescriptor wDesc, 
-        Pointer w, 
-        cudnnRNNDataDescriptor yDesc, 
-        Pointer y, 
-        cudnnTensorDescriptor hyDesc, 
-        Pointer hy, 
-        cudnnTensorDescriptor cyDesc, 
-        Pointer cy, 
-        cudnnRNNDataDescriptor kDesc, /** reserved, should pass NULL */
-        Pointer keys, /** reserved, should pass NULL */
-        cudnnRNNDataDescriptor cDesc, /** reserved, should pass NULL */
-        Pointer cAttn, /** reserved, should pass NULL */
-        cudnnRNNDataDescriptor iDesc, /** reserved, should pass NULL */
-        Pointer iAttn, /** reserved, should pass NULL */
-        cudnnRNNDataDescriptor qDesc, /** reserved, should pass NULL */
-        Pointer queries, /** reserved, should pass NULL */
-        Pointer workSpace, 
-        long workSpaceSizeInBytes, 
-        Pointer reserveSpace, 
-        long reserveSpaceSizeInBytes);
-
-
+    @Deprecated
     public static int cudnnRNNForwardInferenceEx(
         cudnnHandle handle, 
         cudnnRNNDescriptor rnnDesc, 
@@ -3863,108 +3524,55 @@ public class JCudnn
         long workSpaceSizeInBytes);
 
 
-    public static int cudnnRNNBackwardDataEx(
+    public static int cudnnRNNForward(
         cudnnHandle handle, 
         cudnnRNNDescriptor rnnDesc, 
-        cudnnRNNDataDescriptor yDesc, 
-        Pointer y, 
-        cudnnRNNDataDescriptor dyDesc, 
-        Pointer dy, 
-        cudnnRNNDataDescriptor dcDesc, /** reserved, should pass NULL */
-        Pointer dcAttn, /** reserved, should pass NULL */
-        cudnnTensorDescriptor dhyDesc, 
-        Pointer dhy, 
-        cudnnTensorDescriptor dcyDesc, 
-        Pointer dcy, 
-        cudnnFilterDescriptor wDesc, 
-        Pointer w, 
-        cudnnTensorDescriptor hxDesc, 
-        Pointer hx, 
-        cudnnTensorDescriptor cxDesc, 
-        Pointer cx, 
-        cudnnRNNDataDescriptor dxDesc, 
-        Pointer dx, 
-        cudnnTensorDescriptor dhxDesc, 
-        Pointer dhx, 
-        cudnnTensorDescriptor dcxDesc, 
-        Pointer dcx, 
-        cudnnRNNDataDescriptor dkDesc, /** reserved, should pass NULL */
-        Pointer dkeys, /** reserved, should pass NULL */
-        Pointer workSpace, 
-        long workSpaceSizeInBytes, 
-        Pointer reserveSpace, 
-        long reserveSpaceSizeInBytes)
-    {
-        return checkResult(cudnnRNNBackwardDataExNative(handle, rnnDesc, yDesc, y, dyDesc, dy, dcDesc, dcAttn, dhyDesc, dhy, dcyDesc, dcy, wDesc, w, hxDesc, hx, cxDesc, cx, dxDesc, dx, dhxDesc, dhx, dcxDesc, dcx, dkDesc, dkeys, workSpace, workSpaceSizeInBytes, reserveSpace, reserveSpaceSizeInBytes));
-    }
-    private static native int cudnnRNNBackwardDataExNative(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
-        cudnnRNNDataDescriptor yDesc, 
-        Pointer y, 
-        cudnnRNNDataDescriptor dyDesc, 
-        Pointer dy, 
-        cudnnRNNDataDescriptor dcDesc, /** reserved, should pass NULL */
-        Pointer dcAttn, /** reserved, should pass NULL */
-        cudnnTensorDescriptor dhyDesc, 
-        Pointer dhy, 
-        cudnnTensorDescriptor dcyDesc, 
-        Pointer dcy, 
-        cudnnFilterDescriptor wDesc, 
-        Pointer w, 
-        cudnnTensorDescriptor hxDesc, 
-        Pointer hx, 
-        cudnnTensorDescriptor cxDesc, 
-        Pointer cx, 
-        cudnnRNNDataDescriptor dxDesc, 
-        Pointer dx, 
-        cudnnTensorDescriptor dhxDesc, 
-        Pointer dhx, 
-        cudnnTensorDescriptor dcxDesc, 
-        Pointer dcx, 
-        cudnnRNNDataDescriptor dkDesc, /** reserved, should pass NULL */
-        Pointer dkeys, /** reserved, should pass NULL */
-        Pointer workSpace, 
-        long workSpaceSizeInBytes, 
-        Pointer reserveSpace, 
-        long reserveSpaceSizeInBytes);
-
-
-    public static int cudnnRNNBackwardWeightsEx(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
+        int fwdMode, 
+        int[] devSeqLengths, 
         cudnnRNNDataDescriptor xDesc, 
         Pointer x, 
-        cudnnTensorDescriptor hxDesc, 
-        Pointer hx, 
         cudnnRNNDataDescriptor yDesc, 
         Pointer y, 
+        cudnnTensorDescriptor hDesc, 
+        Pointer hx, 
+        Pointer hy, 
+        cudnnTensorDescriptor cDesc, 
+        Pointer cx, 
+        Pointer cy, 
+        long weightSpaceSize, 
+        Pointer weightSpace, 
+        long workSpaceSize, 
         Pointer workSpace, 
-        long workSpaceSizeInBytes, 
-        cudnnFilterDescriptor dwDesc, 
-        Pointer dw, 
-        Pointer reserveSpace, 
-        long reserveSpaceSizeInBytes)
+        long reserveSpaceSize, 
+        Pointer reserveSpace)
     {
-        return checkResult(cudnnRNNBackwardWeightsExNative(handle, rnnDesc, xDesc, x, hxDesc, hx, yDesc, y, workSpace, workSpaceSizeInBytes, dwDesc, dw, reserveSpace, reserveSpaceSizeInBytes));
+        return checkResult(cudnnRNNForwardNative(handle, rnnDesc, fwdMode, devSeqLengths, xDesc, x, yDesc, y, hDesc, hx, hy, cDesc, cx, cy, weightSpaceSize, weightSpace, workSpaceSize, workSpace, reserveSpaceSize, reserveSpace));
     }
-    private static native int cudnnRNNBackwardWeightsExNative(
+    private static native int cudnnRNNForwardNative(
         cudnnHandle handle, 
         cudnnRNNDescriptor rnnDesc, 
+        int fwdMode, 
+        int[] devSeqLengths, 
         cudnnRNNDataDescriptor xDesc, 
         Pointer x, 
-        cudnnTensorDescriptor hxDesc, 
-        Pointer hx, 
         cudnnRNNDataDescriptor yDesc, 
         Pointer y, 
+        cudnnTensorDescriptor hDesc, 
+        Pointer hx, 
+        Pointer hy, 
+        cudnnTensorDescriptor cDesc, 
+        Pointer cx, 
+        Pointer cy, 
+        long weightSpaceSize, 
+        Pointer weightSpace, 
+        long workSpaceSize, 
         Pointer workSpace, 
-        long workSpaceSizeInBytes, 
-        cudnnFilterDescriptor dwDesc, 
-        Pointer dw, 
-        Pointer reserveSpace, 
-        long reserveSpaceSizeInBytes);
+        long reserveSpaceSize, 
+        Pointer reserveSpace);
 
 
+    /** RNN FIND API */
+    @Deprecated
     public static int cudnnSetRNNAlgorithmDescriptor(
         cudnnHandle handle, 
         cudnnRNNDescriptor rnnDesc, 
@@ -3978,6 +3586,7 @@ public class JCudnn
         cudnnAlgorithmDescriptor algoDesc);
 
 
+    @Deprecated
     public static int cudnnGetRNNForwardInferenceAlgorithmMaxCount(
         cudnnHandle handle, 
         cudnnRNNDescriptor rnnDesc, 
@@ -3991,6 +3600,7 @@ public class JCudnn
         int[] count);
 
 
+    @Deprecated
     public static int cudnnFindRNNForwardInferenceAlgorithmEx(
         cudnnHandle handle, 
         cudnnRNNDescriptor rnnDesc, 
@@ -4042,216 +3652,6 @@ public class JCudnn
         cudnnAlgorithmPerformance[] perfResults, 
         Pointer workspace, 
         long workSpaceSizeInBytes);
-
-
-    public static int cudnnGetRNNForwardTrainingAlgorithmMaxCount(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
-        int[] count)
-    {
-        return checkResult(cudnnGetRNNForwardTrainingAlgorithmMaxCountNative(handle, rnnDesc, count));
-    }
-    private static native int cudnnGetRNNForwardTrainingAlgorithmMaxCountNative(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
-        int[] count);
-
-
-    public static int cudnnFindRNNForwardTrainingAlgorithmEx(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
-        int seqLength, 
-        cudnnTensorDescriptor[] xDesc, 
-        Pointer x, 
-        cudnnTensorDescriptor hxDesc, 
-        Pointer hx, 
-        cudnnTensorDescriptor cxDesc, 
-        Pointer cx, 
-        cudnnFilterDescriptor wDesc, 
-        Pointer w, 
-        cudnnTensorDescriptor[] yDesc, 
-        Pointer y, 
-        cudnnTensorDescriptor hyDesc, 
-        Pointer hy, 
-        cudnnTensorDescriptor cyDesc, 
-        Pointer cy, 
-        float findIntensity, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnAlgorithmPerformance[] perfResults, 
-        Pointer workspace, 
-        long workSpaceSizeInBytes, 
-        Pointer reserveSpace, 
-        long reserveSpaceSizeInBytes)
-    {
-        return checkResult(cudnnFindRNNForwardTrainingAlgorithmExNative(handle, rnnDesc, seqLength, xDesc, x, hxDesc, hx, cxDesc, cx, wDesc, w, yDesc, y, hyDesc, hy, cyDesc, cy, findIntensity, requestedAlgoCount, returnedAlgoCount, perfResults, workspace, workSpaceSizeInBytes, reserveSpace, reserveSpaceSizeInBytes));
-    }
-    private static native int cudnnFindRNNForwardTrainingAlgorithmExNative(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
-        int seqLength, 
-        cudnnTensorDescriptor[] xDesc, 
-        Pointer x, 
-        cudnnTensorDescriptor hxDesc, 
-        Pointer hx, 
-        cudnnTensorDescriptor cxDesc, 
-        Pointer cx, 
-        cudnnFilterDescriptor wDesc, 
-        Pointer w, 
-        cudnnTensorDescriptor[] yDesc, 
-        Pointer y, 
-        cudnnTensorDescriptor hyDesc, 
-        Pointer hy, 
-        cudnnTensorDescriptor cyDesc, 
-        Pointer cy, 
-        float findIntensity, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnAlgorithmPerformance[] perfResults, 
-        Pointer workspace, 
-        long workSpaceSizeInBytes, 
-        Pointer reserveSpace, 
-        long reserveSpaceSizeInBytes);
-
-
-    public static int cudnnGetRNNBackwardDataAlgorithmMaxCount(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
-        int[] count)
-    {
-        return checkResult(cudnnGetRNNBackwardDataAlgorithmMaxCountNative(handle, rnnDesc, count));
-    }
-    private static native int cudnnGetRNNBackwardDataAlgorithmMaxCountNative(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
-        int[] count);
-
-
-    public static int cudnnFindRNNBackwardDataAlgorithmEx(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
-        int seqLength, 
-        cudnnTensorDescriptor[] yDesc, 
-        Pointer y, 
-        cudnnTensorDescriptor[] dyDesc, 
-        Pointer dy, 
-        cudnnTensorDescriptor dhyDesc, 
-        Pointer dhy, 
-        cudnnTensorDescriptor dcyDesc, 
-        Pointer dcy, 
-        cudnnFilterDescriptor wDesc, 
-        Pointer w, 
-        cudnnTensorDescriptor hxDesc, 
-        Pointer hx, 
-        cudnnTensorDescriptor cxDesc, 
-        Pointer cx, 
-        cudnnTensorDescriptor[] dxDesc, 
-        Pointer dx, 
-        cudnnTensorDescriptor dhxDesc, 
-        Pointer dhx, 
-        cudnnTensorDescriptor dcxDesc, 
-        Pointer dcx, 
-        float findIntensity, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnAlgorithmPerformance[] perfResults, 
-        Pointer workspace, 
-        long workSpaceSizeInBytes, 
-        Pointer reserveSpace, 
-        long reserveSpaceSizeInBytes)
-    {
-        return checkResult(cudnnFindRNNBackwardDataAlgorithmExNative(handle, rnnDesc, seqLength, yDesc, y, dyDesc, dy, dhyDesc, dhy, dcyDesc, dcy, wDesc, w, hxDesc, hx, cxDesc, cx, dxDesc, dx, dhxDesc, dhx, dcxDesc, dcx, findIntensity, requestedAlgoCount, returnedAlgoCount, perfResults, workspace, workSpaceSizeInBytes, reserveSpace, reserveSpaceSizeInBytes));
-    }
-    private static native int cudnnFindRNNBackwardDataAlgorithmExNative(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
-        int seqLength, 
-        cudnnTensorDescriptor[] yDesc, 
-        Pointer y, 
-        cudnnTensorDescriptor[] dyDesc, 
-        Pointer dy, 
-        cudnnTensorDescriptor dhyDesc, 
-        Pointer dhy, 
-        cudnnTensorDescriptor dcyDesc, 
-        Pointer dcy, 
-        cudnnFilterDescriptor wDesc, 
-        Pointer w, 
-        cudnnTensorDescriptor hxDesc, 
-        Pointer hx, 
-        cudnnTensorDescriptor cxDesc, 
-        Pointer cx, 
-        cudnnTensorDescriptor[] dxDesc, 
-        Pointer dx, 
-        cudnnTensorDescriptor dhxDesc, 
-        Pointer dhx, 
-        cudnnTensorDescriptor dcxDesc, 
-        Pointer dcx, 
-        float findIntensity, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnAlgorithmPerformance[] perfResults, 
-        Pointer workspace, 
-        long workSpaceSizeInBytes, 
-        Pointer reserveSpace, 
-        long reserveSpaceSizeInBytes);
-
-
-    public static int cudnnGetRNNBackwardWeightsAlgorithmMaxCount(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
-        int[] count)
-    {
-        return checkResult(cudnnGetRNNBackwardWeightsAlgorithmMaxCountNative(handle, rnnDesc, count));
-    }
-    private static native int cudnnGetRNNBackwardWeightsAlgorithmMaxCountNative(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
-        int[] count);
-
-
-    public static int cudnnFindRNNBackwardWeightsAlgorithmEx(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
-        int seqLength, 
-        cudnnTensorDescriptor[] xDesc, 
-        Pointer x, 
-        cudnnTensorDescriptor hxDesc, 
-        Pointer hx, 
-        cudnnTensorDescriptor[] yDesc, 
-        Pointer y, 
-        float findIntensity, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnAlgorithmPerformance[] perfResults, 
-        Pointer workspace, 
-        long workSpaceSizeInBytes, 
-        cudnnFilterDescriptor dwDesc, 
-        Pointer dw, 
-        Pointer reserveSpace, 
-        long reserveSpaceSizeInBytes)
-    {
-        return checkResult(cudnnFindRNNBackwardWeightsAlgorithmExNative(handle, rnnDesc, seqLength, xDesc, x, hxDesc, hx, yDesc, y, findIntensity, requestedAlgoCount, returnedAlgoCount, perfResults, workspace, workSpaceSizeInBytes, dwDesc, dw, reserveSpace, reserveSpaceSizeInBytes));
-    }
-    private static native int cudnnFindRNNBackwardWeightsAlgorithmExNative(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
-        int seqLength, 
-        cudnnTensorDescriptor[] xDesc, 
-        Pointer x, 
-        cudnnTensorDescriptor hxDesc, 
-        Pointer hx, 
-        cudnnTensorDescriptor[] yDesc, 
-        Pointer y, 
-        float findIntensity, 
-        int requestedAlgoCount, 
-        int[] returnedAlgoCount, 
-        cudnnAlgorithmPerformance[] perfResults, 
-        Pointer workspace, 
-        long workSpaceSizeInBytes, 
-        cudnnFilterDescriptor dwDesc, 
-        Pointer dw, 
-        Pointer reserveSpace, 
-        long reserveSpaceSizeInBytes);
 
 
     public static int cudnnCreateSeqDataDescriptor(
@@ -4523,6 +3923,648 @@ public class JCudnn
         Pointer reserveSpace);
 
 
+    /**
+     * <pre>
+     * Cross-library version checker..
+     * This function is implemented differently in each sub-library. Each sublib
+     * checks whether its own version matches that of its dependencies.
+     * @return CUDNN_STATUS_SUCCESS if the version check passes,
+     *          CUDNN_STATUS_VERSION_MISMATCH if the versions are inconsistent.
+     * </pre>
+     */
+    public static int cudnnAdvInferVersionCheck()
+    {
+        return checkResult(cudnnAdvInferVersionCheckNative());
+    }
+    private static native int cudnnAdvInferVersionCheckNative();
+
+
+    @Deprecated
+    public static int cudnnRNNForwardTraining(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int seqLength, 
+        cudnnTensorDescriptor[] xDesc, 
+        Pointer x, 
+        cudnnTensorDescriptor hxDesc, 
+        Pointer hx, 
+        cudnnTensorDescriptor cxDesc, 
+        Pointer cx, 
+        cudnnFilterDescriptor wDesc, 
+        Pointer w, 
+        cudnnTensorDescriptor[] yDesc, 
+        Pointer y, 
+        cudnnTensorDescriptor hyDesc, 
+        Pointer hy, 
+        cudnnTensorDescriptor cyDesc, 
+        Pointer cy, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes)
+    {
+        return checkResult(cudnnRNNForwardTrainingNative(handle, rnnDesc, seqLength, xDesc, x, hxDesc, hx, cxDesc, cx, wDesc, w, yDesc, y, hyDesc, hy, cyDesc, cy, workSpace, workSpaceSizeInBytes, reserveSpace, reserveSpaceSizeInBytes));
+    }
+    private static native int cudnnRNNForwardTrainingNative(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int seqLength, 
+        cudnnTensorDescriptor[] xDesc, 
+        Pointer x, 
+        cudnnTensorDescriptor hxDesc, 
+        Pointer hx, 
+        cudnnTensorDescriptor cxDesc, 
+        Pointer cx, 
+        cudnnFilterDescriptor wDesc, 
+        Pointer w, 
+        cudnnTensorDescriptor[] yDesc, 
+        Pointer y, 
+        cudnnTensorDescriptor hyDesc, 
+        Pointer hy, 
+        cudnnTensorDescriptor cyDesc, 
+        Pointer cy, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes);
+
+
+    @Deprecated
+    public static int cudnnRNNBackwardData(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int seqLength, 
+        cudnnTensorDescriptor[] yDesc, 
+        Pointer y, 
+        cudnnTensorDescriptor[] dyDesc, 
+        Pointer dy, 
+        cudnnTensorDescriptor dhyDesc, 
+        Pointer dhy, 
+        cudnnTensorDescriptor dcyDesc, 
+        Pointer dcy, 
+        cudnnFilterDescriptor wDesc, 
+        Pointer w, 
+        cudnnTensorDescriptor hxDesc, 
+        Pointer hx, 
+        cudnnTensorDescriptor cxDesc, 
+        Pointer cx, 
+        cudnnTensorDescriptor[] dxDesc, 
+        Pointer dx, 
+        cudnnTensorDescriptor dhxDesc, 
+        Pointer dhx, 
+        cudnnTensorDescriptor dcxDesc, 
+        Pointer dcx, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes)
+    {
+        return checkResult(cudnnRNNBackwardDataNative(handle, rnnDesc, seqLength, yDesc, y, dyDesc, dy, dhyDesc, dhy, dcyDesc, dcy, wDesc, w, hxDesc, hx, cxDesc, cx, dxDesc, dx, dhxDesc, dhx, dcxDesc, dcx, workSpace, workSpaceSizeInBytes, reserveSpace, reserveSpaceSizeInBytes));
+    }
+    private static native int cudnnRNNBackwardDataNative(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int seqLength, 
+        cudnnTensorDescriptor[] yDesc, 
+        Pointer y, 
+        cudnnTensorDescriptor[] dyDesc, 
+        Pointer dy, 
+        cudnnTensorDescriptor dhyDesc, 
+        Pointer dhy, 
+        cudnnTensorDescriptor dcyDesc, 
+        Pointer dcy, 
+        cudnnFilterDescriptor wDesc, 
+        Pointer w, 
+        cudnnTensorDescriptor hxDesc, 
+        Pointer hx, 
+        cudnnTensorDescriptor cxDesc, 
+        Pointer cx, 
+        cudnnTensorDescriptor[] dxDesc, 
+        Pointer dx, 
+        cudnnTensorDescriptor dhxDesc, 
+        Pointer dhx, 
+        cudnnTensorDescriptor dcxDesc, 
+        Pointer dcx, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes);
+
+
+    public static int cudnnRNNBackwardData_v8(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int[] devSeqLengths, 
+        cudnnRNNDataDescriptor yDesc, 
+        Pointer y, 
+        Pointer dy, 
+        cudnnRNNDataDescriptor xDesc, 
+        Pointer dx, 
+        cudnnTensorDescriptor hDesc, 
+        Pointer hx, 
+        Pointer dhy, 
+        Pointer dhx, 
+        cudnnTensorDescriptor cDesc, 
+        Pointer cx, 
+        Pointer dcy, 
+        Pointer dcx, 
+        long weightSpaceSize, 
+        Pointer weightSpace, 
+        long workSpaceSize, 
+        Pointer workSpace, 
+        long reserveSpaceSize, 
+        Pointer reserveSpace)
+    {
+        return checkResult(cudnnRNNBackwardData_v8Native(handle, rnnDesc, devSeqLengths, yDesc, y, dy, xDesc, dx, hDesc, hx, dhy, dhx, cDesc, cx, dcy, dcx, weightSpaceSize, weightSpace, workSpaceSize, workSpace, reserveSpaceSize, reserveSpace));
+    }
+    private static native int cudnnRNNBackwardData_v8Native(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int[] devSeqLengths, 
+        cudnnRNNDataDescriptor yDesc, 
+        Pointer y, 
+        Pointer dy, 
+        cudnnRNNDataDescriptor xDesc, 
+        Pointer dx, 
+        cudnnTensorDescriptor hDesc, 
+        Pointer hx, 
+        Pointer dhy, 
+        Pointer dhx, 
+        cudnnTensorDescriptor cDesc, 
+        Pointer cx, 
+        Pointer dcy, 
+        Pointer dcx, 
+        long weightSpaceSize, 
+        Pointer weightSpace, 
+        long workSpaceSize, 
+        Pointer workSpace, 
+        long reserveSpaceSize, 
+        Pointer reserveSpace);
+
+
+    @Deprecated
+    public static int cudnnRNNBackwardWeights(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int seqLength, 
+        cudnnTensorDescriptor[] xDesc, 
+        Pointer x, 
+        cudnnTensorDescriptor hxDesc, 
+        Pointer hx, 
+        cudnnTensorDescriptor[] yDesc, 
+        Pointer y, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes, 
+        cudnnFilterDescriptor dwDesc, 
+        Pointer dw, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes)
+    {
+        return checkResult(cudnnRNNBackwardWeightsNative(handle, rnnDesc, seqLength, xDesc, x, hxDesc, hx, yDesc, y, workSpace, workSpaceSizeInBytes, dwDesc, dw, reserveSpace, reserveSpaceSizeInBytes));
+    }
+    private static native int cudnnRNNBackwardWeightsNative(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int seqLength, 
+        cudnnTensorDescriptor[] xDesc, 
+        Pointer x, 
+        cudnnTensorDescriptor hxDesc, 
+        Pointer hx, 
+        cudnnTensorDescriptor[] yDesc, 
+        Pointer y, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes, 
+        cudnnFilterDescriptor dwDesc, 
+        Pointer dw, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes);
+
+
+    public static int cudnnRNNBackwardWeights_v8(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int addGrad, 
+        int[] devSeqLengths, 
+        cudnnRNNDataDescriptor xDesc, 
+        Pointer x, 
+        cudnnTensorDescriptor hDesc, 
+        Pointer hx, 
+        cudnnRNNDataDescriptor yDesc, 
+        Pointer y, 
+        long weightSpaceSize, 
+        Pointer dweightSpace, 
+        long workSpaceSize, 
+        Pointer workSpace, 
+        long reserveSpaceSize, 
+        Pointer reserveSpace)
+    {
+        return checkResult(cudnnRNNBackwardWeights_v8Native(handle, rnnDesc, addGrad, devSeqLengths, xDesc, x, hDesc, hx, yDesc, y, weightSpaceSize, dweightSpace, workSpaceSize, workSpace, reserveSpaceSize, reserveSpace));
+    }
+    private static native int cudnnRNNBackwardWeights_v8Native(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int addGrad, 
+        int[] devSeqLengths, 
+        cudnnRNNDataDescriptor xDesc, 
+        Pointer x, 
+        cudnnTensorDescriptor hDesc, 
+        Pointer hx, 
+        cudnnRNNDataDescriptor yDesc, 
+        Pointer y, 
+        long weightSpaceSize, 
+        Pointer dweightSpace, 
+        long workSpaceSize, 
+        Pointer workSpace, 
+        long reserveSpaceSize, 
+        Pointer reserveSpace);
+
+
+    /** RNN EX API */
+    @Deprecated
+    public static int cudnnRNNForwardTrainingEx(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        cudnnRNNDataDescriptor xDesc, 
+        Pointer x, 
+        cudnnTensorDescriptor hxDesc, 
+        Pointer hx, 
+        cudnnTensorDescriptor cxDesc, 
+        Pointer cx, 
+        cudnnFilterDescriptor wDesc, 
+        Pointer w, 
+        cudnnRNNDataDescriptor yDesc, 
+        Pointer y, 
+        cudnnTensorDescriptor hyDesc, 
+        Pointer hy, 
+        cudnnTensorDescriptor cyDesc, 
+        Pointer cy, 
+        cudnnRNNDataDescriptor kDesc, /** reserved, should pass NULL */
+        Pointer keys, /** reserved, should pass NULL */
+        cudnnRNNDataDescriptor cDesc, /** reserved, should pass NULL */
+        Pointer cAttn, /** reserved, should pass NULL */
+        cudnnRNNDataDescriptor iDesc, /** reserved, should pass NULL */
+        Pointer iAttn, /** reserved, should pass NULL */
+        cudnnRNNDataDescriptor qDesc, /** reserved, should pass NULL */
+        Pointer queries, /** reserved, should pass NULL */
+        Pointer workSpace, 
+        long workSpaceSizeInBytes, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes)
+    {
+        return checkResult(cudnnRNNForwardTrainingExNative(handle, rnnDesc, xDesc, x, hxDesc, hx, cxDesc, cx, wDesc, w, yDesc, y, hyDesc, hy, cyDesc, cy, kDesc, keys, cDesc, cAttn, iDesc, iAttn, qDesc, queries, workSpace, workSpaceSizeInBytes, reserveSpace, reserveSpaceSizeInBytes));
+    }
+    private static native int cudnnRNNForwardTrainingExNative(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        cudnnRNNDataDescriptor xDesc, 
+        Pointer x, 
+        cudnnTensorDescriptor hxDesc, 
+        Pointer hx, 
+        cudnnTensorDescriptor cxDesc, 
+        Pointer cx, 
+        cudnnFilterDescriptor wDesc, 
+        Pointer w, 
+        cudnnRNNDataDescriptor yDesc, 
+        Pointer y, 
+        cudnnTensorDescriptor hyDesc, 
+        Pointer hy, 
+        cudnnTensorDescriptor cyDesc, 
+        Pointer cy, 
+        cudnnRNNDataDescriptor kDesc, /** reserved, should pass NULL */
+        Pointer keys, /** reserved, should pass NULL */
+        cudnnRNNDataDescriptor cDesc, /** reserved, should pass NULL */
+        Pointer cAttn, /** reserved, should pass NULL */
+        cudnnRNNDataDescriptor iDesc, /** reserved, should pass NULL */
+        Pointer iAttn, /** reserved, should pass NULL */
+        cudnnRNNDataDescriptor qDesc, /** reserved, should pass NULL */
+        Pointer queries, /** reserved, should pass NULL */
+        Pointer workSpace, 
+        long workSpaceSizeInBytes, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes);
+
+
+    @Deprecated
+    public static int cudnnRNNBackwardDataEx(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        cudnnRNNDataDescriptor yDesc, 
+        Pointer y, 
+        cudnnRNNDataDescriptor dyDesc, 
+        Pointer dy, 
+        cudnnRNNDataDescriptor dcDesc, /** reserved, should pass NULL */
+        Pointer dcAttn, /** reserved, should pass NULL */
+        cudnnTensorDescriptor dhyDesc, 
+        Pointer dhy, 
+        cudnnTensorDescriptor dcyDesc, 
+        Pointer dcy, 
+        cudnnFilterDescriptor wDesc, 
+        Pointer w, 
+        cudnnTensorDescriptor hxDesc, 
+        Pointer hx, 
+        cudnnTensorDescriptor cxDesc, 
+        Pointer cx, 
+        cudnnRNNDataDescriptor dxDesc, 
+        Pointer dx, 
+        cudnnTensorDescriptor dhxDesc, 
+        Pointer dhx, 
+        cudnnTensorDescriptor dcxDesc, 
+        Pointer dcx, 
+        cudnnRNNDataDescriptor dkDesc, /** reserved, should pass NULL */
+        Pointer dkeys, /** reserved, should pass NULL */
+        Pointer workSpace, 
+        long workSpaceSizeInBytes, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes)
+    {
+        return checkResult(cudnnRNNBackwardDataExNative(handle, rnnDesc, yDesc, y, dyDesc, dy, dcDesc, dcAttn, dhyDesc, dhy, dcyDesc, dcy, wDesc, w, hxDesc, hx, cxDesc, cx, dxDesc, dx, dhxDesc, dhx, dcxDesc, dcx, dkDesc, dkeys, workSpace, workSpaceSizeInBytes, reserveSpace, reserveSpaceSizeInBytes));
+    }
+    private static native int cudnnRNNBackwardDataExNative(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        cudnnRNNDataDescriptor yDesc, 
+        Pointer y, 
+        cudnnRNNDataDescriptor dyDesc, 
+        Pointer dy, 
+        cudnnRNNDataDescriptor dcDesc, /** reserved, should pass NULL */
+        Pointer dcAttn, /** reserved, should pass NULL */
+        cudnnTensorDescriptor dhyDesc, 
+        Pointer dhy, 
+        cudnnTensorDescriptor dcyDesc, 
+        Pointer dcy, 
+        cudnnFilterDescriptor wDesc, 
+        Pointer w, 
+        cudnnTensorDescriptor hxDesc, 
+        Pointer hx, 
+        cudnnTensorDescriptor cxDesc, 
+        Pointer cx, 
+        cudnnRNNDataDescriptor dxDesc, 
+        Pointer dx, 
+        cudnnTensorDescriptor dhxDesc, 
+        Pointer dhx, 
+        cudnnTensorDescriptor dcxDesc, 
+        Pointer dcx, 
+        cudnnRNNDataDescriptor dkDesc, /** reserved, should pass NULL */
+        Pointer dkeys, /** reserved, should pass NULL */
+        Pointer workSpace, 
+        long workSpaceSizeInBytes, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes);
+
+
+    @Deprecated
+    public static int cudnnRNNBackwardWeightsEx(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        cudnnRNNDataDescriptor xDesc, 
+        Pointer x, 
+        cudnnTensorDescriptor hxDesc, 
+        Pointer hx, 
+        cudnnRNNDataDescriptor yDesc, 
+        Pointer y, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes, 
+        cudnnFilterDescriptor dwDesc, 
+        Pointer dw, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes)
+    {
+        return checkResult(cudnnRNNBackwardWeightsExNative(handle, rnnDesc, xDesc, x, hxDesc, hx, yDesc, y, workSpace, workSpaceSizeInBytes, dwDesc, dw, reserveSpace, reserveSpaceSizeInBytes));
+    }
+    private static native int cudnnRNNBackwardWeightsExNative(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        cudnnRNNDataDescriptor xDesc, 
+        Pointer x, 
+        cudnnTensorDescriptor hxDesc, 
+        Pointer hx, 
+        cudnnRNNDataDescriptor yDesc, 
+        Pointer y, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes, 
+        cudnnFilterDescriptor dwDesc, 
+        Pointer dw, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes);
+
+
+    /** RNN FIND API */
+    @Deprecated
+    public static int cudnnGetRNNForwardTrainingAlgorithmMaxCount(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int[] count)
+    {
+        return checkResult(cudnnGetRNNForwardTrainingAlgorithmMaxCountNative(handle, rnnDesc, count));
+    }
+    private static native int cudnnGetRNNForwardTrainingAlgorithmMaxCountNative(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int[] count);
+
+
+    @Deprecated
+    public static int cudnnFindRNNForwardTrainingAlgorithmEx(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int seqLength, 
+        cudnnTensorDescriptor[] xDesc, 
+        Pointer x, 
+        cudnnTensorDescriptor hxDesc, 
+        Pointer hx, 
+        cudnnTensorDescriptor cxDesc, 
+        Pointer cx, 
+        cudnnFilterDescriptor wDesc, 
+        Pointer w, 
+        cudnnTensorDescriptor[] yDesc, 
+        Pointer y, 
+        cudnnTensorDescriptor hyDesc, 
+        Pointer hy, 
+        cudnnTensorDescriptor cyDesc, 
+        Pointer cy, 
+        float findIntensity, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnAlgorithmPerformance[] perfResults, 
+        Pointer workspace, 
+        long workSpaceSizeInBytes, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes)
+    {
+        return checkResult(cudnnFindRNNForwardTrainingAlgorithmExNative(handle, rnnDesc, seqLength, xDesc, x, hxDesc, hx, cxDesc, cx, wDesc, w, yDesc, y, hyDesc, hy, cyDesc, cy, findIntensity, requestedAlgoCount, returnedAlgoCount, perfResults, workspace, workSpaceSizeInBytes, reserveSpace, reserveSpaceSizeInBytes));
+    }
+    private static native int cudnnFindRNNForwardTrainingAlgorithmExNative(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int seqLength, 
+        cudnnTensorDescriptor[] xDesc, 
+        Pointer x, 
+        cudnnTensorDescriptor hxDesc, 
+        Pointer hx, 
+        cudnnTensorDescriptor cxDesc, 
+        Pointer cx, 
+        cudnnFilterDescriptor wDesc, 
+        Pointer w, 
+        cudnnTensorDescriptor[] yDesc, 
+        Pointer y, 
+        cudnnTensorDescriptor hyDesc, 
+        Pointer hy, 
+        cudnnTensorDescriptor cyDesc, 
+        Pointer cy, 
+        float findIntensity, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnAlgorithmPerformance[] perfResults, 
+        Pointer workspace, 
+        long workSpaceSizeInBytes, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes);
+
+
+    @Deprecated
+    public static int cudnnGetRNNBackwardDataAlgorithmMaxCount(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int[] count)
+    {
+        return checkResult(cudnnGetRNNBackwardDataAlgorithmMaxCountNative(handle, rnnDesc, count));
+    }
+    private static native int cudnnGetRNNBackwardDataAlgorithmMaxCountNative(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int[] count);
+
+
+    @Deprecated
+    public static int cudnnFindRNNBackwardDataAlgorithmEx(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int seqLength, 
+        cudnnTensorDescriptor[] yDesc, 
+        Pointer y, 
+        cudnnTensorDescriptor[] dyDesc, 
+        Pointer dy, 
+        cudnnTensorDescriptor dhyDesc, 
+        Pointer dhy, 
+        cudnnTensorDescriptor dcyDesc, 
+        Pointer dcy, 
+        cudnnFilterDescriptor wDesc, 
+        Pointer w, 
+        cudnnTensorDescriptor hxDesc, 
+        Pointer hx, 
+        cudnnTensorDescriptor cxDesc, 
+        Pointer cx, 
+        cudnnTensorDescriptor[] dxDesc, 
+        Pointer dx, 
+        cudnnTensorDescriptor dhxDesc, 
+        Pointer dhx, 
+        cudnnTensorDescriptor dcxDesc, 
+        Pointer dcx, 
+        float findIntensity, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnAlgorithmPerformance[] perfResults, 
+        Pointer workspace, 
+        long workSpaceSizeInBytes, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes)
+    {
+        return checkResult(cudnnFindRNNBackwardDataAlgorithmExNative(handle, rnnDesc, seqLength, yDesc, y, dyDesc, dy, dhyDesc, dhy, dcyDesc, dcy, wDesc, w, hxDesc, hx, cxDesc, cx, dxDesc, dx, dhxDesc, dhx, dcxDesc, dcx, findIntensity, requestedAlgoCount, returnedAlgoCount, perfResults, workspace, workSpaceSizeInBytes, reserveSpace, reserveSpaceSizeInBytes));
+    }
+    private static native int cudnnFindRNNBackwardDataAlgorithmExNative(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int seqLength, 
+        cudnnTensorDescriptor[] yDesc, 
+        Pointer y, 
+        cudnnTensorDescriptor[] dyDesc, 
+        Pointer dy, 
+        cudnnTensorDescriptor dhyDesc, 
+        Pointer dhy, 
+        cudnnTensorDescriptor dcyDesc, 
+        Pointer dcy, 
+        cudnnFilterDescriptor wDesc, 
+        Pointer w, 
+        cudnnTensorDescriptor hxDesc, 
+        Pointer hx, 
+        cudnnTensorDescriptor cxDesc, 
+        Pointer cx, 
+        cudnnTensorDescriptor[] dxDesc, 
+        Pointer dx, 
+        cudnnTensorDescriptor dhxDesc, 
+        Pointer dhx, 
+        cudnnTensorDescriptor dcxDesc, 
+        Pointer dcx, 
+        float findIntensity, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnAlgorithmPerformance[] perfResults, 
+        Pointer workspace, 
+        long workSpaceSizeInBytes, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes);
+
+
+    @Deprecated
+    public static int cudnnGetRNNBackwardWeightsAlgorithmMaxCount(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int[] count)
+    {
+        return checkResult(cudnnGetRNNBackwardWeightsAlgorithmMaxCountNative(handle, rnnDesc, count));
+    }
+    private static native int cudnnGetRNNBackwardWeightsAlgorithmMaxCountNative(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int[] count);
+
+
+    @Deprecated
+    public static int cudnnFindRNNBackwardWeightsAlgorithmEx(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int seqLength, 
+        cudnnTensorDescriptor[] xDesc, 
+        Pointer x, 
+        cudnnTensorDescriptor hxDesc, 
+        Pointer hx, 
+        cudnnTensorDescriptor[] yDesc, 
+        Pointer y, 
+        float findIntensity, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnAlgorithmPerformance[] perfResults, 
+        Pointer workspace, 
+        long workSpaceSizeInBytes, 
+        cudnnFilterDescriptor dwDesc, 
+        Pointer dw, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes)
+    {
+        return checkResult(cudnnFindRNNBackwardWeightsAlgorithmExNative(handle, rnnDesc, seqLength, xDesc, x, hxDesc, hx, yDesc, y, findIntensity, requestedAlgoCount, returnedAlgoCount, perfResults, workspace, workSpaceSizeInBytes, dwDesc, dw, reserveSpace, reserveSpaceSizeInBytes));
+    }
+    private static native int cudnnFindRNNBackwardWeightsAlgorithmExNative(
+        cudnnHandle handle, 
+        cudnnRNNDescriptor rnnDesc, 
+        int seqLength, 
+        cudnnTensorDescriptor[] xDesc, 
+        Pointer x, 
+        cudnnTensorDescriptor hxDesc, 
+        Pointer hx, 
+        cudnnTensorDescriptor[] yDesc, 
+        Pointer y, 
+        float findIntensity, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnAlgorithmPerformance[] perfResults, 
+        Pointer workspace, 
+        long workSpaceSizeInBytes, 
+        cudnnFilterDescriptor dwDesc, 
+        Pointer dw, 
+        Pointer reserveSpace, 
+        long reserveSpaceSizeInBytes);
+
+
     public static int cudnnMultiHeadAttnBackwardData(
         cudnnHandle handle, 
         cudnnAttnDescriptor attnDesc, 
@@ -4619,9 +4661,6 @@ public class JCudnn
         Pointer reserveSpace);
 
 
-    /**
-    * CTC (Connectionist Temporal Classification) loss descriptor create/destory/set/get functions
-    */
     public static int cudnnCreateCTCLossDescriptor(
         cudnnCTCLossDescriptor ctcLossDesc)
     {
@@ -4657,6 +4696,23 @@ public class JCudnn
         int gradMode);
 
 
+    public static int cudnnSetCTCLossDescriptor_v8(
+        cudnnCTCLossDescriptor ctcLossDesc, 
+        int compType, 
+        int normMode, 
+        int gradMode, 
+        int maxLabelLength)
+    {
+        return checkResult(cudnnSetCTCLossDescriptor_v8Native(ctcLossDesc, compType, normMode, gradMode, maxLabelLength));
+    }
+    private static native int cudnnSetCTCLossDescriptor_v8Native(
+        cudnnCTCLossDescriptor ctcLossDesc, 
+        int compType, 
+        int normMode, 
+        int gradMode, 
+        int maxLabelLength);
+
+
     public static int cudnnGetCTCLossDescriptor(
         cudnnCTCLossDescriptor ctcLossDesc, 
         int[] compType)
@@ -4683,6 +4739,23 @@ public class JCudnn
         int[] gradMode);
 
 
+    public static int cudnnGetCTCLossDescriptor_v8(
+        cudnnCTCLossDescriptor ctcLossDesc, 
+        int[] compType, 
+        int[] normMode, 
+        int[] gradMode, 
+        int[] maxLabelLength)
+    {
+        return checkResult(cudnnGetCTCLossDescriptor_v8Native(ctcLossDesc, compType, normMode, gradMode, maxLabelLength));
+    }
+    private static native int cudnnGetCTCLossDescriptor_v8Native(
+        cudnnCTCLossDescriptor ctcLossDesc, 
+        int[] compType, 
+        int[] normMode, 
+        int[] gradMode, 
+        int[] maxLabelLength);
+
+
     public static int cudnnDestroyCTCLossDescriptor(
         cudnnCTCLossDescriptor ctcLossDesc)
     {
@@ -4698,9 +4771,9 @@ public class JCudnn
         cudnnTensorDescriptor probsDesc, /** Tensor descriptor for probabilities, the dimensions are T,N,A (T is the timing steps, N is the
                           mini batch size, A is the alphabet size)  */
         Pointer probs, /** probabilities after softmax, in GPU memory */
-        int[] labels, /** labels, in CPU memory */
-        int[] labelLengths, /** the length of each label, in CPU memory */
-        int[] inputLengths, /** the lengths of timing steps in each batch, in CPU memory */
+        int[] hostLabels, /** labels, in CPU memory */
+        int[] hostLabelLengths, /** the length of each label, in CPU memory */
+        int[] hostInputLengths, /** the lengths of timing steps in each batch, in CPU memory */
         Pointer costs, /** the returned costs of CTC, in GPU memory */
         cudnnTensorDescriptor gradientsDesc, /** Tensor descriptor for gradients, the dimensions are T,N,A */
         Pointer gradients, /** the returned CTC gradients, in GPU memory, to compute costs only, set it to NULL */
@@ -4709,16 +4782,16 @@ public class JCudnn
         Pointer workspace, /** pointer to the workspace, in GPU memory */
         long workSpaceSizeInBytes)/** size of the workspace */
     {
-        return checkResult(cudnnCTCLossNative(handle, probsDesc, probs, labels, labelLengths, inputLengths, costs, gradientsDesc, gradients, algo, ctcLossDesc, workspace, workSpaceSizeInBytes));
+        return checkResult(cudnnCTCLossNative(handle, probsDesc, probs, hostLabels, hostLabelLengths, hostInputLengths, costs, gradientsDesc, gradients, algo, ctcLossDesc, workspace, workSpaceSizeInBytes));
     }
     private static native int cudnnCTCLossNative(
         cudnnHandle handle, 
         cudnnTensorDescriptor probsDesc, /** Tensor descriptor for probabilities, the dimensions are T,N,A (T is the timing steps, N is the
                           mini batch size, A is the alphabet size)  */
         Pointer probs, /** probabilities after softmax, in GPU memory */
-        int[] labels, /** labels, in CPU memory */
-        int[] labelLengths, /** the length of each label, in CPU memory */
-        int[] inputLengths, /** the lengths of timing steps in each batch, in CPU memory */
+        int[] hostLabels, /** labels, in CPU memory */
+        int[] hostLabelLengths, /** the length of each label, in CPU memory */
+        int[] hostInputLengths, /** the lengths of timing steps in each batch, in CPU memory */
         Pointer costs, /** the returned costs of CTC, in GPU memory */
         cudnnTensorDescriptor gradientsDesc, /** Tensor descriptor for gradients, the dimensions are T,N,A */
         Pointer gradients, /** the returned CTC gradients, in GPU memory, to compute costs only, set it to NULL */
@@ -4726,6 +4799,42 @@ public class JCudnn
         cudnnCTCLossDescriptor ctcLossDesc, 
         Pointer workspace, /** pointer to the workspace, in GPU memory */
         long workSpaceSizeInBytes);/** size of the workspace */
+
+
+    /** return the ctc costs and gradients, given the probabilities and labels */
+    public static int cudnnCTCLoss_v8(
+        cudnnHandle handle, 
+        int algo, /** algorithm selected, supported now 0 and 1 */
+        cudnnCTCLossDescriptor ctcLossDesc, 
+        cudnnTensorDescriptor probsDesc, /** Tensor descriptor for probabilities, the dimensions are T,N,A (T is the timing steps, N is the
+                          mini batch size, A is the alphabet size)  */
+        Pointer probs, /** probabilities after softmax, in GPU memory */
+        Pointer labels, /** labels, in GPU memory */
+        Pointer labelLengths, /** the length of each label, in GPU memory */
+        Pointer inputLengths, /** the lengths of timing steps in each batch, in GPU memory */
+        Pointer costs, /** the returned costs of CTC, in GPU memory */
+        cudnnTensorDescriptor gradientsDesc, /** Tensor descriptor for gradients, the dimensions are T,N,A */
+        Pointer gradients, /** the returned CTC gradients, in GPU memory, to compute costs only, set it to NULL */
+        long workSpaceSizeInBytes, /** size of the workspace */
+        Pointer workspace)/** pointer to the workspace, in GPU memory */
+    {
+        return checkResult(cudnnCTCLoss_v8Native(handle, algo, ctcLossDesc, probsDesc, probs, labels, labelLengths, inputLengths, costs, gradientsDesc, gradients, workSpaceSizeInBytes, workspace));
+    }
+    private static native int cudnnCTCLoss_v8Native(
+        cudnnHandle handle, 
+        int algo, /** algorithm selected, supported now 0 and 1 */
+        cudnnCTCLossDescriptor ctcLossDesc, 
+        cudnnTensorDescriptor probsDesc, /** Tensor descriptor for probabilities, the dimensions are T,N,A (T is the timing steps, N is the
+                          mini batch size, A is the alphabet size)  */
+        Pointer probs, /** probabilities after softmax, in GPU memory */
+        Pointer labels, /** labels, in GPU memory */
+        Pointer labelLengths, /** the length of each label, in GPU memory */
+        Pointer inputLengths, /** the lengths of timing steps in each batch, in GPU memory */
+        Pointer costs, /** the returned costs of CTC, in GPU memory */
+        cudnnTensorDescriptor gradientsDesc, /** Tensor descriptor for gradients, the dimensions are T,N,A */
+        Pointer gradients, /** the returned CTC gradients, in GPU memory, to compute costs only, set it to NULL */
+        long workSpaceSizeInBytes, /** size of the workspace */
+        Pointer workspace);/** pointer to the workspace, in GPU memory */
 
 
     /** return the workspace size needed for ctc */
@@ -4760,180 +4869,861 @@ public class JCudnn
         long[] sizeInBytes);/** pointer to the returned workspace size */
 
 
-    public static int cudnnCreateAlgorithmDescriptor(
-        cudnnAlgorithmDescriptor algoDesc)
-    {
-        return checkResult(cudnnCreateAlgorithmDescriptorNative(algoDesc));
-    }
-    private static native int cudnnCreateAlgorithmDescriptorNative(
-        cudnnAlgorithmDescriptor algoDesc);
-
-
-    public static int cudnnSetAlgorithmDescriptor(
-        cudnnAlgorithmDescriptor algoDesc, 
-        int algorithm)
-    {
-        return checkResult(cudnnSetAlgorithmDescriptorNative(algoDesc, algorithm));
-    }
-    private static native int cudnnSetAlgorithmDescriptorNative(
-        cudnnAlgorithmDescriptor algoDesc, 
-        int algorithm);
-
-
-    public static int cudnnGetAlgorithmDescriptor(
-        cudnnAlgorithmDescriptor algoDesc, 
-        int[] algorithm)
-    {
-        return checkResult(cudnnGetAlgorithmDescriptorNative(algoDesc, algorithm));
-    }
-    private static native int cudnnGetAlgorithmDescriptorNative(
-        cudnnAlgorithmDescriptor algoDesc, 
-        int[] algorithm);
-
-
-    public static int cudnnCopyAlgorithmDescriptor(
-        cudnnAlgorithmDescriptor src, 
-        cudnnAlgorithmDescriptor dest)
-    {
-        return checkResult(cudnnCopyAlgorithmDescriptorNative(src, dest));
-    }
-    private static native int cudnnCopyAlgorithmDescriptorNative(
-        cudnnAlgorithmDescriptor src, 
-        cudnnAlgorithmDescriptor dest);
-
-
-    public static int cudnnDestroyAlgorithmDescriptor(
-        cudnnAlgorithmDescriptor algoDesc)
-    {
-        return checkResult(cudnnDestroyAlgorithmDescriptorNative(algoDesc));
-    }
-    private static native int cudnnDestroyAlgorithmDescriptorNative(
-        cudnnAlgorithmDescriptor algoDesc);
-
-
-    public static int cudnnCreateAlgorithmPerformance(
-        cudnnAlgorithmPerformance[] algoPerf, 
-        int numberToCreate)
-    {
-        return checkResult(cudnnCreateAlgorithmPerformanceNative(algoPerf, numberToCreate));
-    }
-    private static native int cudnnCreateAlgorithmPerformanceNative(
-        cudnnAlgorithmPerformance[] algoPerf, 
-        int numberToCreate);
-
-
-    public static int cudnnSetAlgorithmPerformance(
-        cudnnAlgorithmPerformance algoPerf, 
-        cudnnAlgorithmDescriptor algoDesc, 
-        int status, 
-        float time, 
-        long memory)
-    {
-        return checkResult(cudnnSetAlgorithmPerformanceNative(algoPerf, algoDesc, status, time, memory));
-    }
-    private static native int cudnnSetAlgorithmPerformanceNative(
-        cudnnAlgorithmPerformance algoPerf, 
-        cudnnAlgorithmDescriptor algoDesc, 
-        int status, 
-        float time, 
-        long memory);
-
-
-    public static int cudnnGetAlgorithmPerformance(
-        cudnnAlgorithmPerformance algoPerf, 
-        cudnnAlgorithmDescriptor algoDesc, 
-        int[] status, 
-        float[] time, 
-        long[] memory)
-    {
-        return checkResult(cudnnGetAlgorithmPerformanceNative(algoPerf, algoDesc, status, time, memory));
-    }
-    private static native int cudnnGetAlgorithmPerformanceNative(
-        cudnnAlgorithmPerformance algoPerf, 
-        cudnnAlgorithmDescriptor algoDesc, 
-        int[] status, 
-        float[] time, 
-        long[] memory);
-
-
-    public static int cudnnDestroyAlgorithmPerformance(
-        cudnnAlgorithmPerformance[] algoPerf, 
-        int numberToDestroy)
-    {
-        return checkResult(cudnnDestroyAlgorithmPerformanceNative(algoPerf, numberToDestroy));
-    }
-    private static native int cudnnDestroyAlgorithmPerformanceNative(
-        cudnnAlgorithmPerformance[] algoPerf, 
-        int numberToDestroy);
-
-
-    public static int cudnnGetAlgorithmSpaceSize(
+    /** return the workspace size needed for ctc */
+    public static int cudnnGetCTCLossWorkspaceSize_v8(
         cudnnHandle handle, 
-        cudnnAlgorithmDescriptor algoDesc, 
-        long[] algoSpaceSizeInBytes)
+        int algo, /** algorithm selected, supported now 0 and 1 */
+        cudnnCTCLossDescriptor ctcLossDesc, 
+        cudnnTensorDescriptor probsDesc, /** Tensor descriptor for probabilities, the dimensions are T,N,A (T is the
+                                                timing steps, N is the mini batch size, A is the alphabet size) */
+        cudnnTensorDescriptor gradientsDesc, /** Tensor descriptor for gradients, the
+                                                    dimensions are T,N,A. To compute costs
+                                                    only, set it to NULL */
+        long[] sizeInBytes)/** pointer to the returned workspace size */
     {
-        return checkResult(cudnnGetAlgorithmSpaceSizeNative(handle, algoDesc, algoSpaceSizeInBytes));
+        return checkResult(cudnnGetCTCLossWorkspaceSize_v8Native(handle, algo, ctcLossDesc, probsDesc, gradientsDesc, sizeInBytes));
     }
-    private static native int cudnnGetAlgorithmSpaceSizeNative(
+    private static native int cudnnGetCTCLossWorkspaceSize_v8Native(
         cudnnHandle handle, 
-        cudnnAlgorithmDescriptor algoDesc, 
-        long[] algoSpaceSizeInBytes);
+        int algo, /** algorithm selected, supported now 0 and 1 */
+        cudnnCTCLossDescriptor ctcLossDesc, 
+        cudnnTensorDescriptor probsDesc, /** Tensor descriptor for probabilities, the dimensions are T,N,A (T is the
+                                                timing steps, N is the mini batch size, A is the alphabet size) */
+        cudnnTensorDescriptor gradientsDesc, /** Tensor descriptor for gradients, the
+                                                    dimensions are T,N,A. To compute costs
+                                                    only, set it to NULL */
+        long[] sizeInBytes);/** pointer to the returned workspace size */
 
 
-    public static int cudnnSaveAlgorithm(
-        cudnnHandle handle, 
-        cudnnAlgorithmDescriptor algoDesc, 
-        Pointer algoSpace, 
-        long algoSpaceSizeInBytes)
+    /**
+     * <pre>
+     * Cross-library version checker..
+     * This function is implemented differently in each sub-library. Each sublib
+     * checks whether its own version matches that of its dependencies.
+     * @return CUDNN_STATUS_SUCCESS if the version check passes,
+     *          CUDNN_STATUS_VERSION_MISMATCH if the versions are inconsistent.
+     * </pre>
+     */
+    public static int cudnnAdvTrainVersionCheck()
     {
-        return checkResult(cudnnSaveAlgorithmNative(handle, algoDesc, algoSpace, algoSpaceSizeInBytes));
+        return checkResult(cudnnAdvTrainVersionCheckNative());
     }
-    private static native int cudnnSaveAlgorithmNative(
-        cudnnHandle handle, 
-        cudnnAlgorithmDescriptor algoDesc, 
-        Pointer algoSpace, 
-        long algoSpaceSizeInBytes);
+    private static native int cudnnAdvTrainVersionCheckNative();
 
 
-    public static int cudnnRestoreAlgorithm(
-        cudnnHandle handle, 
-        Pointer algoSpace, 
-        long algoSpaceSizeInBytes, 
-        cudnnAlgorithmDescriptor algoDesc)
+    /** Create an instance of convolution descriptor */
+    public static int cudnnCreateConvolutionDescriptor(
+        cudnnConvolutionDescriptor convDesc)
     {
-        return checkResult(cudnnRestoreAlgorithmNative(handle, algoSpace, algoSpaceSizeInBytes, algoDesc));
+        return checkResult(cudnnCreateConvolutionDescriptorNative(convDesc));
     }
-    private static native int cudnnRestoreAlgorithmNative(
+    private static native int cudnnCreateConvolutionDescriptorNative(
+        cudnnConvolutionDescriptor convDesc);
+
+
+    /** Destroy an instance of convolution descriptor */
+    public static int cudnnDestroyConvolutionDescriptor(
+        cudnnConvolutionDescriptor convDesc)
+    {
+        return checkResult(cudnnDestroyConvolutionDescriptorNative(convDesc));
+    }
+    private static native int cudnnDestroyConvolutionDescriptorNative(
+        cudnnConvolutionDescriptor convDesc);
+
+
+    public static int cudnnSetConvolutionMathType(
+        cudnnConvolutionDescriptor convDesc, 
+        int mathType)
+    {
+        return checkResult(cudnnSetConvolutionMathTypeNative(convDesc, mathType));
+    }
+    private static native int cudnnSetConvolutionMathTypeNative(
+        cudnnConvolutionDescriptor convDesc, 
+        int mathType);
+
+
+    public static int cudnnGetConvolutionMathType(
+        cudnnConvolutionDescriptor convDesc, 
+        int[] mathType)
+    {
+        return checkResult(cudnnGetConvolutionMathTypeNative(convDesc, mathType));
+    }
+    private static native int cudnnGetConvolutionMathTypeNative(
+        cudnnConvolutionDescriptor convDesc, 
+        int[] mathType);
+
+
+    public static int cudnnSetConvolutionGroupCount(
+        cudnnConvolutionDescriptor convDesc, 
+        int groupCount)
+    {
+        return checkResult(cudnnSetConvolutionGroupCountNative(convDesc, groupCount));
+    }
+    private static native int cudnnSetConvolutionGroupCountNative(
+        cudnnConvolutionDescriptor convDesc, 
+        int groupCount);
+
+
+    public static int cudnnGetConvolutionGroupCount(
+        cudnnConvolutionDescriptor convDesc, 
+        int[] groupCount)
+    {
+        return checkResult(cudnnGetConvolutionGroupCountNative(convDesc, groupCount));
+    }
+    private static native int cudnnGetConvolutionGroupCountNative(
+        cudnnConvolutionDescriptor convDesc, 
+        int[] groupCount);
+
+
+    public static int cudnnSetConvolutionReorderType(
+        cudnnConvolutionDescriptor convDesc, 
+        int reorderType)
+    {
+        return checkResult(cudnnSetConvolutionReorderTypeNative(convDesc, reorderType));
+    }
+    private static native int cudnnSetConvolutionReorderTypeNative(
+        cudnnConvolutionDescriptor convDesc, 
+        int reorderType);
+
+
+    public static int cudnnGetConvolutionReorderType(
+        cudnnConvolutionDescriptor convDesc, 
+        int[] reorderType)
+    {
+        return checkResult(cudnnGetConvolutionReorderTypeNative(convDesc, reorderType));
+    }
+    private static native int cudnnGetConvolutionReorderTypeNative(
+        cudnnConvolutionDescriptor convDesc, 
+        int[] reorderType);
+
+
+    public static int cudnnSetConvolution2dDescriptor(
+        cudnnConvolutionDescriptor convDesc, 
+        int pad_h, /** zero-padding height */
+        int pad_w, /** zero-padding width */
+        int u, /** vertical filter stride */
+        int v, /** horizontal filter stride */
+        int dilation_h, /** filter dilation in the vertical dimension */
+        int dilation_w, /** filter dilation in the horizontal dimension */
+        int mode, 
+        int computeType)
+    {
+        return checkResult(cudnnSetConvolution2dDescriptorNative(convDesc, pad_h, pad_w, u, v, dilation_h, dilation_w, mode, computeType));
+    }
+    private static native int cudnnSetConvolution2dDescriptorNative(
+        cudnnConvolutionDescriptor convDesc, 
+        int pad_h, /** zero-padding height */
+        int pad_w, /** zero-padding width */
+        int u, /** vertical filter stride */
+        int v, /** horizontal filter stride */
+        int dilation_h, /** filter dilation in the vertical dimension */
+        int dilation_w, /** filter dilation in the horizontal dimension */
+        int mode, 
+        int computeType);
+
+
+    public static int cudnnGetConvolution2dDescriptor(
+        cudnnConvolutionDescriptor convDesc, 
+        int[] pad_h, /** zero-padding height */
+        int[] pad_w, /** zero-padding width */
+        int[] u, /** vertical filter stride */
+        int[] v, /** horizontal filter stride */
+        int[] dilation_h, /** filter dilation in the vertical dimension */
+        int[] dilation_w, /** filter dilation in the horizontal dimension */
+        int[] mode, 
+        int[] computeType)
+    {
+        return checkResult(cudnnGetConvolution2dDescriptorNative(convDesc, pad_h, pad_w, u, v, dilation_h, dilation_w, mode, computeType));
+    }
+    private static native int cudnnGetConvolution2dDescriptorNative(
+        cudnnConvolutionDescriptor convDesc, 
+        int[] pad_h, /** zero-padding height */
+        int[] pad_w, /** zero-padding width */
+        int[] u, /** vertical filter stride */
+        int[] v, /** horizontal filter stride */
+        int[] dilation_h, /** filter dilation in the vertical dimension */
+        int[] dilation_w, /** filter dilation in the horizontal dimension */
+        int[] mode, 
+        int[] computeType);
+
+
+    public static int cudnnSetConvolutionNdDescriptor(
+        cudnnConvolutionDescriptor convDesc, 
+        int arrayLength, /** nbDims-2 size */
+        int[] padA, 
+        int[] filterStrideA, 
+        int[] dilationA, 
+        int mode, 
+        int computeType)/** convolution data type */
+    {
+        return checkResult(cudnnSetConvolutionNdDescriptorNative(convDesc, arrayLength, padA, filterStrideA, dilationA, mode, computeType));
+    }
+    private static native int cudnnSetConvolutionNdDescriptorNative(
+        cudnnConvolutionDescriptor convDesc, 
+        int arrayLength, /** nbDims-2 size */
+        int[] padA, 
+        int[] filterStrideA, 
+        int[] dilationA, 
+        int mode, 
+        int computeType);/** convolution data type */
+
+
+    /** Helper function to return the dimensions of the output tensor given a convolution descriptor */
+    public static int cudnnGetConvolutionNdDescriptor(
+        cudnnConvolutionDescriptor convDesc, 
+        int arrayLengthRequested, 
+        int[] arrayLength, 
+        int[] padA, 
+        int[] strideA, 
+        int[] dilationA, 
+        int[] mode, 
+        int[] computeType)/** convolution data type */
+    {
+        return checkResult(cudnnGetConvolutionNdDescriptorNative(convDesc, arrayLengthRequested, arrayLength, padA, strideA, dilationA, mode, computeType));
+    }
+    private static native int cudnnGetConvolutionNdDescriptorNative(
+        cudnnConvolutionDescriptor convDesc, 
+        int arrayLengthRequested, 
+        int[] arrayLength, 
+        int[] padA, 
+        int[] strideA, 
+        int[] dilationA, 
+        int[] mode, 
+        int[] computeType);/** convolution data type */
+
+
+    public static int cudnnGetConvolution2dForwardOutputDim(
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnTensorDescriptor inputTensorDesc, 
+        cudnnFilterDescriptor filterDesc, 
+        int[] n, 
+        int[] c, 
+        int[] h, 
+        int[] w)
+    {
+        return checkResult(cudnnGetConvolution2dForwardOutputDimNative(convDesc, inputTensorDesc, filterDesc, n, c, h, w));
+    }
+    private static native int cudnnGetConvolution2dForwardOutputDimNative(
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnTensorDescriptor inputTensorDesc, 
+        cudnnFilterDescriptor filterDesc, 
+        int[] n, 
+        int[] c, 
+        int[] h, 
+        int[] w);
+
+
+    /** Helper function to return the dimensions of the output tensor given a convolution descriptor */
+    public static int cudnnGetConvolutionNdForwardOutputDim(
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnTensorDescriptor inputTensorDesc, 
+        cudnnFilterDescriptor filterDesc, 
+        int nbDims, 
+        int[] tensorOuputDimA)
+    {
+        return checkResult(cudnnGetConvolutionNdForwardOutputDimNative(convDesc, inputTensorDesc, filterDesc, nbDims, tensorOuputDimA));
+    }
+    private static native int cudnnGetConvolutionNdForwardOutputDimNative(
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnTensorDescriptor inputTensorDesc, 
+        cudnnFilterDescriptor filterDesc, 
+        int nbDims, 
+        int[] tensorOuputDimA);
+
+
+    /** helper function to provide the convolution forward algo that fit best the requirement */
+    public static int cudnnGetConvolutionForwardAlgorithmMaxCount(
         cudnnHandle handle, 
-        Pointer algoSpace, 
-        long algoSpaceSizeInBytes, 
-        cudnnAlgorithmDescriptor algoDesc);
-
-
-    public static int cudnnSetCallback(
-        int mask, 
-        Object udata, 
-        cudnnCallback fptr)
+        int[] count)
     {
-        return checkResult(cudnnSetCallbackNative(mask, udata, fptr));
+        return checkResult(cudnnGetConvolutionForwardAlgorithmMaxCountNative(handle, count));
     }
-    private static native int cudnnSetCallbackNative(
-        int mask, 
-        Object udata, 
-        cudnnCallback fptr);
+    private static native int cudnnGetConvolutionForwardAlgorithmMaxCountNative(
+        cudnnHandle handle, 
+        int[] count);
 
 
-    public static int cudnnGetCallback(
-        int[] mask, 
-        Object udata, 
-        cudnnCallback[] fptr)
+    public static int cudnnGetConvolutionForwardAlgorithm_v7(
+        cudnnHandle handle, 
+        cudnnTensorDescriptor srcDesc, 
+        cudnnFilterDescriptor filterDesc, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnTensorDescriptor destDesc, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnConvolutionFwdAlgoPerf[] perfResults)
     {
-        return checkResult(cudnnGetCallbackNative(mask, udata, fptr));
+        return checkResult(cudnnGetConvolutionForwardAlgorithm_v7Native(handle, srcDesc, filterDesc, convDesc, destDesc, requestedAlgoCount, returnedAlgoCount, perfResults));
     }
-    private static native int cudnnGetCallbackNative(
-        int[] mask, 
-        Object udata, 
-        cudnnCallback[] fptr);
+    private static native int cudnnGetConvolutionForwardAlgorithm_v7Native(
+        cudnnHandle handle, 
+        cudnnTensorDescriptor srcDesc, 
+        cudnnFilterDescriptor filterDesc, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnTensorDescriptor destDesc, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnConvolutionFwdAlgoPerf[] perfResults);
+
+
+    public static int cudnnFindConvolutionForwardAlgorithm(
+        cudnnHandle handle, 
+        cudnnTensorDescriptor xDesc, 
+        cudnnFilterDescriptor wDesc, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnTensorDescriptor yDesc, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnConvolutionFwdAlgoPerf[] perfResults)
+    {
+        return checkResult(cudnnFindConvolutionForwardAlgorithmNative(handle, xDesc, wDesc, convDesc, yDesc, requestedAlgoCount, returnedAlgoCount, perfResults));
+    }
+    private static native int cudnnFindConvolutionForwardAlgorithmNative(
+        cudnnHandle handle, 
+        cudnnTensorDescriptor xDesc, 
+        cudnnFilterDescriptor wDesc, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnTensorDescriptor yDesc, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnConvolutionFwdAlgoPerf[] perfResults);
+
+
+    public static int cudnnFindConvolutionForwardAlgorithmEx(
+        cudnnHandle handle, 
+        cudnnTensorDescriptor xDesc, 
+        Pointer x, 
+        cudnnFilterDescriptor wDesc, 
+        Pointer w, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnTensorDescriptor yDesc, 
+        Pointer y, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnConvolutionFwdAlgoPerf[] perfResults, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes)
+    {
+        return checkResult(cudnnFindConvolutionForwardAlgorithmExNative(handle, xDesc, x, wDesc, w, convDesc, yDesc, y, requestedAlgoCount, returnedAlgoCount, perfResults, workSpace, workSpaceSizeInBytes));
+    }
+    private static native int cudnnFindConvolutionForwardAlgorithmExNative(
+        cudnnHandle handle, 
+        cudnnTensorDescriptor xDesc, 
+        Pointer x, 
+        cudnnFilterDescriptor wDesc, 
+        Pointer w, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnTensorDescriptor yDesc, 
+        Pointer y, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnConvolutionFwdAlgoPerf[] perfResults, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes);
+
+
+    public static int cudnnIm2Col(
+        cudnnHandle handle, 
+        cudnnTensorDescriptor xDesc, 
+        Pointer x, 
+        cudnnFilterDescriptor wDesc, 
+        cudnnConvolutionDescriptor convDesc, 
+        Pointer colBuffer)
+    {
+        return checkResult(cudnnIm2ColNative(handle, xDesc, x, wDesc, convDesc, colBuffer));
+    }
+    private static native int cudnnIm2ColNative(
+        cudnnHandle handle, 
+        cudnnTensorDescriptor xDesc, 
+        Pointer x, 
+        cudnnFilterDescriptor wDesc, 
+        cudnnConvolutionDescriptor convDesc, 
+        Pointer colBuffer);
+
+
+    public static int cudnnReorderFilterAndBias(
+        cudnnHandle handle, 
+        cudnnFilterDescriptor filterDesc, 
+        int reorderType, 
+        Pointer filterData, 
+        Pointer reorderedFilterData, 
+        int reorderBias, 
+        Pointer biasData, 
+        Pointer reorderedBiasData)
+    {
+        return checkResult(cudnnReorderFilterAndBiasNative(handle, filterDesc, reorderType, filterData, reorderedFilterData, reorderBias, biasData, reorderedBiasData));
+    }
+    private static native int cudnnReorderFilterAndBiasNative(
+        cudnnHandle handle, 
+        cudnnFilterDescriptor filterDesc, 
+        int reorderType, 
+        Pointer filterData, 
+        Pointer reorderedFilterData, 
+        int reorderBias, 
+        Pointer biasData, 
+        Pointer reorderedBiasData);
+
+
+    /** Helper function to return the minimum size of the workspace to be passed to the convolution given an algo*/
+    public static int cudnnGetConvolutionForwardWorkspaceSize(
+        cudnnHandle handle, 
+        cudnnTensorDescriptor xDesc, 
+        cudnnFilterDescriptor wDesc, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnTensorDescriptor yDesc, 
+        int algo, 
+        long[] sizeInBytes)
+    {
+        return checkResult(cudnnGetConvolutionForwardWorkspaceSizeNative(handle, xDesc, wDesc, convDesc, yDesc, algo, sizeInBytes));
+    }
+    private static native int cudnnGetConvolutionForwardWorkspaceSizeNative(
+        cudnnHandle handle, 
+        cudnnTensorDescriptor xDesc, 
+        cudnnFilterDescriptor wDesc, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnTensorDescriptor yDesc, 
+        int algo, 
+        long[] sizeInBytes);
+
+
+    /** Convolution functions: All of the form "output = alpha * Op(inputs) + beta * output" */
+    /** Function to perform the forward pass for batch convolution */
+    public static int cudnnConvolutionForward(
+        cudnnHandle handle, 
+        Pointer alpha, 
+        cudnnTensorDescriptor xDesc, 
+        Pointer x, 
+        cudnnFilterDescriptor wDesc, 
+        Pointer w, 
+        cudnnConvolutionDescriptor convDesc, 
+        int algo, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes, 
+        Pointer beta, 
+        cudnnTensorDescriptor yDesc, 
+        Pointer y)
+    {
+        return checkResult(cudnnConvolutionForwardNative(handle, alpha, xDesc, x, wDesc, w, convDesc, algo, workSpace, workSpaceSizeInBytes, beta, yDesc, y));
+    }
+    private static native int cudnnConvolutionForwardNative(
+        cudnnHandle handle, 
+        Pointer alpha, 
+        cudnnTensorDescriptor xDesc, 
+        Pointer x, 
+        cudnnFilterDescriptor wDesc, 
+        Pointer w, 
+        cudnnConvolutionDescriptor convDesc, 
+        int algo, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes, 
+        Pointer beta, 
+        cudnnTensorDescriptor yDesc, 
+        Pointer y);
+
+
+    /** Fused conv/bias/activation operation : y = Act( alpha1 * conv(x) + alpha2 * z + bias ) */
+    public static int cudnnConvolutionBiasActivationForward(
+        cudnnHandle handle, 
+        Pointer alpha1, 
+        cudnnTensorDescriptor xDesc, 
+        Pointer x, 
+        cudnnFilterDescriptor wDesc, 
+        Pointer w, 
+        cudnnConvolutionDescriptor convDesc, 
+        int algo, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes, 
+        Pointer alpha2, 
+        cudnnTensorDescriptor zDesc, 
+        Pointer z, 
+        cudnnTensorDescriptor biasDesc, 
+        Pointer bias, 
+        cudnnActivationDescriptor activationDesc, 
+        cudnnTensorDescriptor yDesc, 
+        Pointer y)
+    {
+        return checkResult(cudnnConvolutionBiasActivationForwardNative(handle, alpha1, xDesc, x, wDesc, w, convDesc, algo, workSpace, workSpaceSizeInBytes, alpha2, zDesc, z, biasDesc, bias, activationDesc, yDesc, y));
+    }
+    private static native int cudnnConvolutionBiasActivationForwardNative(
+        cudnnHandle handle, 
+        Pointer alpha1, 
+        cudnnTensorDescriptor xDesc, 
+        Pointer x, 
+        cudnnFilterDescriptor wDesc, 
+        Pointer w, 
+        cudnnConvolutionDescriptor convDesc, 
+        int algo, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes, 
+        Pointer alpha2, 
+        cudnnTensorDescriptor zDesc, 
+        Pointer z, 
+        cudnnTensorDescriptor biasDesc, 
+        Pointer bias, 
+        cudnnActivationDescriptor activationDesc, 
+        cudnnTensorDescriptor yDesc, 
+        Pointer y);
+
+
+    public static int cudnnGetConvolutionBackwardDataAlgorithmMaxCount(
+        cudnnHandle handle, 
+        int[] count)
+    {
+        return checkResult(cudnnGetConvolutionBackwardDataAlgorithmMaxCountNative(handle, count));
+    }
+    private static native int cudnnGetConvolutionBackwardDataAlgorithmMaxCountNative(
+        cudnnHandle handle, 
+        int[] count);
+
+
+    public static int cudnnFindConvolutionBackwardDataAlgorithm(
+        cudnnHandle handle, 
+        cudnnFilterDescriptor wDesc, 
+        cudnnTensorDescriptor dyDesc, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnTensorDescriptor dxDesc, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnConvolutionBwdDataAlgoPerf[] perfResults)
+    {
+        return checkResult(cudnnFindConvolutionBackwardDataAlgorithmNative(handle, wDesc, dyDesc, convDesc, dxDesc, requestedAlgoCount, returnedAlgoCount, perfResults));
+    }
+    private static native int cudnnFindConvolutionBackwardDataAlgorithmNative(
+        cudnnHandle handle, 
+        cudnnFilterDescriptor wDesc, 
+        cudnnTensorDescriptor dyDesc, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnTensorDescriptor dxDesc, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnConvolutionBwdDataAlgoPerf[] perfResults);
+
+
+    public static int cudnnFindConvolutionBackwardDataAlgorithmEx(
+        cudnnHandle handle, 
+        cudnnFilterDescriptor wDesc, 
+        Pointer w, 
+        cudnnTensorDescriptor dyDesc, 
+        Pointer dy, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnTensorDescriptor dxDesc, 
+        Pointer dx, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnConvolutionBwdDataAlgoPerf[] perfResults, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes)
+    {
+        return checkResult(cudnnFindConvolutionBackwardDataAlgorithmExNative(handle, wDesc, w, dyDesc, dy, convDesc, dxDesc, dx, requestedAlgoCount, returnedAlgoCount, perfResults, workSpace, workSpaceSizeInBytes));
+    }
+    private static native int cudnnFindConvolutionBackwardDataAlgorithmExNative(
+        cudnnHandle handle, 
+        cudnnFilterDescriptor wDesc, 
+        Pointer w, 
+        cudnnTensorDescriptor dyDesc, 
+        Pointer dy, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnTensorDescriptor dxDesc, 
+        Pointer dx, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnConvolutionBwdDataAlgoPerf[] perfResults, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes);
+
+
+    public static int cudnnGetConvolutionBackwardDataAlgorithm_v7(
+        cudnnHandle handle, 
+        cudnnFilterDescriptor filterDesc, 
+        cudnnTensorDescriptor diffDesc, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnTensorDescriptor gradDesc, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnConvolutionBwdDataAlgoPerf[] perfResults)
+    {
+        return checkResult(cudnnGetConvolutionBackwardDataAlgorithm_v7Native(handle, filterDesc, diffDesc, convDesc, gradDesc, requestedAlgoCount, returnedAlgoCount, perfResults));
+    }
+    private static native int cudnnGetConvolutionBackwardDataAlgorithm_v7Native(
+        cudnnHandle handle, 
+        cudnnFilterDescriptor filterDesc, 
+        cudnnTensorDescriptor diffDesc, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnTensorDescriptor gradDesc, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnConvolutionBwdDataAlgoPerf[] perfResults);
+
+
+    /**
+     *  convolution algorithm (which requires potentially some workspace)
+     */
+    /** Helper function to return the minimum size of the workspace to be passed to the convolution given an algo*/
+    public static int cudnnGetConvolutionBackwardDataWorkspaceSize(
+        cudnnHandle handle, 
+        cudnnFilterDescriptor wDesc, 
+        cudnnTensorDescriptor dyDesc, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnTensorDescriptor dxDesc, 
+        int algo, 
+        long[] sizeInBytes)
+    {
+        return checkResult(cudnnGetConvolutionBackwardDataWorkspaceSizeNative(handle, wDesc, dyDesc, convDesc, dxDesc, algo, sizeInBytes));
+    }
+    private static native int cudnnGetConvolutionBackwardDataWorkspaceSizeNative(
+        cudnnHandle handle, 
+        cudnnFilterDescriptor wDesc, 
+        cudnnTensorDescriptor dyDesc, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnTensorDescriptor dxDesc, 
+        int algo, 
+        long[] sizeInBytes);
+
+
+    public static int cudnnConvolutionBackwardData(
+        cudnnHandle handle, 
+        Pointer alpha, 
+        cudnnFilterDescriptor wDesc, 
+        Pointer w, 
+        cudnnTensorDescriptor dyDesc, 
+        Pointer dy, 
+        cudnnConvolutionDescriptor convDesc, 
+        int algo, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes, 
+        Pointer beta, 
+        cudnnTensorDescriptor dxDesc, 
+        Pointer dx)
+    {
+        return checkResult(cudnnConvolutionBackwardDataNative(handle, alpha, wDesc, w, dyDesc, dy, convDesc, algo, workSpace, workSpaceSizeInBytes, beta, dxDesc, dx));
+    }
+    private static native int cudnnConvolutionBackwardDataNative(
+        cudnnHandle handle, 
+        Pointer alpha, 
+        cudnnFilterDescriptor wDesc, 
+        Pointer w, 
+        cudnnTensorDescriptor dyDesc, 
+        Pointer dy, 
+        cudnnConvolutionDescriptor convDesc, 
+        int algo, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes, 
+        Pointer beta, 
+        cudnnTensorDescriptor dxDesc, 
+        Pointer dx);
+
+
+    /** Helper function to calculate folding descriptors for dgrad */
+    public static int cudnnGetFoldedConvBackwardDataDescriptors(
+        cudnnHandle handle, 
+        cudnnFilterDescriptor filterDesc, 
+        cudnnTensorDescriptor diffDesc, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnTensorDescriptor gradDesc, 
+        int transformFormat, 
+        cudnnFilterDescriptor foldedFilterDesc, 
+        cudnnTensorDescriptor paddedDiffDesc, 
+        cudnnConvolutionDescriptor foldedConvDesc, 
+        cudnnTensorDescriptor foldedGradDesc, 
+        cudnnTensorTransformDescriptor filterFoldTransDesc, 
+        cudnnTensorTransformDescriptor diffPadTransDesc, 
+        cudnnTensorTransformDescriptor gradFoldTransDesc, 
+        cudnnTensorTransformDescriptor gradUnfoldTransDesc)
+    {
+        return checkResult(cudnnGetFoldedConvBackwardDataDescriptorsNative(handle, filterDesc, diffDesc, convDesc, gradDesc, transformFormat, foldedFilterDesc, paddedDiffDesc, foldedConvDesc, foldedGradDesc, filterFoldTransDesc, diffPadTransDesc, gradFoldTransDesc, gradUnfoldTransDesc));
+    }
+    private static native int cudnnGetFoldedConvBackwardDataDescriptorsNative(
+        cudnnHandle handle, 
+        cudnnFilterDescriptor filterDesc, 
+        cudnnTensorDescriptor diffDesc, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnTensorDescriptor gradDesc, 
+        int transformFormat, 
+        cudnnFilterDescriptor foldedFilterDesc, 
+        cudnnTensorDescriptor paddedDiffDesc, 
+        cudnnConvolutionDescriptor foldedConvDesc, 
+        cudnnTensorDescriptor foldedGradDesc, 
+        cudnnTensorTransformDescriptor filterFoldTransDesc, 
+        cudnnTensorTransformDescriptor diffPadTransDesc, 
+        cudnnTensorTransformDescriptor gradFoldTransDesc, 
+        cudnnTensorTransformDescriptor gradUnfoldTransDesc);
+
+
+    public static int cudnnCnnInferVersionCheck()
+    {
+        return checkResult(cudnnCnnInferVersionCheckNative());
+    }
+    private static native int cudnnCnnInferVersionCheckNative();
+
+
+    public static int cudnnGetConvolutionBackwardFilterAlgorithmMaxCount(
+        cudnnHandle handle, 
+        int[] count)
+    {
+        return checkResult(cudnnGetConvolutionBackwardFilterAlgorithmMaxCountNative(handle, count));
+    }
+    private static native int cudnnGetConvolutionBackwardFilterAlgorithmMaxCountNative(
+        cudnnHandle handle, 
+        int[] count);
+
+
+    public static int cudnnFindConvolutionBackwardFilterAlgorithm(
+        cudnnHandle handle, 
+        cudnnTensorDescriptor xDesc, 
+        cudnnTensorDescriptor dyDesc, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnFilterDescriptor dwDesc, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnConvolutionBwdFilterAlgoPerf[] perfResults)
+    {
+        return checkResult(cudnnFindConvolutionBackwardFilterAlgorithmNative(handle, xDesc, dyDesc, convDesc, dwDesc, requestedAlgoCount, returnedAlgoCount, perfResults));
+    }
+    private static native int cudnnFindConvolutionBackwardFilterAlgorithmNative(
+        cudnnHandle handle, 
+        cudnnTensorDescriptor xDesc, 
+        cudnnTensorDescriptor dyDesc, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnFilterDescriptor dwDesc, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnConvolutionBwdFilterAlgoPerf[] perfResults);
+
+
+    public static int cudnnFindConvolutionBackwardFilterAlgorithmEx(
+        cudnnHandle handle, 
+        cudnnTensorDescriptor xDesc, 
+        Pointer x, 
+        cudnnTensorDescriptor dyDesc, 
+        Pointer y, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnFilterDescriptor dwDesc, 
+        Pointer dw, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnConvolutionBwdFilterAlgoPerf[] perfResults, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes)
+    {
+        return checkResult(cudnnFindConvolutionBackwardFilterAlgorithmExNative(handle, xDesc, x, dyDesc, y, convDesc, dwDesc, dw, requestedAlgoCount, returnedAlgoCount, perfResults, workSpace, workSpaceSizeInBytes));
+    }
+    private static native int cudnnFindConvolutionBackwardFilterAlgorithmExNative(
+        cudnnHandle handle, 
+        cudnnTensorDescriptor xDesc, 
+        Pointer x, 
+        cudnnTensorDescriptor dyDesc, 
+        Pointer y, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnFilterDescriptor dwDesc, 
+        Pointer dw, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnConvolutionBwdFilterAlgoPerf[] perfResults, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes);
+
+
+    public static int cudnnGetConvolutionBackwardFilterAlgorithm_v7(
+        cudnnHandle handle, 
+        cudnnTensorDescriptor srcDesc, 
+        cudnnTensorDescriptor diffDesc, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnFilterDescriptor gradDesc, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnConvolutionBwdFilterAlgoPerf[] perfResults)
+    {
+        return checkResult(cudnnGetConvolutionBackwardFilterAlgorithm_v7Native(handle, srcDesc, diffDesc, convDesc, gradDesc, requestedAlgoCount, returnedAlgoCount, perfResults));
+    }
+    private static native int cudnnGetConvolutionBackwardFilterAlgorithm_v7Native(
+        cudnnHandle handle, 
+        cudnnTensorDescriptor srcDesc, 
+        cudnnTensorDescriptor diffDesc, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnFilterDescriptor gradDesc, 
+        int requestedAlgoCount, 
+        int[] returnedAlgoCount, 
+        cudnnConvolutionBwdFilterAlgoPerf[] perfResults);
+
+
+    /**
+     *  convolution algorithm (which requires potentially some workspace)
+     */
+    /** Helper function to return the minimum size of the workspace to be passed to the convolution given an algo*/
+    public static int cudnnGetConvolutionBackwardFilterWorkspaceSize(
+        cudnnHandle handle, 
+        cudnnTensorDescriptor xDesc, 
+        cudnnTensorDescriptor dyDesc, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnFilterDescriptor gradDesc, 
+        int algo, 
+        long[] sizeInBytes)
+    {
+        return checkResult(cudnnGetConvolutionBackwardFilterWorkspaceSizeNative(handle, xDesc, dyDesc, convDesc, gradDesc, algo, sizeInBytes));
+    }
+    private static native int cudnnGetConvolutionBackwardFilterWorkspaceSizeNative(
+        cudnnHandle handle, 
+        cudnnTensorDescriptor xDesc, 
+        cudnnTensorDescriptor dyDesc, 
+        cudnnConvolutionDescriptor convDesc, 
+        cudnnFilterDescriptor gradDesc, 
+        int algo, 
+        long[] sizeInBytes);
+
+
+    public static int cudnnConvolutionBackwardFilter(
+        cudnnHandle handle, 
+        Pointer alpha, 
+        cudnnTensorDescriptor xDesc, 
+        Pointer x, 
+        cudnnTensorDescriptor dyDesc, 
+        Pointer dy, 
+        cudnnConvolutionDescriptor convDesc, 
+        int algo, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes, 
+        Pointer beta, 
+        cudnnFilterDescriptor dwDesc, 
+        Pointer dw)
+    {
+        return checkResult(cudnnConvolutionBackwardFilterNative(handle, alpha, xDesc, x, dyDesc, dy, convDesc, algo, workSpace, workSpaceSizeInBytes, beta, dwDesc, dw));
+    }
+    private static native int cudnnConvolutionBackwardFilterNative(
+        cudnnHandle handle, 
+        Pointer alpha, 
+        cudnnTensorDescriptor xDesc, 
+        Pointer x, 
+        cudnnTensorDescriptor dyDesc, 
+        Pointer dy, 
+        cudnnConvolutionDescriptor convDesc, 
+        int algo, 
+        Pointer workSpace, 
+        long workSpaceSizeInBytes, 
+        Pointer beta, 
+        cudnnFilterDescriptor dwDesc, 
+        Pointer dw);
+
+
+    /** Function to compute the bias gradient for batch convolution */
+    public static int cudnnConvolutionBackwardBias(
+        cudnnHandle handle, 
+        Pointer alpha, 
+        cudnnTensorDescriptor dyDesc, 
+        Pointer dy, 
+        Pointer beta, 
+        cudnnTensorDescriptor dbDesc, 
+        Pointer db)
+    {
+        return checkResult(cudnnConvolutionBackwardBiasNative(handle, alpha, dyDesc, dy, beta, dbDesc, db));
+    }
+    private static native int cudnnConvolutionBackwardBiasNative(
+        cudnnHandle handle, 
+        Pointer alpha, 
+        cudnnTensorDescriptor dyDesc, 
+        Pointer dy, 
+        Pointer beta, 
+        cudnnTensorDescriptor dbDesc, 
+        Pointer db);
 
 
     public static int cudnnCreateFusedOpsConstParamPack(
@@ -5078,61 +5868,98 @@ public class JCudnn
         cudnnFusedOpsVariantParamPack varPack);
 
 
-    /**
-     * <pre>
-     * DEPRECATED routines to be removed next release :
-       User should use the non-suffixed version (which has the API and functionality of _v6 version)
-       Routines with _v5 suffix has the functionality of the non-suffixed routines in the CUDNN V6
-     * </pre>
-     */
-    public static int cudnnSetRNNDescriptor_v6(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
-        int hiddenSize, 
-        int numLayers, 
-        cudnnDropoutDescriptor dropoutDesc, 
-        int inputMode, 
-        int direction, 
-        int mode, 
-        int algo, 
-        int mathPrec)
+    public static int cudnnCnnTrainVersionCheck()
     {
-        return checkResult(cudnnSetRNNDescriptor_v6Native(handle, rnnDesc, hiddenSize, numLayers, dropoutDesc, inputMode, direction, mode, algo, mathPrec));
+        return checkResult(cudnnCnnTrainVersionCheckNative());
     }
-    private static native int cudnnSetRNNDescriptor_v6Native(
-        cudnnHandle handle, 
-        cudnnRNNDescriptor rnnDesc, 
-        int hiddenSize, 
-        int numLayers, 
-        cudnnDropoutDescriptor dropoutDesc, 
-        int inputMode, 
-        int direction, 
-        int mode, 
-        int algo, 
-        int mathPrec);
+    private static native int cudnnCnnTrainVersionCheckNative();
 
 
-    public static int cudnnSetRNNDescriptor_v5(
-        cudnnRNNDescriptor rnnDesc, 
-        int hiddenSize, 
-        int numLayers, 
-        cudnnDropoutDescriptor dropoutDesc, 
-        int inputMode, 
-        int direction, 
-        int mode, 
-        int mathPrec)
+    public static int cudnnBackendCreateDescriptor(
+        int descriptorType, 
+        cudnnBackendDescriptor descriptor)
     {
-        return checkResult(cudnnSetRNNDescriptor_v5Native(rnnDesc, hiddenSize, numLayers, dropoutDesc, inputMode, direction, mode, mathPrec));
+        return checkResult(cudnnBackendCreateDescriptorNative(descriptorType, descriptor));
     }
-    private static native int cudnnSetRNNDescriptor_v5Native(
-        cudnnRNNDescriptor rnnDesc, 
-        int hiddenSize, 
-        int numLayers, 
-        cudnnDropoutDescriptor dropoutDesc, 
-        int inputMode, 
-        int direction, 
-        int mode, 
-        int mathPrec);
+    private static native int cudnnBackendCreateDescriptorNative(
+        int descriptorType, 
+        cudnnBackendDescriptor descriptor);
+
+
+    public static int cudnnBackendDestroyDescriptor(
+        cudnnBackendDescriptor descriptor)
+    {
+        return checkResult(cudnnBackendDestroyDescriptorNative(descriptor));
+    }
+    private static native int cudnnBackendDestroyDescriptorNative(
+        cudnnBackendDescriptor descriptor);
+
+
+    public static int cudnnBackendInitialize(
+        cudnnBackendDescriptor descriptor)
+    {
+        return checkResult(cudnnBackendInitializeNative(descriptor));
+    }
+    private static native int cudnnBackendInitializeNative(
+        cudnnBackendDescriptor descriptor);
+
+
+    public static int cudnnBackendFinalize(
+        cudnnBackendDescriptor descriptor)
+    {
+        return checkResult(cudnnBackendFinalizeNative(descriptor));
+    }
+    private static native int cudnnBackendFinalizeNative(
+        cudnnBackendDescriptor descriptor);
+
+
+    public static int cudnnBackendSetAttribute(
+        cudnnBackendDescriptor descriptor, 
+        int attributeName, 
+        int attributeType, 
+        long elementCount, 
+        Pointer arrayOfElements)
+    {
+        return checkResult(cudnnBackendSetAttributeNative(descriptor, attributeName, attributeType, elementCount, arrayOfElements));
+    }
+    private static native int cudnnBackendSetAttributeNative(
+        cudnnBackendDescriptor descriptor, 
+        int attributeName, 
+        int attributeType, 
+        long elementCount, 
+        Pointer arrayOfElements);
+
+
+    public static int cudnnBackendGetAttribute(
+        cudnnBackendDescriptor descriptor, 
+        int attributeName, 
+        int attributeType, 
+        long requestedElementCount, 
+        long[] elementCount, 
+        Pointer arrayOfElements)
+    {
+        return checkResult(cudnnBackendGetAttributeNative(descriptor, attributeName, attributeType, requestedElementCount, elementCount, arrayOfElements));
+    }
+    private static native int cudnnBackendGetAttributeNative(
+        cudnnBackendDescriptor descriptor, 
+        int attributeName, 
+        int attributeType, 
+        long requestedElementCount, 
+        long[] elementCount, 
+        Pointer arrayOfElements);
+
+
+    public static int cudnnBackendExecute(
+        cudnnHandle handle, 
+        cudnnBackendDescriptor executionPlan, 
+        cudnnBackendDescriptor variantPack)
+    {
+        return checkResult(cudnnBackendExecuteNative(handle, executionPlan, variantPack));
+    }
+    private static native int cudnnBackendExecuteNative(
+        cudnnHandle handle, 
+        cudnnBackendDescriptor executionPlan, 
+        cudnnBackendDescriptor variantPack);
 
 
 }

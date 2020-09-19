@@ -9,6 +9,8 @@ package jcuda.jcudnn;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * Utility class for the most basic possible test of a JNI binding: 
@@ -30,7 +32,17 @@ public class BasicBindingTest
 
         boolean passed = true;
         int modifiers = Modifier.PUBLIC | Modifier.STATIC;
-        for (Method method : c.getMethods())
+        Method[] methods = c.getMethods();
+        Arrays.sort(methods, new Comparator<Method>()
+        {
+            @Override
+            public int compare(Method m0, Method m1)
+            {
+                return m0.getName().compareTo(m1.getName());
+            }
+            
+        });
+        for (Method method : methods)
         {
             if ((method.getModifiers() & modifiers) == modifiers)
             {
@@ -136,7 +148,7 @@ public class BasicBindingTest
         return null;
     }
 
-    private static final boolean LOG_INFO = false;
+    private static final boolean LOG_INFO = true;
     private static final boolean LOG_WARNING = true;
 
     /**

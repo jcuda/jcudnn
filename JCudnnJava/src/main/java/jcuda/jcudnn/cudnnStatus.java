@@ -46,6 +46,7 @@ public class cudnnStatus
     public static final int CUDNN_STATUS_RUNTIME_PREREQUISITE_MISSING = 11;
     public static final int CUDNN_STATUS_RUNTIME_IN_PROGRESS = 12;
     public static final int CUDNN_STATUS_RUNTIME_FP_OVERFLOW = 13;
+    public static final int CUDNN_STATUS_VERSION_MISMATCH = 14;
 
     /**
      * Private constructor to prevent instantiation
@@ -78,6 +79,7 @@ public class cudnnStatus
             case CUDNN_STATUS_RUNTIME_PREREQUISITE_MISSING: return "CUDNN_STATUS_RUNTIME_PREREQUISITE_MISSING";
             case CUDNN_STATUS_RUNTIME_IN_PROGRESS: return "CUDNN_STATUS_RUNTIME_IN_PROGRESS";
             case CUDNN_STATUS_RUNTIME_FP_OVERFLOW: return "CUDNN_STATUS_RUNTIME_FP_OVERFLOW";
+            case CUDNN_STATUS_VERSION_MISMATCH: return "CUDNN_STATUS_VERSION_MISMATCH";
         }
         return "INVALID cudnnStatus: "+n;
     }

@@ -27,15 +27,15 @@
  */
 package jcuda.jcudnn;
 
-public class cudnnRNNPaddingMode
+public class cudnnForwardMode
 {
-    public static final int CUDNN_RNN_PADDED_IO_DISABLED = 0;
-    public static final int CUDNN_RNN_PADDED_IO_ENABLED = 1;
+    public static final int CUDNN_FWD_MODE_INFERENCE = 0;
+    public static final int CUDNN_FWD_MODE_TRAINING = 1;
 
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnRNNPaddingMode()
+    private cudnnForwardMode()
     {
         // Private constructor to prevent instantiation
     }
@@ -49,10 +49,10 @@ public class cudnnRNNPaddingMode
     {
         switch (n)
         {
-            case CUDNN_RNN_PADDED_IO_DISABLED: return "CUDNN_RNN_PADDED_IO_DISABLED";
-            case CUDNN_RNN_PADDED_IO_ENABLED: return "CUDNN_RNN_PADDED_IO_ENABLED";
+            case CUDNN_FWD_MODE_INFERENCE: return "CUDNN_FWD_MODE_INFERENCE";
+            case CUDNN_FWD_MODE_TRAINING: return "CUDNN_FWD_MODE_TRAINING";
         }
-        return "INVALID cudnnRNNPaddingMode: "+n;
+        return "INVALID cudnnForwardMode: "+n;
     }
 }
 

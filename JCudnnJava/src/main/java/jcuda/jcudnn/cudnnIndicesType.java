@@ -27,12 +27,6 @@
  */
 package jcuda.jcudnn;
 
-/**
- * <pre>
-* CUDNN tensor indices type size (all unsigned)
-* Currently not supported, default is 32 bit unsigned.
- * </pre>
- */
 public class cudnnIndicesType
 {
     public static final int CUDNN_32BIT_INDICES = 0;

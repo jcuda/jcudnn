@@ -27,28 +27,16 @@
  */
 package jcuda.jcudnn;
 
-/** 
- * Multihead Attention
- * 
- * @deprecated Declared as a "legacy type" in CUDNN 7.6.5. Seems to be 
- * replaced by the {@link JCudnn#CUDNN_ATTN_QUERYMAP_ALL_TO_ONE 
- * CUDNN_ATTN_QUERYMAP constants} 
- */
-public class cudnnAttnQueryMap
+public class cudnnNormOps
 {
-    /**
-     * multiple Q-s when beam width > 1 map to a single (K,V) set 
-     */
-    public static final int CUDNN_ATTN_QUERYMAP_ALL_TO_ONE = 0;
-    /**
-     * multiple Q-s when beam width > 1 map to corresponding (K,V) sets 
-     */
-    public static final int CUDNN_ATTN_QUERYMAP_ONE_TO_ONE = 1;
+    public static final int CUDNN_NORM_OPS_NORM = 0;
+    public static final int CUDNN_NORM_OPS_NORM_ACTIVATION = 1;
+    public static final int CUDNN_NORM_OPS_NORM_ADD_ACTIVATION = 2;
 
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnAttnQueryMap()
+    private cudnnNormOps()
     {
         // Private constructor to prevent instantiation
     }
@@ -62,10 +50,11 @@ public class cudnnAttnQueryMap
     {
         switch (n)
         {
-            case CUDNN_ATTN_QUERYMAP_ALL_TO_ONE: return "CUDNN_ATTN_QUERYMAP_ALL_TO_ONE";
-            case CUDNN_ATTN_QUERYMAP_ONE_TO_ONE: return "CUDNN_ATTN_QUERYMAP_ONE_TO_ONE";
+            case CUDNN_NORM_OPS_NORM: return "CUDNN_NORM_OPS_NORM";
+            case CUDNN_NORM_OPS_NORM_ACTIVATION: return "CUDNN_NORM_OPS_NORM_ACTIVATION";
+            case CUDNN_NORM_OPS_NORM_ADD_ACTIVATION: return "CUDNN_NORM_OPS_NORM_ADD_ACTIVATION";
         }
-        return "INVALID cudnnAttnQueryMap: "+n;
+        return "INVALID cudnnNormOps: "+n;
     }
 }
 

@@ -27,17 +27,15 @@
  */
 package jcuda.jcudnn;
 
-/** helper function to provide the convolution algo that fit best the requirement */
-public class cudnnConvolutionFwdPreference
+public class cudnnNormAlgo
 {
-    public static final int CUDNN_CONVOLUTION_FWD_NO_WORKSPACE = 0;
-    public static final int CUDNN_CONVOLUTION_FWD_PREFER_FASTEST = 1;
-    public static final int CUDNN_CONVOLUTION_FWD_SPECIFY_WORKSPACE_LIMIT = 2;
+    public static final int CUDNN_NORM_ALGO_STANDARD = 0;
+    public static final int CUDNN_NORM_ALGO_PERSIST = 1;
 
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnConvolutionFwdPreference()
+    private cudnnNormAlgo()
     {
         // Private constructor to prevent instantiation
     }
@@ -51,11 +49,10 @@ public class cudnnConvolutionFwdPreference
     {
         switch (n)
         {
-            case CUDNN_CONVOLUTION_FWD_NO_WORKSPACE: return "CUDNN_CONVOLUTION_FWD_NO_WORKSPACE";
-            case CUDNN_CONVOLUTION_FWD_PREFER_FASTEST: return "CUDNN_CONVOLUTION_FWD_PREFER_FASTEST";
-            case CUDNN_CONVOLUTION_FWD_SPECIFY_WORKSPACE_LIMIT: return "CUDNN_CONVOLUTION_FWD_SPECIFY_WORKSPACE_LIMIT";
+            case CUDNN_NORM_ALGO_STANDARD: return "CUDNN_NORM_ALGO_STANDARD";
+            case CUDNN_NORM_ALGO_PERSIST: return "CUDNN_NORM_ALGO_PERSIST";
         }
-        return "INVALID cudnnConvolutionFwdPreference: "+n;
+        return "INVALID cudnnNormAlgo: "+n;
     }
 }
 
