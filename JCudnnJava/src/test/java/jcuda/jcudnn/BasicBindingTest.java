@@ -148,7 +148,7 @@ public class BasicBindingTest
         return null;
     }
 
-    private static final boolean LOG_INFO = true;
+    private static final boolean LOG_INFO = false;
     private static final boolean LOG_WARNING = true;
 
     /**
