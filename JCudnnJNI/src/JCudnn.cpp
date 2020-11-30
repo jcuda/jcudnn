@@ -426,15 +426,6 @@ bool releaseNative(JNIEnv *env, cudnnAlgorithmPerformance_t* &input, jobjectArra
     return true;
 }
 
-bool initNative(JNIEnv *env, jintArray javaObject, uint32_t* &nativeObject, bool fill)
-{
-    return initNativeGeneric<jintArray, jint, uint32_t>(env, javaObject, nativeObject, fill);
-}
-bool releaseNative(JNIEnv *env, uint32_t* &nativeObject, jintArray javaObject, bool writeBack)
-{
-    return releaseNativeGeneric<jint, jintArray, uint32_t>(env, nativeObject, javaObject, writeBack);
-}
-
 bool initNative(JNIEnv *env, jintArray javaObject, cudnnSeqDataAxis_t* &nativeObject, bool fill)
 {
     return initNativeGeneric<jintArray, jint, cudnnSeqDataAxis_t>(env, javaObject, nativeObject, fill);
