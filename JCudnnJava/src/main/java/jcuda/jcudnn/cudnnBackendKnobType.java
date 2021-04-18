@@ -53,7 +53,8 @@ public class cudnnBackendKnobType
     public static final int CUDNN_KNOB_TYPE_SINGLEBUFFER = 21;
     public static final int CUDNN_KNOB_TYPE_LDGC = 22;
     public static final int CUDNN_KNOB_TYPE_SPECFILT = 23;
-    public static final int CUDNN_KNOB_TYPE_COUNTS = 24;
+    public static final int CUDNN_KNOB_TYPE_KERNEL_CFG = 24;
+    public static final int CUDNN_KNOB_TYPE_COUNTS = 25;
 
     /**
      * Private constructor to prevent instantiation
@@ -96,6 +97,7 @@ public class cudnnBackendKnobType
             case CUDNN_KNOB_TYPE_SINGLEBUFFER: return "CUDNN_KNOB_TYPE_SINGLEBUFFER";
             case CUDNN_KNOB_TYPE_LDGC: return "CUDNN_KNOB_TYPE_LDGC";
             case CUDNN_KNOB_TYPE_SPECFILT: return "CUDNN_KNOB_TYPE_SPECFILT";
+            case CUDNN_KNOB_TYPE_KERNEL_CFG: return "CUDNN_KNOB_TYPE_KERNEL_CFG";
             case CUDNN_KNOB_TYPE_COUNTS: return "CUDNN_KNOB_TYPE_COUNTS";
         }
         return "INVALID cudnnBackendKnobType: "+n;

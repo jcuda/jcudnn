@@ -27,6 +27,7 @@
  */
 package jcuda.jcudnn;
 
+/** TODO: move these enums out to the appropriate submodule */
 public class cudnnConvolutionFwdAlgo
 {
     public static final int CUDNN_CONVOLUTION_FWD_ALGO_IMPLICIT_GEMM = 0;

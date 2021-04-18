@@ -27,11 +27,30 @@
  */
 package jcuda.jcudnn;
 
-/**
- * Java port of a cudnnAlgorithm
- */
-public interface cudnnAlgorithm
+import jcuda.NativePointerObject;
+
+/** TODO: remove */
+public class cudnnAlgorithm extends NativePointerObject
 {
+    /**
+     * Creates a new, uninitialized cudnnAlgorithm
+     */
+    public cudnnAlgorithm()
+    {
+        // Default constructor
+    }
+
+     /**
+     * Returns a String representation of this object.
+     *
+     * @return A String representation of this object.
+     */
+    @Override
+    public String toString()
+    {
+        return "cudnnAlgorithm["+
+            "nativePointer=0x"+Long.toHexString(getNativePointer())+"]";
+    }
 }
 
 

@@ -29,8 +29,17 @@ package jcuda.jcudnn;
 
 public class cudnnNormOps
 {
+    /**
+     * do normalization only 
+     */
     public static final int CUDNN_NORM_OPS_NORM = 0;
+    /**
+     * do Norm, then activation 
+     */
     public static final int CUDNN_NORM_OPS_NORM_ACTIVATION = 1;
+    /**
+     * do Norm, then elemWiseAdd, then activation 
+     */
     public static final int CUDNN_NORM_OPS_NORM_ADD_ACTIVATION = 2;
 
     /**

@@ -28,11 +28,11 @@
 package jcuda.jcudnn;
 
 import jcuda.CudaException;
+import jcuda.JCudaVersion;
 import jcuda.LibUtils;
 import jcuda.LibUtilsCuda;
 import jcuda.LogLevel;
 import jcuda.Pointer;
-import jcuda.runtime.JCuda;
 import jcuda.runtime.cudaStream_t;
 
 /**
@@ -42,8 +42,8 @@ import jcuda.runtime.cudaStream_t;
 public class JCudnn
 {
     public static final int CUDNN_MAJOR      = 8;
-    public static final int CUDNN_MINOR      = 0;
-    public static final int CUDNN_PATCHLEVEL = 3;
+    public static final int CUDNN_MINOR      = 1;
+    public static final int CUDNN_PATCHLEVEL = 1;
 
     public static final int CUDNN_VERSION    =
         (CUDNN_MAJOR * 1000 + CUDNN_MINOR * 100 + CUDNN_PATCHLEVEL);
@@ -126,7 +126,7 @@ public class JCudnn
     {
         if (!initialized)
         {
-            String libraryBaseName = "JCudnn-" + JCuda.getJCudaVersion();
+            String libraryBaseName = "JCudnn-" + JCudaVersion.get();
             String libraryName = 
                 LibUtils.createPlatformLibraryName(libraryBaseName);
             LibUtilsCuda.loadLibrary(libraryName);

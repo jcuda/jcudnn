@@ -27,6 +27,9 @@
  */
 package jcuda.jcudnn;
 
+/**
+* CTC (Connectionist Temporal Classification) loss descriptor create/destory/set/get functions
+*/
 /** Input normalization mode for loss function */
 public class cudnnLossNormalizationMode
 {

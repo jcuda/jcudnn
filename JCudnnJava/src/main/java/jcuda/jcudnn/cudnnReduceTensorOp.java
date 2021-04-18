@@ -28,8 +28,8 @@
 package jcuda.jcudnn;
 
 /**
-* CUDNN ReduceTensor op type
-*/
+ * CUDNN ReduceTensor op type
+ */
 public class cudnnReduceTensorOp
 {
     public static final int CUDNN_REDUCE_TENSOR_ADD = 0;

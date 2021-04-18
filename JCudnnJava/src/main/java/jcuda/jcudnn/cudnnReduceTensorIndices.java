@@ -28,8 +28,8 @@
 package jcuda.jcudnn;
 
 /**
-* CUDNN ReduceTensor indices type
-*/
+ * CUDNN ReduceTensor indices type
+ */
 public class cudnnReduceTensorIndices
 {
     public static final int CUDNN_REDUCE_TENSOR_NO_INDICES = 0;

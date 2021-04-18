@@ -28,8 +28,8 @@
 package jcuda.jcudnn;
 
 /**
-* CUDNN data type
-*/
+ * CUDNN data type
+ */
 public class cudnnDataType
 {
     public static final int CUDNN_DATA_FLOAT = 0;
@@ -41,6 +41,8 @@ public class cudnnDataType
     public static final int CUDNN_DATA_UINT8 = 6;
     public static final int CUDNN_DATA_UINT8x4 = 7;
     public static final int CUDNN_DATA_INT8x32 = 8;
+    public static final int CUDNN_DATA_BFLOAT16 = 9;
+    public static final int CUDNN_DATA_INT64 = 10;
 
     /**
      * Private constructor to prevent instantiation
@@ -68,6 +70,8 @@ public class cudnnDataType
             case CUDNN_DATA_UINT8: return "CUDNN_DATA_UINT8";
             case CUDNN_DATA_UINT8x4: return "CUDNN_DATA_UINT8x4";
             case CUDNN_DATA_INT8x32: return "CUDNN_DATA_INT8x32";
+            case CUDNN_DATA_BFLOAT16: return "CUDNN_DATA_BFLOAT16";
+            case CUDNN_DATA_INT64: return "CUDNN_DATA_INT64";
         }
         return "INVALID cudnnDataType: "+n;
     }

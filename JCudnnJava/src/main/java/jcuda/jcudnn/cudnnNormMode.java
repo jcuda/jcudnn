@@ -29,7 +29,9 @@ package jcuda.jcudnn;
 
 public class cudnnNormMode
 {
+    /** bnScale, bnBias tensor dims are 1xCxHxWx.. (one value per CHW...-slice, normalized over N slice) */
     public static final int CUDNN_NORM_PER_ACTIVATION = 0;
+    /** bnScale, bnBias tensor dims are 1xCx1x1 (one value per C-dim normalized over Nx1xHxW subtensors) */
     public static final int CUDNN_NORM_PER_CHANNEL = 1;
 
     /**

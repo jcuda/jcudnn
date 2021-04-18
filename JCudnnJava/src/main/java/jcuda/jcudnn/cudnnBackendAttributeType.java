@@ -46,6 +46,8 @@ public class cudnnBackendAttributeType
     public static final int CUDNN_TYPE_POINTWISE_MODE = 14;
     public static final int CUDNN_TYPE_BACKEND_DESCRIPTOR = 15;
     public static final int CUDNN_TYPE_GENSTATS_MODE = 16;
+    public static final int CUDNN_TYPE_BN_FINALIZE_STATS_MODE = 17;
+    public static final int CUDNN_TYPE_REDUCTION_OPERATOR_TYPE = 18;
 
     /**
      * Private constructor to prevent instantiation
@@ -81,6 +83,8 @@ public class cudnnBackendAttributeType
             case CUDNN_TYPE_POINTWISE_MODE: return "CUDNN_TYPE_POINTWISE_MODE";
             case CUDNN_TYPE_BACKEND_DESCRIPTOR: return "CUDNN_TYPE_BACKEND_DESCRIPTOR";
             case CUDNN_TYPE_GENSTATS_MODE: return "CUDNN_TYPE_GENSTATS_MODE";
+            case CUDNN_TYPE_BN_FINALIZE_STATS_MODE: return "CUDNN_TYPE_BN_FINALIZE_STATS_MODE";
+            case CUDNN_TYPE_REDUCTION_OPERATOR_TYPE: return "CUDNN_TYPE_REDUCTION_OPERATOR_TYPE";
         }
         return "INVALID cudnnBackendAttributeType: "+n;
     }

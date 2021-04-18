@@ -28,8 +28,8 @@
 package jcuda.jcudnn;
 
 /**
-* CUDNN math type
-*/
+ * CUDNN math type
+ */
 public class cudnnMathType
 {
     public static final int CUDNN_DEFAULT_MATH = 0;

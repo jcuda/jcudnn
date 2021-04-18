@@ -38,7 +38,7 @@ public class cudnnRNNMode
      */
     public static final int CUDNN_RNN_TANH = 1;
     /**
-     * LSTM with no peephole connections 
+     * LSTM with optional recurrent projection and clipping 
      */
     public static final int CUDNN_LSTM = 2;
     /**

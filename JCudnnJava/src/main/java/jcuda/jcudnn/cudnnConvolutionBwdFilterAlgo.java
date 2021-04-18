@@ -29,10 +29,19 @@ package jcuda.jcudnn;
 
 public class cudnnConvolutionBwdFilterAlgo
 {
+    /**
+     * non-deterministic 
+     */
     public static final int CUDNN_CONVOLUTION_BWD_FILTER_ALGO_0 = 0;
     public static final int CUDNN_CONVOLUTION_BWD_FILTER_ALGO_1 = 1;
     public static final int CUDNN_CONVOLUTION_BWD_FILTER_ALGO_FFT = 2;
+    /**
+     * non-deterministic 
+     */
     public static final int CUDNN_CONVOLUTION_BWD_FILTER_ALGO_3 = 3;
+    /**
+     * not implemented 
+     */
     public static final int CUDNN_CONVOLUTION_BWD_FILTER_ALGO_WINOGRAD = 4;
     public static final int CUDNN_CONVOLUTION_BWD_FILTER_ALGO_WINOGRAD_NONFUSED = 5;
     public static final int CUDNN_CONVOLUTION_BWD_FILTER_ALGO_FFT_TILING = 6;

@@ -27,32 +27,32 @@
  */
 package jcuda.jcudnn;
 
-import jcuda.NativePointerObject;
-
-/**
- * Java port of a cudnnConvolutionDescriptor
- */
-public class cudnnConvolutionDescriptor extends NativePointerObject
+public class cudnnBnFinalizeStatsMode
 {
+    public static final int CUDNN_BN_FINALIZE_STATISTICS_TRAINING = 0;
+    public static final int CUDNN_BN_FINALIZE_STATISTICS_INFERENCE = 1;
+
     /**
-     * Creates a new, uninitialized cudnnConvolutionDescriptor
+     * Private constructor to prevent instantiation
      */
-    public cudnnConvolutionDescriptor()
+    private cudnnBnFinalizeStatsMode()
     {
-        // Default constructor
+        // Private constructor to prevent instantiation
     }
 
-     /**
-     * Returns a String representation of this object.
+    /**
+     * Returns a string representation of the given constant
      *
-     * @return A String representation of this object.
+     * @return A string representation of the given constant
      */
-    @Override
-    public String toString()
+    public static String stringFor(int n)
     {
-        return "cudnnConvolutionDescriptor["+
-            "nativePointer=0x"+Long.toHexString(getNativePointer())+"]";
+        switch (n)
+        {
+            case CUDNN_BN_FINALIZE_STATISTICS_TRAINING: return "CUDNN_BN_FINALIZE_STATISTICS_TRAINING";
+            case CUDNN_BN_FINALIZE_STATISTICS_INFERENCE: return "CUDNN_BN_FINALIZE_STATISTICS_INFERENCE";
+        }
+        return "INVALID cudnnBnFinalizeStatsMode: "+n;
     }
 }
-
 

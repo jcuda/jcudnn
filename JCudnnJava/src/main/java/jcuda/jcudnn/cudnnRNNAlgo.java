@@ -32,7 +32,8 @@ public class cudnnRNNAlgo
     public static final int CUDNN_RNN_ALGO_STANDARD = 0;
     public static final int CUDNN_RNN_ALGO_PERSIST_STATIC = 1;
     public static final int CUDNN_RNN_ALGO_PERSIST_DYNAMIC = 2;
-    public static final int CUDNN_RNN_ALGO_COUNT = 3;
+    public static final int CUDNN_RNN_ALGO_PERSIST_STATIC_SMALL_H = 3;
+    public static final int CUDNN_RNN_ALGO_COUNT = 4;
 
     /**
      * Private constructor to prevent instantiation
@@ -54,6 +55,7 @@ public class cudnnRNNAlgo
             case CUDNN_RNN_ALGO_STANDARD: return "CUDNN_RNN_ALGO_STANDARD";
             case CUDNN_RNN_ALGO_PERSIST_STATIC: return "CUDNN_RNN_ALGO_PERSIST_STATIC";
             case CUDNN_RNN_ALGO_PERSIST_DYNAMIC: return "CUDNN_RNN_ALGO_PERSIST_DYNAMIC";
+            case CUDNN_RNN_ALGO_PERSIST_STATIC_SMALL_H: return "CUDNN_RNN_ALGO_PERSIST_STATIC_SMALL_H";
             case CUDNN_RNN_ALGO_COUNT: return "CUDNN_RNN_ALGO_COUNT";
         }
         return "INVALID cudnnRNNAlgo: "+n;

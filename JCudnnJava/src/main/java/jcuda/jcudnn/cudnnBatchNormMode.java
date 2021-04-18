@@ -29,8 +29,16 @@ package jcuda.jcudnn;
 
 public class cudnnBatchNormMode
 {
+    /** bnScale, bnBias tensor dims are 1xCxHxWx.. (one value per CHW...-slice, normalized over N slice) */
     public static final int CUDNN_BATCHNORM_PER_ACTIVATION = 0;
+    /** bnScale, bnBias tensor dims are 1xCx1x1 (one value per C-dim normalized over Nx1xHxW subtensors) */
     public static final int CUDNN_BATCHNORM_SPATIAL = 1;
+    /**
+     * <pre>
+     * bnScale, bnBias tensor dims are 1xCx1x1 (one value per C-dim normalized over Nx1xHxW subtensors).
+     * May be faster than CUDNN_BATCHNORM_SPATIAL but imposes some limits on the range of values
+     * </pre>
+     */
     public static final int CUDNN_BATCHNORM_SPATIAL_PERSISTENT = 2;
 
     /**

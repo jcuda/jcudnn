@@ -33,7 +33,13 @@ package jcuda.jcudnn;
 public class cudnnPoolingMode
 {
     public static final int CUDNN_POOLING_MAX = 0;
+    /**
+     * count for average includes padded values 
+     */
     public static final int CUDNN_POOLING_AVERAGE_COUNT_INCLUDE_PADDING = 1;
+    /**
+     * count for average does not include padded values 
+     */
     public static final int CUDNN_POOLING_AVERAGE_COUNT_EXCLUDE_PADDING = 2;
     public static final int CUDNN_POOLING_MAX_DETERMINISTIC = 3;
 

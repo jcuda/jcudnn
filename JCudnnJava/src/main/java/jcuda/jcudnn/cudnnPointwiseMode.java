@@ -38,6 +38,16 @@ public class cudnnPointwiseMode
     public static final int CUDNN_POINTWISE_TANH_FWD = 101;
     public static final int CUDNN_POINTWISE_SIGMOID_FWD = 102;
     public static final int CUDNN_POINTWISE_ELU_FWD = 103;
+    public static final int CUDNN_POINTWISE_GELU_FWD = 104;
+    public static final int CUDNN_POINTWISE_SOFTPLUS_FWD = 105;
+    public static final int CUDNN_POINTWISE_SWISH_FWD = 106;
+    public static final int CUDNN_POINTWISE_RELU_BWD = 200;
+    public static final int CUDNN_POINTWISE_TANH_BWD = 201;
+    public static final int CUDNN_POINTWISE_SIGMOID_BWD = 202;
+    public static final int CUDNN_POINTWISE_ELU_BWD = 203;
+    public static final int CUDNN_POINTWISE_GELU_BWD = 204;
+    public static final int CUDNN_POINTWISE_SOFTPLUS_BWD = 205;
+    public static final int CUDNN_POINTWISE_SWISH_BWD = 206;
 
     /**
      * Private constructor to prevent instantiation
@@ -65,6 +75,16 @@ public class cudnnPointwiseMode
             case CUDNN_POINTWISE_TANH_FWD: return "CUDNN_POINTWISE_TANH_FWD";
             case CUDNN_POINTWISE_SIGMOID_FWD: return "CUDNN_POINTWISE_SIGMOID_FWD";
             case CUDNN_POINTWISE_ELU_FWD: return "CUDNN_POINTWISE_ELU_FWD";
+            case CUDNN_POINTWISE_GELU_FWD: return "CUDNN_POINTWISE_GELU_FWD";
+            case CUDNN_POINTWISE_SOFTPLUS_FWD: return "CUDNN_POINTWISE_SOFTPLUS_FWD";
+            case CUDNN_POINTWISE_SWISH_FWD: return "CUDNN_POINTWISE_SWISH_FWD";
+            case CUDNN_POINTWISE_RELU_BWD: return "CUDNN_POINTWISE_RELU_BWD";
+            case CUDNN_POINTWISE_TANH_BWD: return "CUDNN_POINTWISE_TANH_BWD";
+            case CUDNN_POINTWISE_SIGMOID_BWD: return "CUDNN_POINTWISE_SIGMOID_BWD";
+            case CUDNN_POINTWISE_ELU_BWD: return "CUDNN_POINTWISE_ELU_BWD";
+            case CUDNN_POINTWISE_GELU_BWD: return "CUDNN_POINTWISE_GELU_BWD";
+            case CUDNN_POINTWISE_SOFTPLUS_BWD: return "CUDNN_POINTWISE_SOFTPLUS_BWD";
+            case CUDNN_POINTWISE_SWISH_BWD: return "CUDNN_POINTWISE_SWISH_BWD";
         }
         return "INVALID cudnnPointwiseMode: "+n;
     }

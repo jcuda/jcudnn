@@ -29,9 +29,7 @@ package jcuda.jcudnn;
 
 import jcuda.NativePointerObject;
 
-/**
- * Java port of a cudnnRuntimeTag
- */
+/** Forward definition in this version only */
 public class cudnnRuntimeTag extends NativePointerObject
 {
     /**

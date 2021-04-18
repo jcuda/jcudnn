@@ -30,7 +30,8 @@ package jcuda.jcudnn;
 public class cudnnBackendHeurMode
 {
     public static final int CUDNN_HEUR_MODE_INSTANT = 0;
-    public static final int CUDNN_HEUR_MODES_COUNT = 1;
+    public static final int CUDNN_HEUR_MODE_B = 1;
+    public static final int CUDNN_HEUR_MODES_COUNT = 2;
 
     /**
      * Private constructor to prevent instantiation
@@ -50,6 +51,7 @@ public class cudnnBackendHeurMode
         switch (n)
         {
             case CUDNN_HEUR_MODE_INSTANT: return "CUDNN_HEUR_MODE_INSTANT";
+            case CUDNN_HEUR_MODE_B: return "CUDNN_HEUR_MODE_B";
             case CUDNN_HEUR_MODES_COUNT: return "CUDNN_HEUR_MODES_COUNT";
         }
         return "INVALID cudnnBackendHeurMode: "+n;
