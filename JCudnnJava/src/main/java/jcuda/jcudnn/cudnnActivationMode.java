@@ -38,6 +38,7 @@ public class cudnnActivationMode
     public static final int CUDNN_ACTIVATION_CLIPPED_RELU = 3;
     public static final int CUDNN_ACTIVATION_ELU = 4;
     public static final int CUDNN_ACTIVATION_IDENTITY = 5;
+    public static final int CUDNN_ACTIVATION_SWISH = 6;
 
     /**
      * Private constructor to prevent instantiation
@@ -62,6 +63,7 @@ public class cudnnActivationMode
             case CUDNN_ACTIVATION_CLIPPED_RELU: return "CUDNN_ACTIVATION_CLIPPED_RELU";
             case CUDNN_ACTIVATION_ELU: return "CUDNN_ACTIVATION_ELU";
             case CUDNN_ACTIVATION_IDENTITY: return "CUDNN_ACTIVATION_IDENTITY";
+            case CUDNN_ACTIVATION_SWISH: return "CUDNN_ACTIVATION_SWISH";
         }
         return "INVALID cudnnActivationMode: "+n;
     }

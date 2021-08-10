@@ -2868,6 +2868,62 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetActivationDescriptorNati
     return jniResult;
 }
 
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnSetActivationDescriptorSwishBetaNative(JNIEnv *env, jclass cls, jobject activationDesc, jdouble swish_beta)
+{
+    // Null-checks for non-primitive arguments
+
+    // Log message
+    Logger::log(LOG_TRACE, "Executing cudnnSetActivationDescriptorSwishBeta(activationDesc=%p, swish_beta=%lf)\n",
+        activationDesc, swish_beta);
+
+    // Native variable declarations
+    cudnnActivationDescriptor_t activationDesc_native;
+    double swish_beta_native = 0.0;
+
+    // Obtain native variable values
+    activationDesc_native = (cudnnActivationDescriptor_t)getNativePointerValue(env, activationDesc);
+    swish_beta_native = (double)swish_beta;
+
+    // Native function call
+    cudnnStatus_t jniResult_native = cudnnSetActivationDescriptorSwishBeta(activationDesc_native, swish_beta_native);
+
+    // Write back native variable values
+    // activationDesc is read-only
+    // swish_beta is primitive
+
+    // Return the result
+    jint jniResult = (jint)jniResult_native;
+    return jniResult;
+}
+
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetActivationDescriptorSwishBetaNative(JNIEnv *env, jclass cls, jobject activationDesc, jdoubleArray swish_beta)
+{
+    // Null-checks for non-primitive arguments
+
+    // Log message
+    Logger::log(LOG_TRACE, "Executing cudnnGetActivationDescriptorSwishBeta(activationDesc=%p, swish_beta=%p)\n",
+        activationDesc, swish_beta);
+
+    // Native variable declarations
+    cudnnActivationDescriptor_t activationDesc_native;
+    double swish_beta_native;
+
+    // Obtain native variable values
+    activationDesc_native = (cudnnActivationDescriptor_t)getNativePointerValue(env, activationDesc);
+    // swish_beta is write-only
+
+    // Native function call
+    cudnnStatus_t jniResult_native = cudnnGetActivationDescriptorSwishBeta(activationDesc_native, &swish_beta_native);
+
+    // Write back native variable values
+    // activationDesc is read-only
+    if (!set(env, swish_beta, 0, (jdouble)swish_beta_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
+
+    // Return the result
+    jint jniResult = (jint)jniResult_native;
+    return jniResult;
+}
+
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnDestroyActivationDescriptorNative(JNIEnv *env, jclass cls, jobject activationDesc)
 {
     // Null-checks for non-primitive arguments
@@ -12686,4 +12742,5 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnBackendExecuteNative(JNIEnv
     jint jniResult = (jint)jniResult_native;
     return jniResult;
 }
+
 

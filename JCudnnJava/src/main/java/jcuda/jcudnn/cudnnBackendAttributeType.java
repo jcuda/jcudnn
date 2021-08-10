@@ -48,6 +48,7 @@ public class cudnnBackendAttributeType
     public static final int CUDNN_TYPE_GENSTATS_MODE = 16;
     public static final int CUDNN_TYPE_BN_FINALIZE_STATS_MODE = 17;
     public static final int CUDNN_TYPE_REDUCTION_OPERATOR_TYPE = 18;
+    public static final int CUDNN_TYPE_BEHAVIOR_NOTE = 19;
 
     /**
      * Private constructor to prevent instantiation
@@ -85,6 +86,7 @@ public class cudnnBackendAttributeType
             case CUDNN_TYPE_GENSTATS_MODE: return "CUDNN_TYPE_GENSTATS_MODE";
             case CUDNN_TYPE_BN_FINALIZE_STATS_MODE: return "CUDNN_TYPE_BN_FINALIZE_STATS_MODE";
             case CUDNN_TYPE_REDUCTION_OPERATOR_TYPE: return "CUDNN_TYPE_REDUCTION_OPERATOR_TYPE";
+            case CUDNN_TYPE_BEHAVIOR_NOTE: return "CUDNN_TYPE_BEHAVIOR_NOTE";
         }
         return "INVALID cudnnBackendAttributeType: "+n;
     }

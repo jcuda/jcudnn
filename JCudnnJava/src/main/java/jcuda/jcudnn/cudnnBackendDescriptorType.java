@@ -52,6 +52,7 @@ public class cudnnBackendDescriptorType
     public static final int CUDNN_BACKEND_OPERATION_BN_FINALIZE_STATISTICS_DESCRIPTOR = 20;
     public static final int CUDNN_BACKEND_REDUCTION_DESCRIPTOR = 21;
     public static final int CUDNN_BACKEND_OPERATION_REDUCTION_DESCRIPTOR = 22;
+    public static final int CUDNN_BACKEND_OPERATION_BN_BWD_WEIGHTS_DESCRIPTOR = 23;
 
     /**
      * Private constructor to prevent instantiation
@@ -93,6 +94,7 @@ public class cudnnBackendDescriptorType
             case CUDNN_BACKEND_OPERATION_BN_FINALIZE_STATISTICS_DESCRIPTOR: return "CUDNN_BACKEND_OPERATION_BN_FINALIZE_STATISTICS_DESCRIPTOR";
             case CUDNN_BACKEND_REDUCTION_DESCRIPTOR: return "CUDNN_BACKEND_REDUCTION_DESCRIPTOR";
             case CUDNN_BACKEND_OPERATION_REDUCTION_DESCRIPTOR: return "CUDNN_BACKEND_OPERATION_REDUCTION_DESCRIPTOR";
+            case CUDNN_BACKEND_OPERATION_BN_BWD_WEIGHTS_DESCRIPTOR: return "CUDNN_BACKEND_OPERATION_BN_BWD_WEIGHTS_DESCRIPTOR";
         }
         return "INVALID cudnnBackendDescriptorType: "+n;
     }

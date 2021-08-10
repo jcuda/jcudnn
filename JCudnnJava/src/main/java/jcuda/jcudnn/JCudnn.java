@@ -1229,6 +1229,28 @@ public class JCudnn
         double[] coef);/** ceiling for clipped RELU, alpha for ELU */
 
 
+    public static int cudnnSetActivationDescriptorSwishBeta(
+        cudnnActivationDescriptor activationDesc, 
+        double swish_beta)
+    {
+        return checkResult(cudnnSetActivationDescriptorSwishBetaNative(activationDesc, swish_beta));
+    }
+    private static native int cudnnSetActivationDescriptorSwishBetaNative(
+        cudnnActivationDescriptor activationDesc, 
+        double swish_beta);
+
+
+    public static int cudnnGetActivationDescriptorSwishBeta(
+        cudnnActivationDescriptor activationDesc, 
+        double[] swish_beta)
+    {
+        return checkResult(cudnnGetActivationDescriptorSwishBetaNative(activationDesc, swish_beta));
+    }
+    private static native int cudnnGetActivationDescriptorSwishBetaNative(
+        cudnnActivationDescriptor activationDesc, 
+        double[] swish_beta);
+
+
     public static int cudnnDestroyActivationDescriptor(
         cudnnActivationDescriptor activationDesc)
     {
