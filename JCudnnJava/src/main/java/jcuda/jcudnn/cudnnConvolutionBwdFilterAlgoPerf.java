@@ -27,9 +27,7 @@
  */
 package jcuda.jcudnn;
 
-/**
- * Java port of a cudnnConvolutionBwdFilterAlgoPerf
- */
+/** helper function to provide the convolution backward filter algo that fit best the requirement */
 public class cudnnConvolutionBwdFilterAlgoPerf
 {
     public int algo;

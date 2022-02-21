@@ -29,9 +29,7 @@ package jcuda.jcudnn;
 
 import jcuda.NativePointerObject;
 
-/**
- * Java port of a cudnnAlgorithmDescriptor
- */
+/** TODO: remove */
 public class cudnnAlgorithmDescriptor extends NativePointerObject
 {
     /**

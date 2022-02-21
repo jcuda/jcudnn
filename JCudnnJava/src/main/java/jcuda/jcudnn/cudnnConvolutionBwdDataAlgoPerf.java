@@ -27,9 +27,7 @@
  */
 package jcuda.jcudnn;
 
-/**
- * Java port of a cudnnConvolutionBwdDataAlgoPerf
- */
+/** helper function to provide the convolution backward data algo that fit best the requirement */
 public class cudnnConvolutionBwdDataAlgoPerf
 {
     public int algo;
