@@ -7495,7 +7495,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardInferenceExNative
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint fwdMode, jintArray devSeqLengths, jobject xDesc, jobject x, jobject yDesc, jobject y, jobject hDesc, jobject hx, jobject hy, jobject cDesc, jobject cx, jobject cy, jlong weightSpaceSize, jobject weightSpace, jlong workSpaceSize, jobject workSpace, jlong reserveSpaceSize, jobject reserveSpace)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint fwdMode, jobject devSeqLengths, jobject xDesc, jobject x, jobject yDesc, jobject y, jobject hDesc, jobject hx, jobject hy, jobject cDesc, jobject cx, jobject cy, jlong weightSpaceSize, jobject weightSpace, jlong workSpaceSize, jobject workSpace, jlong reserveSpaceSize, jobject reserveSpace)
 {
     // Null-checks for non-primitive arguments
     if (workSpace == NULL)
@@ -7539,7 +7539,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardNative(JNIEnv *en
     handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
     rnnDesc_native = (cudnnRNNDescriptor_t)getNativePointerValue(env, rnnDesc);
     fwdMode_native = (cudnnForwardMode_t)fwdMode;
-    if (!initNative(env, devSeqLengths, devSeqLengths_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    devSeqLengths_native = (int32_t *)getPointer(env, devSeqLengths);
     xDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, xDesc);
     x_native = (void *)getPointer(env, x);
     yDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, yDesc);
@@ -7564,7 +7564,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardNative(JNIEnv *en
     // handle is read-only
     // rnnDesc is read-only
     // fwdMode is primitive
-    if (!releaseNative(env, devSeqLengths_native, devSeqLengths, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    // devSeqLengths is a native pointer
     // xDesc is read-only
     // x is a native pointer
     // yDesc is read-only
@@ -8203,7 +8203,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetMultiHeadAttnWeightsNati
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnForwardNative(JNIEnv *env, jclass cls, jobject handle, jobject attnDesc, jint currIdx, jintArray loWinIdx, jintArray hiWinIdx, jintArray devSeqLengthsQO, jintArray devSeqLengthsKV, jobject qDesc, jobject queries, jobject residuals, jobject kDesc, jobject keys, jobject vDesc, jobject values, jobject oDesc, jobject out, jlong weightSizeInBytes, jobject weights, jlong workSpaceSizeInBytes, jobject workSpace, jlong reserveSpaceSizeInBytes, jobject reserveSpace)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnForwardNative(JNIEnv *env, jclass cls, jobject handle, jobject attnDesc, jint currIdx, jintArray loWinIdx, jintArray hiWinIdx, jobject devSeqLengthsQO, jobject devSeqLengthsKV, jobject qDesc, jobject queries, jobject residuals, jobject kDesc, jobject keys, jobject vDesc, jobject values, jobject oDesc, jobject out, jlong weightSizeInBytes, jobject weights, jlong workSpaceSizeInBytes, jobject workSpace, jlong reserveSpaceSizeInBytes, jobject reserveSpace)
 {
     // Null-checks for non-primitive arguments
 
@@ -8241,8 +8241,8 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnForwardNative(
     currIdx_native = (int)currIdx;
     if (!initNative(env, loWinIdx, loWinIdx_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
     if (!initNative(env, hiWinIdx, hiWinIdx_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
-    if (!initNative(env, devSeqLengthsQO, devSeqLengthsQO_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
-    if (!initNative(env, devSeqLengthsKV, devSeqLengthsKV_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    devSeqLengthsQO_native = (int *)getPointer(env, devSeqLengthsQO);
+    devSeqLengthsKV_native = (int *)getPointer(env, devSeqLengthsKV);
     qDesc_native = (cudnnSeqDataDescriptor_t)getNativePointerValue(env, qDesc);
     queries_native = (void *)getPointer(env, queries);
     residuals_native = (void *)getPointer(env, residuals);
@@ -8268,8 +8268,8 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnForwardNative(
     // currIdx is primitive
     if (!releaseNative(env, loWinIdx_native, loWinIdx, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
     if (!releaseNative(env, hiWinIdx_native, hiWinIdx, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
-    if (!releaseNative(env, devSeqLengthsQO_native, devSeqLengthsQO, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
-    if (!releaseNative(env, devSeqLengthsKV_native, devSeqLengthsKV, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    // devSeqLengthsQO is a native pointer
+    // devSeqLengthsKV is a native pointer
     // qDesc is read-only
     // queries is a native pointer
     // residuals is a native pointer
@@ -8521,7 +8521,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardDataNative(JNIEn
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardData_1v8Native(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jintArray devSeqLengths, jobject yDesc, jobject y, jobject dy, jobject xDesc, jobject dx, jobject hDesc, jobject hx, jobject dhy, jobject dhx, jobject cDesc, jobject cx, jobject dcy, jobject dcx, jlong weightSpaceSize, jobject weightSpace, jlong workSpaceSize, jobject workSpace, jlong reserveSpaceSize, jobject reserveSpace)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardData_1v8Native(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jobject devSeqLengths, jobject yDesc, jobject y, jobject dy, jobject xDesc, jobject dx, jobject hDesc, jobject hx, jobject dhy, jobject dhx, jobject cDesc, jobject cx, jobject dcy, jobject dcx, jlong weightSpaceSize, jobject weightSpace, jlong workSpaceSize, jobject workSpace, jlong reserveSpaceSize, jobject reserveSpace)
 {
     // Null-checks for non-primitive arguments
     if (workSpace == NULL)
@@ -8566,7 +8566,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardData_1v8Native(J
     // Obtain native variable values
     handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
     rnnDesc_native = (cudnnRNNDescriptor_t)getNativePointerValue(env, rnnDesc);
-    if (!initNative(env, devSeqLengths, devSeqLengths_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    devSeqLengths_native = (int32_t *)getPointer(env, devSeqLengths);
     yDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, yDesc);
     y_native = (void *)getPointer(env, y);
     dy_native = (void *)getPointer(env, dy);
@@ -8593,7 +8593,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardData_1v8Native(J
     // Write back native variable values
     // handle is read-only
     // rnnDesc is read-only
-    if (!releaseNative(env, devSeqLengths_native, devSeqLengths, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    // devSeqLengths is a native pointer
     // yDesc is read-only
     // y is a native pointer
     // dy is a native pointer
@@ -8696,7 +8696,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardWeightsNative(JN
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardWeights_1v8Native(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint addGrad, jintArray devSeqLengths, jobject xDesc, jobject x, jobject hDesc, jobject hx, jobject yDesc, jobject y, jlong weightSpaceSize, jobject dweightSpace, jlong workSpaceSize, jobject workSpace, jlong reserveSpaceSize, jobject reserveSpace)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardWeights_1v8Native(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint addGrad, jobject devSeqLengths, jobject xDesc, jobject x, jobject hDesc, jobject hx, jobject yDesc, jobject y, jlong weightSpaceSize, jobject dweightSpace, jlong workSpaceSize, jobject workSpace, jlong reserveSpaceSize, jobject reserveSpace)
 {
     // Null-checks for non-primitive arguments
     if (workSpace == NULL)
@@ -8736,7 +8736,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardWeights_1v8Nativ
     handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
     rnnDesc_native = (cudnnRNNDescriptor_t)getNativePointerValue(env, rnnDesc);
     addGrad_native = (cudnnWgradMode_t)addGrad;
-    if (!initNative(env, devSeqLengths, devSeqLengths_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    devSeqLengths_native = (int32_t *)getPointer(env, devSeqLengths);
     xDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, xDesc);
     x_native = (void *)getPointer(env, x);
     hDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, hDesc);
@@ -8757,7 +8757,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardWeights_1v8Nativ
     // handle is read-only
     // rnnDesc is read-only
     // addGrad is primitive
-    if (!releaseNative(env, devSeqLengths_native, devSeqLengths, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    // devSeqLengths is a native pointer
     // xDesc is read-only
     // x is a native pointer
     // hDesc is read-only
@@ -9534,7 +9534,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnFindRNNBackwardWeightsAlgor
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnBackwardDataNative(JNIEnv *env, jclass cls, jobject handle, jobject attnDesc, jintArray loWinIdx, jintArray hiWinIdx, jintArray devSeqLengthsDQDO, jintArray devSeqLengthsDKDV, jobject doDesc, jobject dout, jobject dqDesc, jobject dqueries, jobject queries, jobject dkDesc, jobject dkeys, jobject keys, jobject dvDesc, jobject dvalues, jobject values, jlong weightSizeInBytes, jobject weights, jlong workSpaceSizeInBytes, jobject workSpace, jlong reserveSpaceSizeInBytes, jobject reserveSpace)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnBackwardDataNative(JNIEnv *env, jclass cls, jobject handle, jobject attnDesc, jintArray loWinIdx, jintArray hiWinIdx, jobject devSeqLengthsDQDO, jobject devSeqLengthsDKDV, jobject doDesc, jobject dout, jobject dqDesc, jobject dqueries, jobject queries, jobject dkDesc, jobject dkeys, jobject keys, jobject dvDesc, jobject dvalues, jobject values, jlong weightSizeInBytes, jobject weights, jlong workSpaceSizeInBytes, jobject workSpace, jlong reserveSpaceSizeInBytes, jobject reserveSpace)
 {
     // Null-checks for non-primitive arguments
 
@@ -9572,8 +9572,8 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnBackwardDataNa
     attnDesc_native = (cudnnAttnDescriptor_t)getNativePointerValue(env, attnDesc);
     if (!initNative(env, loWinIdx, loWinIdx_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
     if (!initNative(env, hiWinIdx, hiWinIdx_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
-    if (!initNative(env, devSeqLengthsDQDO, devSeqLengthsDQDO_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
-    if (!initNative(env, devSeqLengthsDKDV, devSeqLengthsDKDV_native, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    devSeqLengthsDQDO_native = (int *)getPointer(env, devSeqLengthsDQDO);
+    devSeqLengthsDKDV_native = (int *)getPointer(env, devSeqLengthsDKDV);
     doDesc_native = (cudnnSeqDataDescriptor_t)getNativePointerValue(env, doDesc);
     dout_native = (void *)getPointer(env, dout);
     dqDesc_native = (cudnnSeqDataDescriptor_t)getNativePointerValue(env, dqDesc);
@@ -9600,8 +9600,8 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnBackwardDataNa
     // attnDesc is read-only
     if (!releaseNative(env, loWinIdx_native, loWinIdx, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
     if (!releaseNative(env, hiWinIdx_native, hiWinIdx, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
-    if (!releaseNative(env, devSeqLengthsDQDO_native, devSeqLengthsDQDO, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
-    if (!releaseNative(env, devSeqLengthsDKDV_native, devSeqLengthsDKDV, true)) return JCUDNN_STATUS_INTERNAL_ERROR;
+    // devSeqLengthsDQDO is a native pointer
+    // devSeqLengthsDKDV is a native pointer
     // doDesc is read-only
     // dout is a native pointer
     // dqDesc is read-only
@@ -10030,21 +10030,6 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnCTCLossNative(JNIEnv *env, 
 JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnCTCLoss_1v8Native(JNIEnv *env, jclass cls, jobject handle, jint algo, jobject ctcLossDesc, jobject probsDesc, jobject probs, jobject labels, jobject labelLengths, jobject inputLengths, jobject costs, jobject gradientsDesc, jobject gradients, jlong workSpaceSizeInBytes, jobject workspace)
 {
     // Null-checks for non-primitive arguments
-    if (labels == NULL)
-    {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'labels' is null for cudnnCTCLoss_v8");
-        return JCUDNN_STATUS_INTERNAL_ERROR;
-    }
-    if (labelLengths == NULL)
-    {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'labelLengths' is null for cudnnCTCLoss_v8");
-        return JCUDNN_STATUS_INTERNAL_ERROR;
-    }
-    if (inputLengths == NULL)
-    {
-        ThrowByName(env, "java/lang/NullPointerException", "Parameter 'inputLengths' is null for cudnnCTCLoss_v8");
-        return JCUDNN_STATUS_INTERNAL_ERROR;
-    }
 
     // Log message
     Logger::log(LOG_TRACE, "Executing cudnnCTCLoss_v8(handle=%p, algo=%d, ctcLossDesc=%p, probsDesc=%p, probs=%p, labels=%p, labelLengths=%p, inputLengths=%p, costs=%p, gradientsDesc=%p, gradients=%p, workSpaceSizeInBytes=%ld, workspace=%p)\n",
@@ -10071,9 +10056,9 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnCTCLoss_1v8Native(JNIEnv *e
     ctcLossDesc_native = (cudnnCTCLossDescriptor_t)getNativePointerValue(env, ctcLossDesc);
     probsDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, probsDesc);
     probs_native = (void *)getPointer(env, probs);
-    labels_native = (int*)getPointer(env, labels);
-    labelLengths_native = (int*)getPointer(env, labelLengths);
-    inputLengths_native = (int*)getPointer(env, inputLengths);
+    labels_native = (int *)getPointer(env, labels);
+    labelLengths_native = (int *)getPointer(env, labelLengths);
+    inputLengths_native = (int *)getPointer(env, inputLengths);
     costs_native = (void *)getPointer(env, costs);
     gradientsDesc_native = (cudnnTensorDescriptor_t)getNativePointerValue(env, gradientsDesc);
     gradients_native = (void *)getPointer(env, gradients);
@@ -12742,5 +12727,4 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnBackendExecuteNative(JNIEnv
     jint jniResult = (jint)jniResult_native;
     return jniResult;
 }
-
 
