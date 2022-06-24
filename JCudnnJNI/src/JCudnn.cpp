@@ -7495,7 +7495,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardInferenceExNative
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint fwdMode, jobject devSeqLengths, jobject xDesc, jobject x, jobject yDesc, jobject y, jobject hDesc, jobject hx, jobject hy, jobject cDesc, jobject cx, jobject cy, jlong weightSpaceSize, jobject weightSpace, jlong workSpaceSize, jobject workSpace, jlong reserveSpaceSize, jobject reserveSpace)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNForwardNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint fwdMode, jintArray devSeqLengths, jobject xDesc, jobject x, jobject yDesc, jobject y, jobject hDesc, jobject hx, jobject hy, jobject cDesc, jobject cx, jobject cy, jlong weightSpaceSize, jobject weightSpace, jlong workSpaceSize, jobject workSpace, jlong reserveSpaceSize, jobject reserveSpace)
 {
     // Null-checks for non-primitive arguments
     if (workSpace == NULL)
@@ -8203,7 +8203,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetMultiHeadAttnWeightsNati
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnForwardNative(JNIEnv *env, jclass cls, jobject handle, jobject attnDesc, jint currIdx, jintArray loWinIdx, jintArray hiWinIdx, jobject devSeqLengthsQO, jobject devSeqLengthsKV, jobject qDesc, jobject queries, jobject residuals, jobject kDesc, jobject keys, jobject vDesc, jobject values, jobject oDesc, jobject out, jlong weightSizeInBytes, jobject weights, jlong workSpaceSizeInBytes, jobject workSpace, jlong reserveSpaceSizeInBytes, jobject reserveSpace)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnForwardNative(JNIEnv *env, jclass cls, jobject handle, jobject attnDesc, jint currIdx, jintArray loWinIdx, jintArray hiWinIdx, jintArray devSeqLengthsQO, jintArray devSeqLengthsKV, jobject qDesc, jobject queries, jobject residuals, jobject kDesc, jobject keys, jobject vDesc, jobject values, jobject oDesc, jobject out, jlong weightSizeInBytes, jobject weights, jlong workSpaceSizeInBytes, jobject workSpace, jlong reserveSpaceSizeInBytes, jobject reserveSpace)
 {
     // Null-checks for non-primitive arguments
 
@@ -8521,7 +8521,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardDataNative(JNIEn
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardData_1v8Native(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jobject devSeqLengths, jobject yDesc, jobject y, jobject dy, jobject xDesc, jobject dx, jobject hDesc, jobject hx, jobject dhy, jobject dhx, jobject cDesc, jobject cx, jobject dcy, jobject dcx, jlong weightSpaceSize, jobject weightSpace, jlong workSpaceSize, jobject workSpace, jlong reserveSpaceSize, jobject reserveSpace)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardData_1v8Native(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jintArray devSeqLengths, jobject yDesc, jobject y, jobject dy, jobject xDesc, jobject dx, jobject hDesc, jobject hx, jobject dhy, jobject dhx, jobject cDesc, jobject cx, jobject dcy, jobject dcx, jlong weightSpaceSize, jobject weightSpace, jlong workSpaceSize, jobject workSpace, jlong reserveSpaceSize, jobject reserveSpace)
 {
     // Null-checks for non-primitive arguments
     if (workSpace == NULL)
@@ -8696,7 +8696,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardWeightsNative(JN
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardWeights_1v8Native(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint addGrad, jobject devSeqLengths, jobject xDesc, jobject x, jobject hDesc, jobject hx, jobject yDesc, jobject y, jlong weightSpaceSize, jobject dweightSpace, jlong workSpaceSize, jobject workSpace, jlong reserveSpaceSize, jobject reserveSpace)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnRNNBackwardWeights_1v8Native(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint addGrad, jintArray devSeqLengths, jobject xDesc, jobject x, jobject hDesc, jobject hx, jobject yDesc, jobject y, jlong weightSpaceSize, jobject dweightSpace, jlong workSpaceSize, jobject workSpace, jlong reserveSpaceSize, jobject reserveSpace)
 {
     // Null-checks for non-primitive arguments
     if (workSpace == NULL)
@@ -9534,7 +9534,7 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnFindRNNBackwardWeightsAlgor
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnBackwardDataNative(JNIEnv *env, jclass cls, jobject handle, jobject attnDesc, jintArray loWinIdx, jintArray hiWinIdx, jobject devSeqLengthsDQDO, jobject devSeqLengthsDKDV, jobject doDesc, jobject dout, jobject dqDesc, jobject dqueries, jobject queries, jobject dkDesc, jobject dkeys, jobject keys, jobject dvDesc, jobject dvalues, jobject values, jlong weightSizeInBytes, jobject weights, jlong workSpaceSizeInBytes, jobject workSpace, jlong reserveSpaceSizeInBytes, jobject reserveSpace)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnMultiHeadAttnBackwardDataNative(JNIEnv *env, jclass cls, jobject handle, jobject attnDesc, jintArray loWinIdx, jintArray hiWinIdx, jintArray devSeqLengthsDQDO, jintArray devSeqLengthsDKDV, jobject doDesc, jobject dout, jobject dqDesc, jobject dqueries, jobject queries, jobject dkDesc, jobject dkeys, jobject keys, jobject dvDesc, jobject dvalues, jobject values, jlong weightSizeInBytes, jobject weights, jlong workSpaceSizeInBytes, jobject workSpace, jlong reserveSpaceSizeInBytes, jobject reserveSpace)
 {
     // Null-checks for non-primitive arguments
 
@@ -10065,8 +10065,10 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnCTCLoss_1v8Native(JNIEnv *e
     workSpaceSizeInBytes_native = (size_t)workSpaceSizeInBytes;
     workspace_native = (void *)getPointer(env, workspace);
 
+    cudnnStatus_t jniResult_native = CUDNN_STATUS_NOT_INITIALIZED;
     // Native function call
-    cudnnStatus_t jniResult_native = cudnnCTCLoss_v8(handle_native, algo_native, ctcLossDesc_native, probsDesc_native, probs_native, labels_native, labelLengths_native, inputLengths_native, costs_native, gradientsDesc_native, gradients_native, workSpaceSizeInBytes_native, workspace_native);
+    if(handle != nullptr)
+        jniResult_native = cudnnCTCLoss_v8(handle_native, algo_native, ctcLossDesc_native, probsDesc_native, probs_native, labels_native, labelLengths_native, inputLengths_native, costs_native, gradientsDesc_native, gradients_native, workSpaceSizeInBytes_native, workspace_native);
 
     // Write back native variable values
     // handle is read-only
