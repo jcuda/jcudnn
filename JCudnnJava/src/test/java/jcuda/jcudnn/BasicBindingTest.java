@@ -10,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
 
 /**
@@ -24,9 +25,11 @@ public class BasicBindingTest
      * class can be invoked with {@link #testMethod(Method)}
      * 
      * @param c The class
+     * @param skipped Names of methods that should be skipped in the test
+     * because CUDA causes a segfault that I'm not responsible for...
      * @return Whether the methods can be invoked
      */
-    public static boolean testBinding(Class<?> c)
+    public static boolean testBinding(Class<?> c, Collection<String> skipped)
     {
         logInfo("Testing " + c);
 
@@ -44,9 +47,16 @@ public class BasicBindingTest
         });
         for (Method method : methods)
         {
-            if ((method.getModifiers() & modifiers) == modifiers)
+            if (skipped.contains(method.getName()))
             {
-                passed &= testMethod(method);
+                logWarning("Skipping test for " + method);
+            }
+            else
+            {
+                if ((method.getModifiers() & modifiers) == modifiers)
+                {
+                    passed &= testMethod(method);
+                }
             }
         }
         logInfo("Testing " + c + " done");

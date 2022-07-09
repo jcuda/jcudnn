@@ -42,7 +42,7 @@ import jcuda.runtime.cudaStream_t;
 public class JCudnn
 {
     public static final int CUDNN_MAJOR      = 8;
-    public static final int CUDNN_MINOR      = 1;
+    public static final int CUDNN_MINOR      = 4;
     public static final int CUDNN_PATCHLEVEL = 1;
 
     public static final int CUDNN_VERSION    =
