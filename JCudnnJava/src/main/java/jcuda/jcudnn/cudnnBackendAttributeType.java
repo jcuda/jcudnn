@@ -49,6 +49,16 @@ public class cudnnBackendAttributeType
     public static final int CUDNN_TYPE_BN_FINALIZE_STATS_MODE = 17;
     public static final int CUDNN_TYPE_REDUCTION_OPERATOR_TYPE = 18;
     public static final int CUDNN_TYPE_BEHAVIOR_NOTE = 19;
+    public static final int CUDNN_TYPE_TENSOR_REORDERING_MODE = 20;
+    public static final int CUDNN_TYPE_RESAMPLE_MODE = 21;
+    public static final int CUDNN_TYPE_PADDING_MODE = 22;
+    public static final int CUDNN_TYPE_INT32 = 23;
+    public static final int CUDNN_TYPE_CHAR = 24;
+    public static final int CUDNN_TYPE_SIGNAL_MODE = 25;
+    public static final int CUDNN_TYPE_FRACTION = 26;
+    public static final int CUDNN_TYPE_NORM_MODE = 27;
+    public static final int CUDNN_TYPE_NORM_FWD_PHASE = 28;
+    public static final int CUDNN_TYPE_RNG_DISTRIBUTION = 29;
 
     /**
      * Private constructor to prevent instantiation
@@ -87,6 +97,16 @@ public class cudnnBackendAttributeType
             case CUDNN_TYPE_BN_FINALIZE_STATS_MODE: return "CUDNN_TYPE_BN_FINALIZE_STATS_MODE";
             case CUDNN_TYPE_REDUCTION_OPERATOR_TYPE: return "CUDNN_TYPE_REDUCTION_OPERATOR_TYPE";
             case CUDNN_TYPE_BEHAVIOR_NOTE: return "CUDNN_TYPE_BEHAVIOR_NOTE";
+            case CUDNN_TYPE_TENSOR_REORDERING_MODE: return "CUDNN_TYPE_TENSOR_REORDERING_MODE";
+            case CUDNN_TYPE_RESAMPLE_MODE: return "CUDNN_TYPE_RESAMPLE_MODE";
+            case CUDNN_TYPE_PADDING_MODE: return "CUDNN_TYPE_PADDING_MODE";
+            case CUDNN_TYPE_INT32: return "CUDNN_TYPE_INT32";
+            case CUDNN_TYPE_CHAR: return "CUDNN_TYPE_CHAR";
+            case CUDNN_TYPE_SIGNAL_MODE: return "CUDNN_TYPE_SIGNAL_MODE";
+            case CUDNN_TYPE_FRACTION: return "CUDNN_TYPE_FRACTION";
+            case CUDNN_TYPE_NORM_MODE: return "CUDNN_TYPE_NORM_MODE";
+            case CUDNN_TYPE_NORM_FWD_PHASE: return "CUDNN_TYPE_NORM_FWD_PHASE";
+            case CUDNN_TYPE_RNG_DISTRIBUTION: return "CUDNN_TYPE_RNG_DISTRIBUTION";
         }
         return "INVALID cudnnBackendAttributeType: "+n;
     }

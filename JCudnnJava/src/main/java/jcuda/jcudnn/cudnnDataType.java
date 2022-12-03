@@ -43,6 +43,10 @@ public class cudnnDataType
     public static final int CUDNN_DATA_INT8x32 = 8;
     public static final int CUDNN_DATA_BFLOAT16 = 9;
     public static final int CUDNN_DATA_INT64 = 10;
+    public static final int CUDNN_DATA_BOOLEAN = 11;
+    public static final int CUDNN_DATA_FP8_E4M3 = 12;
+    public static final int CUDNN_DATA_FP8_E5M2 = 13;
+    public static final int CUDNN_DATA_FAST_FLOAT_FOR_FP8 = 14;
 
     /**
      * Private constructor to prevent instantiation
@@ -72,6 +76,10 @@ public class cudnnDataType
             case CUDNN_DATA_INT8x32: return "CUDNN_DATA_INT8x32";
             case CUDNN_DATA_BFLOAT16: return "CUDNN_DATA_BFLOAT16";
             case CUDNN_DATA_INT64: return "CUDNN_DATA_INT64";
+            case CUDNN_DATA_BOOLEAN: return "CUDNN_DATA_BOOLEAN";
+            case CUDNN_DATA_FP8_E4M3: return "CUDNN_DATA_FP8_E4M3";
+            case CUDNN_DATA_FP8_E5M2: return "CUDNN_DATA_FP8_E5M2";
+            case CUDNN_DATA_FAST_FLOAT_FOR_FP8: return "CUDNN_DATA_FAST_FLOAT_FOR_FP8";
         }
         return "INVALID cudnnDataType: "+n;
     }

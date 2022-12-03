@@ -27,31 +27,40 @@
  */
 package jcuda.jcudnn;
 
-import jcuda.NativePointerObject;
-
 /**
- * Java port of a cudnnLRNDescriptor
+ * Java port of a cudnnFraction
  */
-public class cudnnLRNDescriptor extends NativePointerObject
+public class cudnnFraction
 {
+    public long numerator;
+    public long denominator;
+
     /**
-     * Creates a new, uninitialized cudnnLRNDescriptor
+     * Creates a new, uninitialized cudnnFraction
      */
-    public cudnnLRNDescriptor()
+    public cudnnFraction()
     {
         // Default constructor
     }
 
-     /**
-     * Returns a String representation of this object.
+    /**
+     * Creates a new cudnnFraction with the given values
      *
-     * @return A String representation of this object.
+     * @param numerator The numerator value
+     * @param denominator The denominator value
      */
+    public cudnnFraction(long numerator, long denominator)
+    {
+        this.numerator = numerator;
+        this.denominator = denominator;
+    }
+
     @Override
     public String toString()
     {
-        return "cudnnLRNDescriptor["+
-            "nativePointer=0x"+Long.toHexString(getNativePointer())+"]";
+        return "cudnnFraction["+
+            "numerator="+numerator+","+
+            "denominator="+denominator+"]";
     }
 }
 

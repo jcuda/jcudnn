@@ -27,32 +27,34 @@
  */
 package jcuda.jcudnn;
 
-import jcuda.NativePointerObject;
-
-/**
- * Java port of a cudnnLRNDescriptor
- */
-public class cudnnLRNDescriptor extends NativePointerObject
+public class cudnnPaddingMode
 {
+    public static final int CUDNN_ZERO_PAD = 0;
+    public static final int CUDNN_NEG_INF_PAD = 1;
+    public static final int CUDNN_EDGE_VAL_PAD = 2;
+
     /**
-     * Creates a new, uninitialized cudnnLRNDescriptor
+     * Private constructor to prevent instantiation
      */
-    public cudnnLRNDescriptor()
+    private cudnnPaddingMode()
     {
-        // Default constructor
+        // Private constructor to prevent instantiation
     }
 
-     /**
-     * Returns a String representation of this object.
+    /**
+     * Returns a string representation of the given constant
      *
-     * @return A String representation of this object.
+     * @return A string representation of the given constant
      */
-    @Override
-    public String toString()
+    public static String stringFor(int n)
     {
-        return "cudnnLRNDescriptor["+
-            "nativePointer=0x"+Long.toHexString(getNativePointer())+"]";
+        switch (n)
+        {
+            case CUDNN_ZERO_PAD: return "CUDNN_ZERO_PAD";
+            case CUDNN_NEG_INF_PAD: return "CUDNN_NEG_INF_PAD";
+            case CUDNN_EDGE_VAL_PAD: return "CUDNN_EDGE_VAL_PAD";
+        }
+        return "INVALID cudnnPaddingMode: "+n;
     }
 }
-
 

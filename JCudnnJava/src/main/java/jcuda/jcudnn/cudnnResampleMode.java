@@ -27,18 +27,19 @@
  */
 package jcuda.jcudnn;
 
-public class cudnnBackendHeurMode
+public class cudnnResampleMode
 {
-    public static final int CUDNN_HEUR_MODE_INSTANT = 0;
-    public static final int CUDNN_HEUR_MODE_B = 1;
-    public static final int CUDNN_HEUR_MODE_FALLBACK = 2;
-    public static final int CUDNN_HEUR_MODE_A = 3;
-    public static final int CUDNN_HEUR_MODES_COUNT = 4;
+    public static final int CUDNN_RESAMPLE_NEAREST = 0;
+    public static final int CUDNN_RESAMPLE_BILINEAR = 1;
+    public static final int CUDNN_RESAMPLE_AVGPOOL = 2;
+    public static final int CUDNN_RESAMPLE_AVGPOOL_INCLUDE_PADDING = 2;
+    public static final int CUDNN_RESAMPLE_AVGPOOL_EXCLUDE_PADDING = 4;
+    public static final int CUDNN_RESAMPLE_MAXPOOL = 3;
 
     /**
      * Private constructor to prevent instantiation
      */
-    private cudnnBackendHeurMode()
+    private cudnnResampleMode()
     {
         // Private constructor to prevent instantiation
     }
@@ -52,13 +53,14 @@ public class cudnnBackendHeurMode
     {
         switch (n)
         {
-            case CUDNN_HEUR_MODE_INSTANT: return "CUDNN_HEUR_MODE_INSTANT";
-            case CUDNN_HEUR_MODE_B: return "CUDNN_HEUR_MODE_B";
-            case CUDNN_HEUR_MODE_FALLBACK: return "CUDNN_HEUR_MODE_FALLBACK";
-            case CUDNN_HEUR_MODE_A: return "CUDNN_HEUR_MODE_A";
-            case CUDNN_HEUR_MODES_COUNT: return "CUDNN_HEUR_MODES_COUNT";
+            case CUDNN_RESAMPLE_NEAREST: return "CUDNN_RESAMPLE_NEAREST";
+            case CUDNN_RESAMPLE_BILINEAR: return "CUDNN_RESAMPLE_BILINEAR";
+            case CUDNN_RESAMPLE_AVGPOOL: return "CUDNN_RESAMPLE_AVGPOOL";
+            //case CUDNN_RESAMPLE_AVGPOOL_INCLUDE_PADDING: return "CUDNN_RESAMPLE_AVGPOOL_INCLUDE_PADDING";
+            case CUDNN_RESAMPLE_AVGPOOL_EXCLUDE_PADDING: return "CUDNN_RESAMPLE_AVGPOOL_EXCLUDE_PADDING";
+            case CUDNN_RESAMPLE_MAXPOOL: return "CUDNN_RESAMPLE_MAXPOOL";
         }
-        return "INVALID cudnnBackendHeurMode: "+n;
+        return "INVALID cudnnResampleMode: "+n;
     }
 }
 

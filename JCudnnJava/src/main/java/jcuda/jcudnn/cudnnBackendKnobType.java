@@ -54,7 +54,11 @@ public class cudnnBackendKnobType
     public static final int CUDNN_KNOB_TYPE_LDGC = 22;
     public static final int CUDNN_KNOB_TYPE_SPECFILT = 23;
     public static final int CUDNN_KNOB_TYPE_KERNEL_CFG = 24;
-    public static final int CUDNN_KNOB_TYPE_COUNTS = 25;
+    public static final int CUDNN_KNOB_TYPE_WORKSPACE = 25;
+    public static final int CUDNN_KNOB_TYPE_TILE_CGA = 26;
+    public static final int CUDNN_KNOB_TYPE_TILE_CGA_M = 27;
+    public static final int CUDNN_KNOB_TYPE_TILE_CGA_N = 28;
+    public static final int CUDNN_KNOB_TYPE_COUNTS = 29;
 
     /**
      * Private constructor to prevent instantiation
@@ -98,6 +102,10 @@ public class cudnnBackendKnobType
             case CUDNN_KNOB_TYPE_LDGC: return "CUDNN_KNOB_TYPE_LDGC";
             case CUDNN_KNOB_TYPE_SPECFILT: return "CUDNN_KNOB_TYPE_SPECFILT";
             case CUDNN_KNOB_TYPE_KERNEL_CFG: return "CUDNN_KNOB_TYPE_KERNEL_CFG";
+            case CUDNN_KNOB_TYPE_WORKSPACE: return "CUDNN_KNOB_TYPE_WORKSPACE";
+            case CUDNN_KNOB_TYPE_TILE_CGA: return "CUDNN_KNOB_TYPE_TILE_CGA";
+            case CUDNN_KNOB_TYPE_TILE_CGA_M: return "CUDNN_KNOB_TYPE_TILE_CGA_M";
+            case CUDNN_KNOB_TYPE_TILE_CGA_N: return "CUDNN_KNOB_TYPE_TILE_CGA_N";
             case CUDNN_KNOB_TYPE_COUNTS: return "CUDNN_KNOB_TYPE_COUNTS";
         }
         return "INVALID cudnnBackendKnobType: "+n;

@@ -27,32 +27,32 @@
  */
 package jcuda.jcudnn;
 
-import jcuda.NativePointerObject;
-
-/**
- * Java port of a cudnnLRNDescriptor
- */
-public class cudnnLRNDescriptor extends NativePointerObject
+public class cudnnBackendTensorReordering
 {
+    public static final int CUDNN_TENSOR_REORDERING_NONE = 0;
+    public static final int CUDNN_TENSOR_REORDERING_INT8x32 = 1;
+
     /**
-     * Creates a new, uninitialized cudnnLRNDescriptor
+     * Private constructor to prevent instantiation
      */
-    public cudnnLRNDescriptor()
+    private cudnnBackendTensorReordering()
     {
-        // Default constructor
+        // Private constructor to prevent instantiation
     }
 
-     /**
-     * Returns a String representation of this object.
+    /**
+     * Returns a string representation of the given constant
      *
-     * @return A String representation of this object.
+     * @return A string representation of the given constant
      */
-    @Override
-    public String toString()
+    public static String stringFor(int n)
     {
-        return "cudnnLRNDescriptor["+
-            "nativePointer=0x"+Long.toHexString(getNativePointer())+"]";
+        switch (n)
+        {
+            case CUDNN_TENSOR_REORDERING_NONE: return "CUDNN_TENSOR_REORDERING_NONE";
+            case CUDNN_TENSOR_REORDERING_INT8x32: return "CUDNN_TENSOR_REORDERING_INT8x32";
+        }
+        return "INVALID cudnnBackendTensorReordering: "+n;
     }
 }
-
 

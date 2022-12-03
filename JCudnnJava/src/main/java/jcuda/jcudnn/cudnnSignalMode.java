@@ -27,32 +27,32 @@
  */
 package jcuda.jcudnn;
 
-import jcuda.NativePointerObject;
-
-/**
- * Java port of a cudnnLRNDescriptor
- */
-public class cudnnLRNDescriptor extends NativePointerObject
+public class cudnnSignalMode
 {
+    public static final int CUDNN_SIGNAL_SET = 0;
+    public static final int CUDNN_SIGNAL_WAIT = 1;
+
     /**
-     * Creates a new, uninitialized cudnnLRNDescriptor
+     * Private constructor to prevent instantiation
      */
-    public cudnnLRNDescriptor()
+    private cudnnSignalMode()
     {
-        // Default constructor
+        // Private constructor to prevent instantiation
     }
 
-     /**
-     * Returns a String representation of this object.
+    /**
+     * Returns a string representation of the given constant
      *
-     * @return A String representation of this object.
+     * @return A string representation of the given constant
      */
-    @Override
-    public String toString()
+    public static String stringFor(int n)
     {
-        return "cudnnLRNDescriptor["+
-            "nativePointer=0x"+Long.toHexString(getNativePointer())+"]";
+        switch (n)
+        {
+            case CUDNN_SIGNAL_SET: return "CUDNN_SIGNAL_SET";
+            case CUDNN_SIGNAL_WAIT: return "CUDNN_SIGNAL_WAIT";
+        }
+        return "INVALID cudnnSignalMode: "+n;
     }
 }
-
 

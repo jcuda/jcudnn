@@ -27,32 +27,36 @@
  */
 package jcuda.jcudnn;
 
-import jcuda.NativePointerObject;
-
-/**
- * Java port of a cudnnLRNDescriptor
- */
-public class cudnnLRNDescriptor extends NativePointerObject
+public class cudnnBackendNormMode
 {
+    public static final int CUDNN_LAYER_NORM = 0;
+    public static final int CUDNN_INSTANCE_NORM = 1;
+    public static final int CUDNN_BATCH_NORM = 2;
+    public static final int CUDNN_GROUP_NORM = 3;
+
     /**
-     * Creates a new, uninitialized cudnnLRNDescriptor
+     * Private constructor to prevent instantiation
      */
-    public cudnnLRNDescriptor()
+    private cudnnBackendNormMode()
     {
-        // Default constructor
+        // Private constructor to prevent instantiation
     }
 
-     /**
-     * Returns a String representation of this object.
+    /**
+     * Returns a string representation of the given constant
      *
-     * @return A String representation of this object.
+     * @return A string representation of the given constant
      */
-    @Override
-    public String toString()
+    public static String stringFor(int n)
     {
-        return "cudnnLRNDescriptor["+
-            "nativePointer=0x"+Long.toHexString(getNativePointer())+"]";
+        switch (n)
+        {
+            case CUDNN_LAYER_NORM: return "CUDNN_LAYER_NORM";
+            case CUDNN_INSTANCE_NORM: return "CUDNN_INSTANCE_NORM";
+            case CUDNN_BATCH_NORM: return "CUDNN_BATCH_NORM";
+            case CUDNN_GROUP_NORM: return "CUDNN_GROUP_NORM";
+        }
+        return "INVALID cudnnBackendNormMode: "+n;
     }
 }
-
 

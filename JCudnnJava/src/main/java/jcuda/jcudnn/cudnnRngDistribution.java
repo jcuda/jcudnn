@@ -27,32 +27,34 @@
  */
 package jcuda.jcudnn;
 
-import jcuda.NativePointerObject;
-
-/**
- * Java port of a cudnnLRNDescriptor
- */
-public class cudnnLRNDescriptor extends NativePointerObject
+public class cudnnRngDistribution
 {
+    public static final int CUDNN_RNG_DISTRIBUTION_BERNOULLI = 0;
+    public static final int CUDNN_RNG_DISTRIBUTION_UNIFORM = 1;
+    public static final int CUDNN_RNG_DISTRIBUTION_NORMAL = 2;
+
     /**
-     * Creates a new, uninitialized cudnnLRNDescriptor
+     * Private constructor to prevent instantiation
      */
-    public cudnnLRNDescriptor()
+    private cudnnRngDistribution()
     {
-        // Default constructor
+        // Private constructor to prevent instantiation
     }
 
-     /**
-     * Returns a String representation of this object.
+    /**
+     * Returns a string representation of the given constant
      *
-     * @return A String representation of this object.
+     * @return A string representation of the given constant
      */
-    @Override
-    public String toString()
+    public static String stringFor(int n)
     {
-        return "cudnnLRNDescriptor["+
-            "nativePointer=0x"+Long.toHexString(getNativePointer())+"]";
+        switch (n)
+        {
+            case CUDNN_RNG_DISTRIBUTION_BERNOULLI: return "CUDNN_RNG_DISTRIBUTION_BERNOULLI";
+            case CUDNN_RNG_DISTRIBUTION_UNIFORM: return "CUDNN_RNG_DISTRIBUTION_UNIFORM";
+            case CUDNN_RNG_DISTRIBUTION_NORMAL: return "CUDNN_RNG_DISTRIBUTION_NORMAL";
+        }
+        return "INVALID cudnnRngDistribution: "+n;
     }
 }
-
 

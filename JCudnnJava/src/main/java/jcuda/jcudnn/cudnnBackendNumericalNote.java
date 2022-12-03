@@ -35,7 +35,10 @@ public class cudnnBackendNumericalNote
     public static final int CUDNN_NUMERICAL_NOTE_FFT = 3;
     public static final int CUDNN_NUMERICAL_NOTE_NONDETERMINISTIC = 4;
     public static final int CUDNN_NUMERICAL_NOTE_WINOGRAD = 5;
-    public static final int CUDNN_NUMERICAL_NOTE_TYPE_COUNT = 6;
+    public static final int CUDNN_NUMERICAL_NOTE_WINOGRAD_TILE_4x4 = 6;
+    public static final int CUDNN_NUMERICAL_NOTE_WINOGRAD_TILE_6x6 = 7;
+    public static final int CUDNN_NUMERICAL_NOTE_WINOGRAD_TILE_13x13 = 8;
+    public static final int CUDNN_NUMERICAL_NOTE_TYPE_COUNT = 9;
 
     /**
      * Private constructor to prevent instantiation
@@ -60,6 +63,9 @@ public class cudnnBackendNumericalNote
             case CUDNN_NUMERICAL_NOTE_FFT: return "CUDNN_NUMERICAL_NOTE_FFT";
             case CUDNN_NUMERICAL_NOTE_NONDETERMINISTIC: return "CUDNN_NUMERICAL_NOTE_NONDETERMINISTIC";
             case CUDNN_NUMERICAL_NOTE_WINOGRAD: return "CUDNN_NUMERICAL_NOTE_WINOGRAD";
+            case CUDNN_NUMERICAL_NOTE_WINOGRAD_TILE_4x4: return "CUDNN_NUMERICAL_NOTE_WINOGRAD_TILE_4x4";
+            case CUDNN_NUMERICAL_NOTE_WINOGRAD_TILE_6x6: return "CUDNN_NUMERICAL_NOTE_WINOGRAD_TILE_6x6";
+            case CUDNN_NUMERICAL_NOTE_WINOGRAD_TILE_13x13: return "CUDNN_NUMERICAL_NOTE_WINOGRAD_TILE_13x13";
             case CUDNN_NUMERICAL_NOTE_TYPE_COUNT: return "CUDNN_NUMERICAL_NOTE_TYPE_COUNT";
         }
         return "INVALID cudnnBackendNumericalNote: "+n;

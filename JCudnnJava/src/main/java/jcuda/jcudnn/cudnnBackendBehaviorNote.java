@@ -30,7 +30,9 @@ package jcuda.jcudnn;
 public class cudnnBackendBehaviorNote
 {
     public static final int CUDNN_BEHAVIOR_NOTE_RUNTIME_COMPILATION = 0;
-    public static final int CUDNN_BEHAVIOR_NOTE_TYPE_COUNT = 1;
+    public static final int CUDNN_BEHAVIOR_NOTE_REQUIRES_FILTER_INT8x32_REORDER = 1;
+    public static final int CUDNN_BEHAVIOR_NOTE_REQUIRES_BIAS_INT8x32_REORDER = 2;
+    public static final int CUDNN_BEHAVIOR_NOTE_TYPE_COUNT = 3;
 
     /**
      * Private constructor to prevent instantiation
@@ -50,6 +52,8 @@ public class cudnnBackendBehaviorNote
         switch (n)
         {
             case CUDNN_BEHAVIOR_NOTE_RUNTIME_COMPILATION: return "CUDNN_BEHAVIOR_NOTE_RUNTIME_COMPILATION";
+            case CUDNN_BEHAVIOR_NOTE_REQUIRES_FILTER_INT8x32_REORDER: return "CUDNN_BEHAVIOR_NOTE_REQUIRES_FILTER_INT8x32_REORDER";
+            case CUDNN_BEHAVIOR_NOTE_REQUIRES_BIAS_INT8x32_REORDER: return "CUDNN_BEHAVIOR_NOTE_REQUIRES_BIAS_INT8x32_REORDER";
             case CUDNN_BEHAVIOR_NOTE_TYPE_COUNT: return "CUDNN_BEHAVIOR_NOTE_TYPE_COUNT";
         }
         return "INVALID cudnnBackendBehaviorNote: "+n;
