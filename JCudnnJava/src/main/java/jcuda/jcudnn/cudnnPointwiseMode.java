@@ -51,6 +51,7 @@ public class cudnnPointwiseMode
     public static final int CUDNN_POINTWISE_TAN = 19;
     public static final int CUDNN_POINTWISE_ERF = 20;
     public static final int CUDNN_POINTWISE_IDENTITY = 21;
+    public static final int CUDNN_POINTWISE_RECIPROCAL = 22;
     public static final int CUDNN_POINTWISE_RELU_FWD = 100;
     public static final int CUDNN_POINTWISE_TANH_FWD = 101;
     public static final int CUDNN_POINTWISE_SIGMOID_FWD = 102;
@@ -118,6 +119,7 @@ public class cudnnPointwiseMode
             case CUDNN_POINTWISE_TAN: return "CUDNN_POINTWISE_TAN";
             case CUDNN_POINTWISE_ERF: return "CUDNN_POINTWISE_ERF";
             case CUDNN_POINTWISE_IDENTITY: return "CUDNN_POINTWISE_IDENTITY";
+            case CUDNN_POINTWISE_RECIPROCAL: return "CUDNN_POINTWISE_RECIPROCAL";
             case CUDNN_POINTWISE_RELU_FWD: return "CUDNN_POINTWISE_RELU_FWD";
             case CUDNN_POINTWISE_TANH_FWD: return "CUDNN_POINTWISE_TANH_FWD";
             case CUDNN_POINTWISE_SIGMOID_FWD: return "CUDNN_POINTWISE_SIGMOID_FWD";

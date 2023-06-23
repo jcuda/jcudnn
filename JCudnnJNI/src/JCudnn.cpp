@@ -6846,18 +6846,18 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNTrainingReserveSizeNa
     return jniResult;
 }
 
-JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNTempSpaceSizesNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint fMode, jobject xDesc, jlongArray workSpaceSize, jlongArray reserveSpaceSize)
+JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNTempSpaceSizesNative(JNIEnv *env, jclass cls, jobject handle, jobject rnnDesc, jint fwdMode, jobject xDesc, jlongArray workSpaceSize, jlongArray reserveSpaceSize)
 {
     // Null-checks for non-primitive arguments
 
     // Log message
-    Logger::log(LOG_TRACE, "Executing cudnnGetRNNTempSpaceSizes(handle=%p, rnnDesc=%p, fMode=%d, xDesc=%p, workSpaceSize=%p, reserveSpaceSize=%p)\n",
-        handle, rnnDesc, fMode, xDesc, workSpaceSize, reserveSpaceSize);
+    Logger::log(LOG_TRACE, "Executing cudnnGetRNNTempSpaceSizes(handle=%p, rnnDesc=%p, fwdMode=%d, xDesc=%p, workSpaceSize=%p, reserveSpaceSize=%p)\n",
+        handle, rnnDesc, fwdMode, xDesc, workSpaceSize, reserveSpaceSize);
 
     // Native variable declarations
     cudnnHandle_t handle_native;
     cudnnRNNDescriptor_t rnnDesc_native;
-    cudnnForwardMode_t fMode_native;
+    cudnnForwardMode_t fwdMode_native;
     cudnnRNNDataDescriptor_t xDesc_native;
     size_t workSpaceSize_native;
     size_t reserveSpaceSize_native;
@@ -6865,18 +6865,18 @@ JNIEXPORT jint JNICALL Java_jcuda_jcudnn_JCudnn_cudnnGetRNNTempSpaceSizesNative(
     // Obtain native variable values
     handle_native = (cudnnHandle_t)getNativePointerValue(env, handle);
     rnnDesc_native = (cudnnRNNDescriptor_t)getNativePointerValue(env, rnnDesc);
-    fMode_native = (cudnnForwardMode_t)fMode;
+    fwdMode_native = (cudnnForwardMode_t)fwdMode;
     xDesc_native = (cudnnRNNDataDescriptor_t)getNativePointerValue(env, xDesc);
     // workSpaceSize is write-only
     // reserveSpaceSize is write-only
 
     // Native function call
-    cudnnStatus_t jniResult_native = cudnnGetRNNTempSpaceSizes(handle_native, rnnDesc_native, fMode_native, xDesc_native, &workSpaceSize_native, &reserveSpaceSize_native);
+    cudnnStatus_t jniResult_native = cudnnGetRNNTempSpaceSizes(handle_native, rnnDesc_native, fwdMode_native, xDesc_native, &workSpaceSize_native, &reserveSpaceSize_native);
 
     // Write back native variable values
     // handle is read-only
     // rnnDesc is read-only
-    // fMode is primitive
+    // fwdMode is primitive
     // xDesc is read-only
     if (!set(env, workSpaceSize, 0, (jlong)workSpaceSize_native)) return JCUDNN_STATUS_INTERNAL_ERROR;
     if (!set(env, reserveSpaceSize, 0, (jlong)reserveSpaceSize_native)) return JCUDNN_STATUS_INTERNAL_ERROR;

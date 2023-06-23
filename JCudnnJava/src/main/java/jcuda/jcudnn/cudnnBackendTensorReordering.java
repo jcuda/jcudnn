@@ -31,6 +31,7 @@ public class cudnnBackendTensorReordering
 {
     public static final int CUDNN_TENSOR_REORDERING_NONE = 0;
     public static final int CUDNN_TENSOR_REORDERING_INT8x32 = 1;
+    public static final int CUDNN_TENSOR_REORDERING_F16x16 = 2;
 
     /**
      * Private constructor to prevent instantiation
@@ -51,6 +52,7 @@ public class cudnnBackendTensorReordering
         {
             case CUDNN_TENSOR_REORDERING_NONE: return "CUDNN_TENSOR_REORDERING_NONE";
             case CUDNN_TENSOR_REORDERING_INT8x32: return "CUDNN_TENSOR_REORDERING_INT8x32";
+            case CUDNN_TENSOR_REORDERING_F16x16: return "CUDNN_TENSOR_REORDERING_F16x16";
         }
         return "INVALID cudnnBackendTensorReordering: "+n;
     }

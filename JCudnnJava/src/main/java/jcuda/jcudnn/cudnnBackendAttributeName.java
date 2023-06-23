@@ -126,6 +126,7 @@ public class cudnnBackendAttributeName
     public static final int CUDNN_ATTR_TENSOR_IS_VIRTUAL = 907;
     public static final int CUDNN_ATTR_TENSOR_IS_BY_VALUE = 908;
     public static final int CUDNN_ATTR_TENSOR_REORDERING_MODE = 909;
+    public static final int CUDNN_ATTR_TENSOR_RAGGED_OFFSET_DESC = 913;
     public static final int CUDNN_ATTR_VARIANT_PACK_UNIQUE_IDS = 1000;
     public static final int CUDNN_ATTR_VARIANT_PACK_DATA_POINTERS = 1001;
     public static final int CUDNN_ATTR_VARIANT_PACK_INTERMEDIATES = 1002;
@@ -143,6 +144,7 @@ public class cudnnBackendAttributeName
     public static final int CUDNN_ATTR_ENGINE_LAYOUT_INFO = 1304;
     public static final int CUDNN_ATTR_ENGINE_BEHAVIOR_NOTE = 1305;
     public static final int CUDNN_ATTR_MATMUL_COMP_TYPE = 1500;
+    public static final int CUDNN_ATTR_MATMUL_PADDING_VALUE = 1503;
     public static final int CUDNN_ATTR_OPERATION_MATMUL_ADESC = 1520;
     public static final int CUDNN_ATTR_OPERATION_MATMUL_BDESC = 1521;
     public static final int CUDNN_ATTR_OPERATION_MATMUL_CDESC = 1522;
@@ -236,6 +238,7 @@ public class cudnnBackendAttributeName
     public static final int CUDNN_ATTR_OPERATION_RNG_YDESC = 2310;
     public static final int CUDNN_ATTR_OPERATION_RNG_SEED = 2311;
     public static final int CUDNN_ATTR_OPERATION_RNG_DESC = 2312;
+    public static final int CUDNN_ATTR_OPERATION_RNG_OFFSET_DESC = 2313;
 
     /**
      * Private constructor to prevent instantiation
@@ -351,6 +354,7 @@ public class cudnnBackendAttributeName
             case CUDNN_ATTR_TENSOR_IS_VIRTUAL: return "CUDNN_ATTR_TENSOR_IS_VIRTUAL";
             case CUDNN_ATTR_TENSOR_IS_BY_VALUE: return "CUDNN_ATTR_TENSOR_IS_BY_VALUE";
             case CUDNN_ATTR_TENSOR_REORDERING_MODE: return "CUDNN_ATTR_TENSOR_REORDERING_MODE";
+            case CUDNN_ATTR_TENSOR_RAGGED_OFFSET_DESC: return "CUDNN_ATTR_TENSOR_RAGGED_OFFSET_DESC";
             case CUDNN_ATTR_VARIANT_PACK_UNIQUE_IDS: return "CUDNN_ATTR_VARIANT_PACK_UNIQUE_IDS";
             case CUDNN_ATTR_VARIANT_PACK_DATA_POINTERS: return "CUDNN_ATTR_VARIANT_PACK_DATA_POINTERS";
             case CUDNN_ATTR_VARIANT_PACK_INTERMEDIATES: return "CUDNN_ATTR_VARIANT_PACK_INTERMEDIATES";
@@ -368,6 +372,7 @@ public class cudnnBackendAttributeName
             case CUDNN_ATTR_ENGINE_LAYOUT_INFO: return "CUDNN_ATTR_ENGINE_LAYOUT_INFO";
             case CUDNN_ATTR_ENGINE_BEHAVIOR_NOTE: return "CUDNN_ATTR_ENGINE_BEHAVIOR_NOTE";
             case CUDNN_ATTR_MATMUL_COMP_TYPE: return "CUDNN_ATTR_MATMUL_COMP_TYPE";
+            case CUDNN_ATTR_MATMUL_PADDING_VALUE: return "CUDNN_ATTR_MATMUL_PADDING_VALUE";
             case CUDNN_ATTR_OPERATION_MATMUL_ADESC: return "CUDNN_ATTR_OPERATION_MATMUL_ADESC";
             case CUDNN_ATTR_OPERATION_MATMUL_BDESC: return "CUDNN_ATTR_OPERATION_MATMUL_BDESC";
             case CUDNN_ATTR_OPERATION_MATMUL_CDESC: return "CUDNN_ATTR_OPERATION_MATMUL_CDESC";
@@ -461,6 +466,7 @@ public class cudnnBackendAttributeName
             case CUDNN_ATTR_OPERATION_RNG_YDESC: return "CUDNN_ATTR_OPERATION_RNG_YDESC";
             case CUDNN_ATTR_OPERATION_RNG_SEED: return "CUDNN_ATTR_OPERATION_RNG_SEED";
             case CUDNN_ATTR_OPERATION_RNG_DESC: return "CUDNN_ATTR_OPERATION_RNG_DESC";
+            case CUDNN_ATTR_OPERATION_RNG_OFFSET_DESC: return "CUDNN_ATTR_OPERATION_RNG_OFFSET_DESC";
         }
         return "INVALID cudnnBackendAttributeName: "+n;
     }
