@@ -27,30 +27,40 @@
  */
 package jcuda.jcudnn;
 
-import jcuda.NativePointerObject;
-
-/** TODO: remove */
-public class cudnnAlgorithm extends NativePointerObject
+/**
+ * <pre>
+ * Behavior for OOB samples. OOB samples are samples where L+R > T is encountered during the gradient calculation. If
+ * gradMode is set to CUDNN_CTC_SKIP_OOB_GRADIENTS, then the CTC loss function does not write to the gradient buffer for
+ * that sample. Instead, the current values, even not finite, are retained. If gradMode is set to
+ * CUDNN_CTC_ZERO_OOB_GRADIENTS, then the gradient for that sample is set to zero. This guarantees a finite gradient.
+ * </pre>
+ */
+public class cudnnCTCGradMode
 {
+    public static final int CUDNN_CTC_ZERO_OOB_GRADIENTS = 0;
+    public static final int CUDNN_CTC_SKIP_OOB_GRADIENTS = 1;
+
     /**
-     * Creates a new, uninitialized cudnnAlgorithm
+     * Private constructor to prevent instantiation
      */
-    public cudnnAlgorithm()
+    private cudnnCTCGradMode()
     {
-        // Default constructor
+        // Private constructor to prevent instantiation
     }
 
-     /**
-     * Returns a String representation of this object.
+    /**
+     * Returns a string representation of the given constant
      *
-     * @return A String representation of this object.
+     * @return A string representation of the given constant
      */
-    @Override
-    public String toString()
+    public static String stringFor(int n)
     {
-        return "cudnnAlgorithm["+
-            "nativePointer=0x"+Long.toHexString(getNativePointer())+"]";
+        switch (n)
+        {
+            case CUDNN_CTC_ZERO_OOB_GRADIENTS: return "CUDNN_CTC_ZERO_OOB_GRADIENTS";
+            case CUDNN_CTC_SKIP_OOB_GRADIENTS: return "CUDNN_CTC_SKIP_OOB_GRADIENTS";
+        }
+        return "INVALID cudnnCTCGradMode: "+n;
     }
 }
-
 

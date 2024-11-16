@@ -27,7 +27,6 @@
  */
 package jcuda.jcudnn;
 
-/** BASIC RNN API */
 public class cudnnForwardMode
 {
     public static final int CUDNN_FWD_MODE_INFERENCE = 0;

@@ -63,6 +63,8 @@ public class cudnnBackendDescriptorType
     public static final int CUDNN_BACKEND_OPERATION_RESHAPE_DESCRIPTOR = 31;
     public static final int CUDNN_BACKEND_RNG_DESCRIPTOR = 32;
     public static final int CUDNN_BACKEND_OPERATION_RNG_DESCRIPTOR = 33;
+    public static final int CUDNN_BACKEND_KERNEL_CACHE_DESCRIPTOR = 34;
+    public static final int CUDNN_BACKEND_OPERATION_PAGED_CACHE_LOAD_DESCRIPTOR = 35;
 
     /**
      * Private constructor to prevent instantiation
@@ -115,6 +117,8 @@ public class cudnnBackendDescriptorType
             case CUDNN_BACKEND_OPERATION_RESHAPE_DESCRIPTOR: return "CUDNN_BACKEND_OPERATION_RESHAPE_DESCRIPTOR";
             case CUDNN_BACKEND_RNG_DESCRIPTOR: return "CUDNN_BACKEND_RNG_DESCRIPTOR";
             case CUDNN_BACKEND_OPERATION_RNG_DESCRIPTOR: return "CUDNN_BACKEND_OPERATION_RNG_DESCRIPTOR";
+            case CUDNN_BACKEND_KERNEL_CACHE_DESCRIPTOR: return "CUDNN_BACKEND_KERNEL_CACHE_DESCRIPTOR";
+            case CUDNN_BACKEND_OPERATION_PAGED_CACHE_LOAD_DESCRIPTOR: return "CUDNN_BACKEND_OPERATION_PAGED_CACHE_LOAD_DESCRIPTOR";
         }
         return "INVALID cudnnBackendDescriptorType: "+n;
     }

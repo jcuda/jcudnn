@@ -27,6 +27,7 @@
  */
 package jcuda.jcudnn;
 
+/** BASIC RNN API */
 public class cudnnRNNAlgo
 {
     public static final int CUDNN_RNN_ALGO_STANDARD = 0;

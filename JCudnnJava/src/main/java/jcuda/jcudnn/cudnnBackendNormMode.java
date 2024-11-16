@@ -33,6 +33,7 @@ public class cudnnBackendNormMode
     public static final int CUDNN_INSTANCE_NORM = 1;
     public static final int CUDNN_BATCH_NORM = 2;
     public static final int CUDNN_GROUP_NORM = 3;
+    public static final int CUDNN_RMS_NORM = 4;
 
     /**
      * Private constructor to prevent instantiation
@@ -55,6 +56,7 @@ public class cudnnBackendNormMode
             case CUDNN_INSTANCE_NORM: return "CUDNN_INSTANCE_NORM";
             case CUDNN_BATCH_NORM: return "CUDNN_BATCH_NORM";
             case CUDNN_GROUP_NORM: return "CUDNN_GROUP_NORM";
+            case CUDNN_RMS_NORM: return "CUDNN_RMS_NORM";
         }
         return "INVALID cudnnBackendNormMode: "+n;
     }

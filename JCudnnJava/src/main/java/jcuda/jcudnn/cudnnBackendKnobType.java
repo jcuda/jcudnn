@@ -62,7 +62,11 @@ public class cudnnBackendKnobType
     public static final int CUDNN_KNOB_TYPE_OCCUPANCY = 30;
     public static final int CUDNN_KNOB_TYPE_ARRAY_SIZE_PER_THREAD = 31;
     public static final int CUDNN_KNOB_TYPE_NUM_C_PER_BLOCK = 32;
-    public static final int CUDNN_KNOB_TYPE_COUNTS = 33;
+    public static final int CUDNN_KNOB_TYPE_SPLIT_COLS = 33;
+    public static final int CUDNN_KNOB_TYPE_TILE_ROWS = 34;
+    public static final int CUDNN_KNOB_TYPE_TILE_COLS = 35;
+    public static final int CUDNN_KNOB_TYPE_LOAD_SIZE = 36;
+    public static final int CUDNN_KNOB_TYPE_COUNTS = 37;
 
     /**
      * Private constructor to prevent instantiation
@@ -114,6 +118,10 @@ public class cudnnBackendKnobType
             case CUDNN_KNOB_TYPE_OCCUPANCY: return "CUDNN_KNOB_TYPE_OCCUPANCY";
             case CUDNN_KNOB_TYPE_ARRAY_SIZE_PER_THREAD: return "CUDNN_KNOB_TYPE_ARRAY_SIZE_PER_THREAD";
             case CUDNN_KNOB_TYPE_NUM_C_PER_BLOCK: return "CUDNN_KNOB_TYPE_NUM_C_PER_BLOCK";
+            case CUDNN_KNOB_TYPE_SPLIT_COLS: return "CUDNN_KNOB_TYPE_SPLIT_COLS";
+            case CUDNN_KNOB_TYPE_TILE_ROWS: return "CUDNN_KNOB_TYPE_TILE_ROWS";
+            case CUDNN_KNOB_TYPE_TILE_COLS: return "CUDNN_KNOB_TYPE_TILE_COLS";
+            case CUDNN_KNOB_TYPE_LOAD_SIZE: return "CUDNN_KNOB_TYPE_LOAD_SIZE";
             case CUDNN_KNOB_TYPE_COUNTS: return "CUDNN_KNOB_TYPE_COUNTS";
         }
         return "INVALID cudnnBackendKnobType: "+n;
